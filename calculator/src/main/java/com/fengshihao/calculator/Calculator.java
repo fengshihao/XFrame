@@ -1,5 +1,7 @@
 package com.fengshihao.calculator;
 
+// 非public的Calculator本身不被外部访问. 外部是通过 ICalculator 访问
+// 这里只是为了说明方便声明为了public, 让外边能通过它访问 createCalculator.
 public class Calculator implements ICalculator {
 
 
@@ -7,9 +9,9 @@ public class Calculator implements ICalculator {
 
     @Override
     public float sum(float v1, float v2) {
-        log(TAG, "sum v1=" + v1 + " v2=" + v2);
+        log(TAG, "sum v1=" + v1 + " v2=" + v2); // request的log很重要, 为以后定位问题在ui还是在逻辑模块很有帮助
         float ret = v1 + v2;
-        log(TAG, "sum: result=" + ret);
+        log(TAG, "sum: result=" + ret); // response的log也很重要.
         return ret;
     }
 
@@ -37,9 +39,10 @@ public class Calculator implements ICalculator {
         mListener = listener;
     }
 
-
+    //外界是无法访问Calculator具体实现的
     private Calculator() {}
 
+    //这里正规的做法是模块化的方式比如用Dagger. 这不是重点.这里先简单实现
     public static ICalculator createCalculator() {
         return new Calculator();
     }

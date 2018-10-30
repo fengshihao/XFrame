@@ -60,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onGetAsyncWorkResult(int errorCode, final String msg) {
                 Log.d(TAG, "onGetAsyncWorkResult: errorCode=" + errorCode + " msg=" + msg);
+                //因为异步的回调是在非UI线程,所以到了这里需要做线程切换
+                //切换线程后需要检查是否activity还存在,这里省略
+                //所有的这些不便利. 线程切换, 检查activity, 多个listener管理. 
+                //都可以用XListener这个工具来简化
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
