@@ -13,6 +13,30 @@ public class Calculator implements ICalculator {
         return ret;
     }
 
+    @Override
+    public void asyncWork(final String msg) {
+        log(TAG, "asyncWork msg=" + msg);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ignored) {
+
+                }
+                if (mListener != null) {
+                    mListener.onGetAsyncWorkResult(0, msg);
+                }
+            }
+        }).start();
+    }
+
+    private ICalculatorListener mListener;
+    @Override
+    public void setCalculatorListener(ICalculatorListener listener) {
+        mListener = listener;
+    }
+
 
     private Calculator() {}
 

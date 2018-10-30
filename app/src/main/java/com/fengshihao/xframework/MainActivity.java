@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.fengshihao.calculator.Calculator;
 import com.fengshihao.calculator.ICalculator;
+import com.fengshihao.calculator.ICalculatorListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,6 +45,27 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, "onClick: ", err);
                     Toast.makeText(MainActivity.this, "wrong input ", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+
+        findViewById(R.id.btn_async).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCalculator.asyncWork("hello async work done!");
+            }
+        });
+
+        mCalculator.setCalculatorListener(new ICalculatorListener() {
+            @Override
+            public void onGetAsyncWorkResult(int errorCode, final String msg) {
+                Log.d(TAG, "onGetAsyncWorkResult: errorCode=" + errorCode + " msg=" + msg);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
     }

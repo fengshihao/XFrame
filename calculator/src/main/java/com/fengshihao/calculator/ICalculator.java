@@ -6,4 +6,6 @@ package com.fengshihao.calculator;
 
 public interface ICalculator {
     float sum(float v1, float v2);
+    void asyncWork(String msg);
+    void setCalculatorListener(ICalculatorListener listener);
 }
