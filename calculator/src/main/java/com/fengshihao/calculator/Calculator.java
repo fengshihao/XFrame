@@ -1,5 +1,7 @@
 package com.fengshihao.calculator;
 
+import android.support.annotation.NonNull;
+
 // 非public的Calculator本身不被外部访问. 外部是通过 ICalculator 访问
 // 这里只是为了说明方便声明为了public, 让外边能通过它访问 createCalculator.
 public class Calculator implements ICalculator {
@@ -24,20 +26,25 @@ public class Calculator implements ICalculator {
             } catch (InterruptedException ignored) {
 
             }
-            if (mListener != null) {
-                mListener.onGetAsyncWorkResult(0, msg);
+            if (mListeners != null) {
+                mListeners.onGetAsyncWorkResult(0, msg);
             }
         }).start();
     }
 
-    private ICalculatorListener mListener;
     @Override
-    public void setCalculatorListener(ICalculatorListener listener) {
-        mListener = listener;
+    public ICalculatorListenerList getListeners() {
+        return mListeners;
     }
 
+    @NonNull
+    private ICalculatorListenerList mListeners = new ICalculatorListenerList();
+
     //外界是无法访问Calculator具体实现的
-    private Calculator() {}
+    private Calculator() {
+        // 这里会让回调发生在主线程
+        mListeners.attachToCurrentThread();
+    }
 
     //这里正规的做法是模块化的方式比如用Dagger. 这不是重点.这里先简单实现
     public static ICalculator createCalculator() {

@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.fengshihao.calculator.Calculator;
 import com.fengshihao.calculator.ICalculator;
+import com.fengshihao.calculator.ICalculatorListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,18 +48,16 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_async).setOnClickListener(view ->
                 mCalculator.asyncWork("hello async work done!"));
 
-        mCalculator.setCalculatorListener((errorCode, msg) -> {
-            Log.d(TAG, "onGetAsyncWorkResult: errorCode=" + errorCode + " msg=" + msg);
-            //因为异步的回调是在非UI线程,所以到了这里需要做线程切换
-            //切换线程后需要检查是否activity还存在,这里省略
-            //所有的这些不便利. 线程切换, 检查activity, 多个listener管理.
-            //都可以用XListener这个工具来简化
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
-                }
-            });
+        mCalculator.getListeners().addListener((errorCode, msg) -> {
+            Log.d(TAG, "onGetAsyncWorkResult: errorCode=" + errorCode + " msg=" + msg
+                    + " thread=" + Thread.currentThread().getId());
+            Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mCalculator.getListeners().clean();
     }
 }
