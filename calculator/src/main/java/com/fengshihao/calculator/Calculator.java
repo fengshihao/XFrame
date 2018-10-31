@@ -18,17 +18,14 @@ public class Calculator implements ICalculator {
     @Override
     public void asyncWork(final String msg) {
         log(TAG, "asyncWork msg=" + msg);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ignored) {
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ignored) {
 
-                }
-                if (mListener != null) {
-                    mListener.onGetAsyncWorkResult(0, msg);
-                }
+            }
+            if (mListener != null) {
+                mListener.onGetAsyncWorkResult(0, msg);
             }
         }).start();
     }
