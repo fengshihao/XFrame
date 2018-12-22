@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import com.fengshihao.calculator.Calculator;
 import com.fengshihao.calculator.ICalculator;
-import com.fengshihao.calculator.ICalculatorListener;
 
 public class MainActivity extends AppCompatActivity {
 
