@@ -23,4 +23,9 @@ public class ExampleInstrumentedTest {
 
         assertEquals("com.fengshihao.xframework", appContext.getPackageName());
     }
+
+    @Test
+    public void test() {
+
+    }
 }

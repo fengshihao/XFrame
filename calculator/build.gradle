@@ -36,4 +36,5 @@ dependencies {
 
     compileOnly 'com.fengshihao.xlistener:xlistener:1.0.1'
     annotationProcessor 'com.fengshihao.xlistener:xlistener:1.0.1'
+    implementation project(path: ':xframe')
 }
