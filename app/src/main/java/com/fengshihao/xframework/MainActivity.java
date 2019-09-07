@@ -7,9 +7,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fengshihao.calculator.Calculator;
 import com.fengshihao.calculator.ICalculator;
-import com.fengshihao.calculator.ICalculatorListener;
+import com.fengshihao.xframe.XFrame;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         mNumView2 = findViewById(R.id.edit_num2);
         mSumView = findViewById(R.id.view_sum);
 
-        mCalculator = Calculator.createCalculator();
+      mCalculator =  XFrame.getInstance().getModule(ICalculator.class);
 
         findViewById(R.id.btn_sum).setOnClickListener(view -> {
             try {
