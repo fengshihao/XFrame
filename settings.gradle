@@ -1,1 +1,1 @@
-include ':app', ':calculator', ':xframe'
+include ':app', ':xframe', ':xframeui'

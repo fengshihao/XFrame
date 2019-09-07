@@ -31,7 +31,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.android.support:support-annotations:28.0.0'
-    //UI依赖calculator这个模块的"接口" calculator不依赖UI模块
-    implementation project(path : ':calculator')
-    implementation project(path : ':xframe')
+    implementation project(path: ':xframe')
 }
