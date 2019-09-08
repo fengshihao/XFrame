@@ -6,6 +6,9 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.fengshihao.album.api.IAlbum;
+import com.fengshihao.xframe.logic.XFrame;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -30,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
       Log.d(TAG, "onItemClick: row=" + row);
       switch (row) {
         case 0:
-
+          XFrame.getInstance().getModule(IAlbum.class).startActivity(this);
           break;
         default:
           Log.e(TAG, "onItemClick: no implementation");

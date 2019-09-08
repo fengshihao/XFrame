@@ -1,1 +1,1 @@
-include ':app', ':xframe', ':xframeui'
+include ':app', ':xframe', ':album'
