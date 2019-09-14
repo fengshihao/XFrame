@@ -15,7 +15,7 @@ public class SampleApp extends Application {
         Log.d(TAG, "onCreate: create  SampleApp");
 
         XFrame xFrame = XFrame.getInstance();
-        xFrame.register(IAlbum.class, "com.fengshihao.album.Album");
+        xFrame.register(IAlbum.class, "com.fengshihao.album.api.Album");
         xFrame.onApplicationStart(this);
     }
 }

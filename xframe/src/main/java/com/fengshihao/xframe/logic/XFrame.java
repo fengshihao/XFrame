@@ -4,6 +4,8 @@ import android.app.Application;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,6 +48,7 @@ public final class XFrame {
   }
 
   public void onApplicationStart(@NonNull Application app) {
+    Fresco.initialize(app);
     for (XModule m: mModuleMap.values()) {
       m.onApplicationStart(app);
     }
