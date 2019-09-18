@@ -34,7 +34,7 @@ public class PageList<T> extends Listeners<IPageListListener> {
     mList.add(m);
   }
 
-  public void addAll(List<T> list) {
+  public void addAll(List<? extends T> list) {
     mList.addAll(list);
   }
 }

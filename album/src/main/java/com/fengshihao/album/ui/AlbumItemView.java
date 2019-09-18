@@ -12,7 +12,7 @@ import com.fengshihao.album.R;
 import com.fengshihao.xframe.ui.util.FrescoUtil;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView;
 
-final class AlbumItemView extends CommonRecyclerView.ItemView {
+final class AlbumItemView extends CommonRecyclerView.ItemView<AlbumItemUIModel> {
   public AlbumItemView(Context context) {
     super(context);
   }
@@ -34,13 +34,13 @@ final class AlbumItemView extends CommonRecyclerView.ItemView {
   }
 
   @Override
-  public void updateView(@NonNull CommonRecyclerView.ItemModel uiModel, boolean selected) {
-    AlbumItemUIModel m = (AlbumItemUIModel) uiModel;
+  public void updateView(@NonNull AlbumItemUIModel uiModel, boolean selected) {
+    AlbumItemUIModel m = uiModel;
     mTextView.setText(m.mInfo);
     if (TextUtils.isEmpty(m.mImagePath)) {
       mImageView.setImageResource(R.drawable.placeholder);
     } else {
-      FrescoUtil.imageBindLocalPath(mImageView, m.mImagePath, 40, 40);
+      FrescoUtil.imageBindLocalPath(mImageView, m.mImagePath, 100, 100);
     }
   }
 }

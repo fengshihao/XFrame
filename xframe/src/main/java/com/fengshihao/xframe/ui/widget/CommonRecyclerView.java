@@ -55,8 +55,6 @@ public class CommonRecyclerView extends RecyclerView {
   public <T extends ItemModel> void setModels(@NonNull List<T> list1) {
     mCommonAdapter.clear();
     mCommonAdapter.addAll(list1);
-    Log.d(TAG, "setModels: size=" + list1.size());
-    mCommonAdapter.notifyDataSetChanged();
   }
 
   public void select(int... pos) {
@@ -142,9 +140,9 @@ public class CommonRecyclerView extends RecyclerView {
     }
 
     <T extends ItemModel> void addAll(@NonNull List<T> list) {
-      for (T m : list) {
-        mList.add(m);
-      }
+      mList.addAll(list);
+      Log.d(TAG, "addAll: size=" + list.size());
+      notifyDataSetChanged();
     }
 
     void add(ItemModel m) {
@@ -192,7 +190,7 @@ public class CommonRecyclerView extends RecyclerView {
     }
   }
 
-  public static abstract class ItemView extends FrameLayout {
+  public static abstract class ItemView<T extends ItemModel> extends FrameLayout {
     protected int mPosition = RecyclerView.NO_POSITION;
 
     public ItemView(Context context) {
@@ -213,6 +211,6 @@ public class CommonRecyclerView extends RecyclerView {
 
     abstract public void bindViews();
 
-    abstract public void updateView(@NonNull ItemModel uiModel, boolean selected);
+    abstract public void updateView(@NonNull T uiModel, boolean selected);
   }
 }
