@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.fengshihao.album.logic.Util.getContext;
+import static com.fengshihao.album.api.Album.getContext;
 import static com.fengshihao.album.logic.Util.logFirstAndLast;
 
 public final class AlbumSqlTool {
@@ -54,8 +54,8 @@ public final class AlbumSqlTool {
 
   @WorkerThread
   @NonNull
-  public static List<AlbumItem> LoadImages(int offset, int pageItemCount) {
-    Log.d(TAG, "LoadImages() offset = [" + offset
+  public static List<AlbumItem> loadImages(int offset, int pageItemCount) {
+    Log.d(TAG, "loadImages() offset = [" + offset
         + "], pageItemCount = [" + pageItemCount + "]");
     ContentResolver mContentResolver = getContext().getContentResolver();
 
@@ -84,7 +84,7 @@ public final class AlbumSqlTool {
         sortOrder + limitClause);
 
     if (cursor == null) {
-      Log.e(TAG, "LoadImages: cant create cursor");
+      Log.e(TAG, "loadImages: cant create cursor");
       return Collections.emptyList();
     }
 
@@ -100,20 +100,20 @@ public final class AlbumSqlTool {
       AlbumItem item = new AlbumItem(id, position, AlbumItem.IMAGE, path);
       item.mLatitude = latitude;
       item.mLongitude = longitude;
-      Log.d(TAG, "LoadImages: item=" + item);
+      Log.d(TAG, "loadImages: item=" + item);
       ret.add(item);
       position += 1;
     }
 
     cursor.close();
-    logFirstAndLast(TAG, "LoadImages", ret);
+    logFirstAndLast(TAG, "loadImages", ret);
     return ret;
   }
 
   @WorkerThread
   @NonNull
-  public static List<AlbumItem> LoadVideos(int offset, int pageItemCount) {
-    Log.d(TAG, "LoadVideos() offset = [" + offset + "], pageItemCount = ["
+  public static List<AlbumItem> loadVideos(int offset, int pageItemCount) {
+    Log.d(TAG, "loadVideos() offset = [" + offset + "], pageItemCount = ["
         + pageItemCount + "]");
     ContentResolver mContentResolver = getContext().getContentResolver();
 
@@ -135,8 +135,8 @@ public final class AlbumSqlTool {
         + MediaStore.Images.Media.MIME_TYPE + "=?";
     String[] args = new String[]{"video/mp4"};
 
-    String limitClause = " limit " + pageItemCount + " offset " + offset;
-    String sortOrder = MediaStore.Files.FileColumns.DATE_MODIFIED + " DESC" + limitClause;
+    String limitClause = "limit " + pageItemCount + " offset " + offset;
+    String sortOrder = MediaStore.Files.FileColumns.DATE_MODIFIED + " DESC " + limitClause;
 
     Cursor cursor = mContentResolver.query(
         MediaStore.Files.getContentUri("external"),
@@ -146,7 +146,7 @@ public final class AlbumSqlTool {
         sortOrder);
 
     if (cursor == null) {
-      Log.e(TAG, "LoadVideos: cant create cursor");
+      Log.e(TAG, "loadVideos: cant create cursor");
       return Collections.emptyList();
     }
 
@@ -167,7 +167,7 @@ public final class AlbumSqlTool {
     }
 
     cursor.close();
-    logFirstAndLast(TAG, "LoadVideos", ret);
+    logFirstAndLast(TAG, "loadVideos", ret);
     return ret;
   }
 
@@ -205,8 +205,8 @@ public final class AlbumSqlTool {
     }
   }
 
-  public static List<AlbumItem> LoadImageVideos(int limit) {
-    Log.d(TAG, "LoadImageVideos() called");
+  public static List<AlbumItem> loadImageVideos(int offset, int pageItemCount) {
+    Log.d(TAG, "loadImageVideos() called");
     ContentResolver mContentResolver = getContext().getContentResolver();
 
     String[] columns = new String[]{
@@ -231,15 +231,15 @@ public final class AlbumSqlTool {
         "" + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE,
         "" + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO,
         "image/jpeg", "image/png", "video/mp4"};
-    String sortOrder = MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC";
-    String limitClause = " limit " + limit;
+    String sortOrder = MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC ";
+    String limitClause = "limit " + pageItemCount + " offset " + offset;
 
     Cursor cursor = mContentResolver.query(
         MediaStore.Files.getContentUri("external"), columns, selectionClause, args,
         sortOrder + limitClause);
 
     if (cursor == null) {
-      Log.e(TAG, "LoadImageVideos: cant create cursor");
+      Log.e(TAG, "loadImageVideos: cant create cursor");
       return Collections.emptyList();
     }
 
@@ -254,14 +254,14 @@ public final class AlbumSqlTool {
       float longitude = cursor.getFloat(
           cursor.getColumnIndex(MediaStore.Images.ImageColumns.LONGITUDE));
       int size = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.ImageColumns.SIZE));
-      Log.d(TAG, "LoadImageVideos: latitude=" + latitude + " longitude="
+      Log.v(TAG, "loadImageVideos: latitude=" + latitude + " longitude="
           + longitude + " size=" + size + " " + path);
       ret.add(new AlbumItem(id, position, AlbumItem.IMAGE, path));
       position += 1;
     }
 
     cursor.close();
-    logFirstAndLast(TAG, "LoadImageVideos", ret);
+    logFirstAndLast(TAG, "loadImageVideos", ret);
     return ret;
   }
 }

@@ -44,4 +44,5 @@ dependencies {
 // explicitly depend on RxJava's latest version for bug fixes and new features.
 // (see https://github.com/ReactiveX/RxJava/releases for latest 2.x.x version)
     api 'io.reactivex.rxjava2:rxjava:2.2.0'
+    api 'com.github.tbruyelle:rxpermissions:0.10.2'
 }

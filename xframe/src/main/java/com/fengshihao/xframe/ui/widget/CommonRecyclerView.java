@@ -48,8 +48,8 @@ public class CommonRecyclerView extends RecyclerView {
     setAdapter(mCommonAdapter);
   }
 
-  public void setItemLayoutId(@LayoutRes int... layoutIds) {
-    mCommonAdapter.setItemLayoutId(layoutIds);
+  public void setItemLayoutIds(@LayoutRes int... layoutIds) {
+    mCommonAdapter.setItemLayoutIds(layoutIds);
   }
 
   public <T extends ItemModel> void setModels(@NonNull List<T> list1) {
@@ -94,11 +94,11 @@ public class CommonRecyclerView extends RecyclerView {
     @Override
     public CommonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
       if (mItemLayoutIds == null) {
-        throw new IllegalStateException("must call CommonAdapter.setItemLayoutId first!!");
+        throw new IllegalStateException("must call CommonAdapter.setItemLayoutIds first!!");
       }
 
       if (mItemLayoutIds.length <= viewType) {
-        throw new IllegalStateException("must call CommonAdapter.setItemLayoutId lack of viewType="
+        throw new IllegalStateException("must call CommonAdapter.setItemLayoutIds lack of viewType="
             + viewType + " now mItemLayoutIds=" + Arrays.toString(mItemLayoutIds));
       }
 
@@ -110,7 +110,7 @@ public class CommonRecyclerView extends RecyclerView {
 
     @Override
     public void onBindViewHolder(@NonNull CommonViewHolder holder, int position) {
-      Log.d(TAG, "onBindViewHolder: position=" + position);
+      Log.v(TAG, "onBindViewHolder: position=" + position);
       final int pos = position;
       holder.itemView.setOnClickListener(view -> {
         if (mListener != null) {
@@ -130,8 +130,8 @@ public class CommonRecyclerView extends RecyclerView {
       return mList.get(position).getViewType();
     }
 
-    void setItemLayoutId(@LayoutRes int... layoutIds) {
-      Log.d(TAG, "setItemLayoutId() called with: layoutIds = ["
+    void setItemLayoutIds(@LayoutRes int... layoutIds) {
+      Log.d(TAG, "setItemLayoutIds() called with: layoutIds = ["
           + Arrays.toString(layoutIds) + "]");
       mItemLayoutIds = layoutIds;
     }

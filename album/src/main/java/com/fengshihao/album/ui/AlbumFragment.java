@@ -1,5 +1,6 @@
 package com.fengshihao.album.ui;
 
+import android.Manifest;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,14 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fengshihao.album.R;
-import com.fengshihao.album.api.IAlbumDataLoader;
+import com.fengshihao.album.api.AlbumLoaderRequest;
 import com.fengshihao.album.api.IAlbumDataLoaderListener;
 import com.fengshihao.album.logic.AlbumDataLoader;
 import com.fengshihao.album.logic.AlbumItem;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import io.reactivex.disposables.Disposable;
 
 public class AlbumFragment extends Fragment implements IAlbumDataLoaderListener {
   private static final String TAG = "AlbumFragment";
@@ -26,7 +30,8 @@ public class AlbumFragment extends Fragment implements IAlbumDataLoaderListener 
   private CommonRecyclerView mAlbumItemListView;
 
   @NonNull
-  IAlbumDataLoader mAlbumDataLoader = new AlbumDataLoader();
+  AlbumDataLoader mAlbumDataLoader = new AlbumDataLoader();
+
   public AlbumFragment() {
   }
 
@@ -44,15 +49,22 @@ public class AlbumFragment extends Fragment implements IAlbumDataLoaderListener 
     mAlbumItemListView = (CommonRecyclerView) inflater.inflate(R.layout.fragment_album_item_list,
         container, false);
 
-    mAlbumItemListView.setItemLayoutId(R.layout.fragment_album_item,
+    mAlbumItemListView.setItemLayoutIds(R.layout.fragment_album_item,
         R.layout.fragment_album_item_video);
 
     List<AlbumItemUIModel> l = new LinkedList<>();
     for (int i = 0; i < 1000; i++) {
-      l.add(new AlbumItemUIModel(i % 2 , "no " + i, ""));
+      l.add(new AlbumItemUIModel(i % 2, "no " + i, ""));
     }
     mAlbumItemListView.setModels(l);
-    mAlbumDataLoader.loadAlbum(AlbumItem.VIDEO_IMAGE, 0, 1000);
+    final RxPermissions rxPermissions = new RxPermissions(this);
+    Disposable disposable = rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
+        .subscribe(granted -> {
+          if (granted) {
+            mAlbumDataLoader.loadAlbum(
+                new AlbumLoaderRequest(AlbumItem.VIDEO_IMAGE, 0, 1000));
+          }
+        });
 
     return mAlbumItemListView;
   }
@@ -70,12 +82,12 @@ public class AlbumFragment extends Fragment implements IAlbumDataLoaderListener 
   }
 
   @Override
-  public void onAlbumLoaded(@NonNull List<AlbumItem> result) {
-    Log.d(TAG, "onAlbumLoaded() called with: result = [" + result + "]");
-  }
-
-  @Override
-  public void onAlbumLoadError(Throwable e) {
-    Log.d(TAG, "onAlbumLoadError() called with: e = [" + e + "]");
+  public void onAlbumLoaded(@NonNull AlbumLoaderRequest request, Throwable error, @NonNull List<AlbumItem> result) {
+    Log.d(TAG, "onAlbumLoaded() called with: result = [" + result.size() + "]");
+    List<AlbumItemUIModel> l = new LinkedList<>();
+    for (AlbumItem item : result) {
+      l.add(new AlbumItemUIModel(0, "no " + l.size(), item.mPath));
+    }
+    mAlbumItemListView.setModels(l);
   }
 }
