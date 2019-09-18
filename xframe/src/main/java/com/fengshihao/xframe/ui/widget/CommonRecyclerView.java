@@ -57,7 +57,7 @@ public class CommonRecyclerView extends RecyclerView {
     mCommonAdapter.addAll(list1);
   }
 
-  public void select(int... pos) {
+  public void select(Integer... pos) {
     mCommonAdapter.select(pos);
   }
 
@@ -73,7 +73,7 @@ public class CommonRecyclerView extends RecyclerView {
   }
 
   public interface Listener {
-    void onClickItem(int pos);
+    void onClickItem(ItemView view, int pos);
   }
 
 
@@ -97,7 +97,7 @@ public class CommonRecyclerView extends RecyclerView {
       if (mListener != null) {
         ItemView view = (ItemView)v;
         Log.d(TAG, "mItemClickListener: click " + view.getPosition());
-        mListener.onClickItem(view.getPosition());
+        mListener.onClickItem(view, view.getPosition());
       }
     };
 
@@ -156,7 +156,7 @@ public class CommonRecyclerView extends RecyclerView {
       mList.add(m);
     }
 
-    void select(@NonNull int... pos) {
+    void select(@NonNull Integer... pos) {
       Set<Integer> oldSelect = new HashSet<>(mSelects);
 
       mSelects.clear();

@@ -32,6 +32,8 @@ public class AlbumFragment extends Fragment implements IAlbumDataLoaderListener 
   @NonNull
   AlbumDataLoader mAlbumDataLoader = new AlbumDataLoader();
 
+  private List<Integer> mSelects = new LinkedList<>();
+
   public AlbumFragment() {
   }
 
@@ -66,7 +68,19 @@ public class AlbumFragment extends Fragment implements IAlbumDataLoaderListener 
           }
         });
 
-    mAlbumItemListView.setListener(pos -> mAlbumItemListView.select(pos));
+    mAlbumItemListView.setListener((view , pos) -> {
+      if (mSelects.contains(pos)) {
+        mSelects.remove(Integer.valueOf(pos));
+      } else {
+        mSelects.add(pos);
+        if (mSelects.size() > 5) {
+          mSelects.remove(0);
+        }
+      }
+
+      mAlbumItemListView.select(mSelects.toArray(new Integer[0]));
+
+    });
     return mAlbumItemListView;
   }
 
