@@ -66,6 +66,7 @@ public class AlbumFragment extends Fragment implements IAlbumDataLoaderListener 
           }
         });
 
+    mAlbumItemListView.setListener(pos -> mAlbumItemListView.select(pos));
     return mAlbumItemListView;
   }
 
@@ -88,6 +89,8 @@ public class AlbumFragment extends Fragment implements IAlbumDataLoaderListener 
     for (AlbumItem item : result) {
       l.add(new AlbumItemUIModel(0, "no " + l.size(), item.mPath));
     }
-    mAlbumItemListView.setModels(l);
+    if (mAlbumItemListView != null) {
+      mAlbumItemListView.setModels(l);
+    }
   }
 }

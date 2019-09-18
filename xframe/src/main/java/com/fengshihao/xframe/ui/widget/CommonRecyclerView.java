@@ -3,10 +3,12 @@ package com.fengshihao.xframe.ui.widget;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
@@ -23,8 +25,6 @@ import java.util.Set;
 public class CommonRecyclerView extends RecyclerView {
 
   private static final String TAG = "CommonRecyclerView";
-
-  private Listener mListener;
 
   @NonNull
   private final CommonAdapter mCommonAdapter = new CommonAdapter();
@@ -62,7 +62,7 @@ public class CommonRecyclerView extends RecyclerView {
   }
 
   public void setListener(Listener listener) {
-    mListener = listener;
+    mCommonAdapter.setItemClickListener(listener);
   }
 
   public interface ItemModel {
@@ -77,8 +77,11 @@ public class CommonRecyclerView extends RecyclerView {
   }
 
 
-  public class CommonAdapter extends Adapter<CommonViewHolder> {
+  public static class CommonAdapter extends Adapter<CommonViewHolder> {
     private static final String TAG = "CommonAdapter";
+
+    @Nullable
+    private Listener mListener;
 
     @NonNull
     private final Set<Integer> mSelects = new HashSet<>();
@@ -88,6 +91,15 @@ public class CommonRecyclerView extends RecyclerView {
 
     @LayoutRes
     private int[] mItemLayoutIds;
+
+    @NonNull
+    private final View.OnClickListener mItemClickListener = v -> {
+      if (mListener != null) {
+        ItemView view = (ItemView)v;
+        Log.d(TAG, "mItemClickListener: click " + view.getPosition());
+        mListener.onClickItem(view.getPosition());
+      }
+    };
 
     @Override
     public CommonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -102,6 +114,7 @@ public class CommonRecyclerView extends RecyclerView {
 
       ItemView v = (ItemView) LayoutInflater
           .from(parent.getContext()).inflate(mItemLayoutIds[viewType], parent, false);
+      v.setOnClickListener(mItemClickListener);
       v.bindViews();
       return new CommonViewHolder(v);
     }
@@ -109,13 +122,7 @@ public class CommonRecyclerView extends RecyclerView {
     @Override
     public void onBindViewHolder(@NonNull CommonViewHolder holder, int position) {
       Log.v(TAG, "onBindViewHolder: position=" + position);
-      final int pos = position;
-      holder.itemView.setOnClickListener(view -> {
-        if (mListener != null) {
-          mListener.onClickItem(pos);
-        }
-      });
-      holder.updateView(mList.get(position), position, mSelects.contains(pos));
+      holder.updateView(mList.get(position), position, mSelects.contains(position));
     }
 
     @Override
@@ -174,6 +181,10 @@ public class CommonRecyclerView extends RecyclerView {
         notifyItemChanged(idx);
       }
     }
+
+    void setItemClickListener(Listener listener) {
+      mListener = listener;
+    }
   }
 
   static class CommonViewHolder extends ViewHolder {
@@ -184,9 +195,9 @@ public class CommonRecyclerView extends RecyclerView {
 
     void updateView(@NonNull ItemModel model, int position, boolean selected) {
       ItemView v = (ItemView) itemView;
-      v.updateView(model, selected);
       v.setPosition(position);
       v.setSelected(selected);
+      v.updateView(model, selected);
     }
   }
 
@@ -207,6 +218,10 @@ public class CommonRecyclerView extends RecyclerView {
 
     private void setPosition(int pos) {
       mPosition = pos;
+    }
+
+    int getPosition() {
+      return mPosition;
     }
 
     abstract public void bindViews();

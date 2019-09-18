@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -13,6 +14,7 @@ import com.fengshihao.xframe.ui.util.FrescoUtil;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView;
 
 final class AlbumItemView extends CommonRecyclerView.ItemView<AlbumItemUIModel> {
+  private static final String TAG = "AlbumItemView";
   public AlbumItemView(Context context) {
     super(context);
   }
@@ -31,12 +33,14 @@ final class AlbumItemView extends CommonRecyclerView.ItemView<AlbumItemUIModel> 
   public void bindViews() {
     mTextView = findViewById(R.id.text_view);
     mImageView = findViewById(R.id.image_view);
+    mTextView.setOnClickListener(v -> Log.d(TAG, "bindViews: click TextView"));
   }
 
   @Override
   public void updateView(@NonNull AlbumItemUIModel uiModel, boolean selected) {
     AlbumItemUIModel m = uiModel;
     mTextView.setText(m.mInfo);
+    mTextView.setVisibility(selected ? INVISIBLE : VISIBLE);
     if (TextUtils.isEmpty(m.mImagePath)) {
       mImageView.setImageResource(R.drawable.placeholder);
     } else {
