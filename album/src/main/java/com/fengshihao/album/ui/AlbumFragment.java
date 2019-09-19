@@ -16,6 +16,7 @@ import com.fengshihao.album.api.AlbumLoaderRequest;
 import com.fengshihao.album.api.IAlbumDataLoaderListener;
 import com.fengshihao.album.logic.AlbumDataLoader;
 import com.fengshihao.album.logic.AlbumItem;
+import com.fengshihao.xframe.logic.ItemSelection;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -32,7 +33,7 @@ public class AlbumFragment extends Fragment implements IAlbumDataLoaderListener 
   @NonNull
   AlbumDataLoader mAlbumDataLoader = new AlbumDataLoader();
 
-  private List<Integer> mSelects = new LinkedList<>();
+  private ItemSelection<Integer> mSelection = new ItemSelection<>();
 
   public AlbumFragment() {
   }
@@ -54,11 +55,6 @@ public class AlbumFragment extends Fragment implements IAlbumDataLoaderListener 
     mAlbumItemListView.setItemLayoutIds(R.layout.fragment_album_item,
         R.layout.fragment_album_item_video);
 
-    List<AlbumItemUIModel> l = new LinkedList<>();
-    for (int i = 0; i < 1000; i++) {
-      l.add(new AlbumItemUIModel(i % 2, "no " + i, ""));
-    }
-    mAlbumItemListView.setModels(l);
     final RxPermissions rxPermissions = new RxPermissions(this);
     Disposable disposable = rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
         .subscribe(granted -> {
@@ -68,19 +64,20 @@ public class AlbumFragment extends Fragment implements IAlbumDataLoaderListener 
           }
         });
 
-    mAlbumItemListView.setListener((view , pos) -> {
-      if (mSelects.contains(pos)) {
-        mSelects.remove(Integer.valueOf(pos));
-      } else {
-        mSelects.add(pos);
-        if (mSelects.size() > 5) {
-          mSelects.remove(0);
-        }
-      }
-
-      mAlbumItemListView.select(mSelects.toArray(new Integer[0]));
-
-    });
+//
+//    mAlbumItemListView.setListener((view , pos) -> {
+//      if (mSelects.isSelected(pos)) {
+//        mSelects.remove(Integer.valueOf(pos));
+//      } else {
+//        mSelects.add(pos);
+//        if (mSelects.size() > 5) {
+//          mSelects.remove(0);
+//        }
+//      }
+//
+//      mAlbumItemListView.select(mSelects.toArray(new Integer[0]));
+//
+//    });
     return mAlbumItemListView;
   }
 

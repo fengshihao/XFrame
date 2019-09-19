@@ -10,14 +10,20 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.fengshihao.album.R;
+import com.fengshihao.xframe.logic.ItemSelection;
 import com.fengshihao.xframe.ui.util.FrescoUtil;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView;
 
 final class AlbumItemView extends CommonRecyclerView.ItemView<AlbumItemUIModel> {
   private static final String TAG = "AlbumItemView";
+
+  @Nullable
+  public static ItemSelection<Integer> sSelection;
+
   public AlbumItemView(Context context) {
     super(context);
   }
+
   public AlbumItemView(Context context, @Nullable AttributeSet attrs) {
     super(context, attrs);
   }
@@ -37,9 +43,10 @@ final class AlbumItemView extends CommonRecyclerView.ItemView<AlbumItemUIModel> 
   }
 
   @Override
-  public void updateView(@NonNull AlbumItemUIModel uiModel, boolean selected) {
+  public void updateView(@NonNull AlbumItemUIModel uiModel) {
     AlbumItemUIModel m = uiModel;
     mTextView.setText(m.mInfo);
+    boolean selected = sSelection != null && sSelection.isSelected(getPosition());
     mTextView.setVisibility(selected ? INVISIBLE : VISIBLE);
     if (TextUtils.isEmpty(m.mImagePath)) {
       mImageView.setImageResource(R.drawable.placeholder);
