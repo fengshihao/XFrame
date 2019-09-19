@@ -122,7 +122,11 @@ public class CommonRecyclerView extends RecyclerView {
     @Override
     public void onBindViewHolder(@NonNull CommonViewHolder holder, int position) {
       Log.v(TAG, "onBindViewHolder: position=" + position);
-      holder.updateView(mList.get(position), position, mSelects.contains(position));
+      ItemModel item = mList.get(position);
+      if (item == null) {
+        return;
+      }
+      holder.updateView(item, position, mSelects.contains(position));
     }
 
     @Override
@@ -132,7 +136,11 @@ public class CommonRecyclerView extends RecyclerView {
 
     @Override
     public int getItemViewType(int position) {
-      return mList.get(position).getViewType();
+      ItemModel item = mList.get(position);
+      if (item == null) {
+        return 0;
+      }
+      return item.getViewType();
     }
 
     void setItemLayoutIds(@LayoutRes int... layoutIds) {
