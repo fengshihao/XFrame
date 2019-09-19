@@ -2,6 +2,7 @@ package com.fengshihao.album.ui;
 
 import android.support.annotation.NonNull;
 
+import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView;
 
 public class AlbumItemUIModel implements CommonRecyclerView.ItemModel {
@@ -14,7 +15,10 @@ public class AlbumItemUIModel implements CommonRecyclerView.ItemModel {
 
   final int mViewType;
 
-  public AlbumItemUIModel(int viewType, @NonNull String info, @NonNull String img) {
+  final int mPosition;
+
+  public AlbumItemUIModel(int pos, int viewType, @NonNull String info, @NonNull String img) {
+    mPosition = pos;
     mViewType = viewType;
     mInfo = info;
     mImagePath = img;
@@ -23,5 +27,10 @@ public class AlbumItemUIModel implements CommonRecyclerView.ItemModel {
   @Override
   public int getViewType() {
     return mViewType;
+  }
+
+
+  boolean isSelected() {
+    return AlbumProject.getActiveProject().isSelected(mPosition);
   }
 }

@@ -1,10 +1,11 @@
 package com.fengshihao.xframe.logic.listener;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
+
 import java.util.LinkedList;
 import java.util.List;
-
-import android.support.annotation.NonNull;
-import android.util.Log;
 
 /**
  * 类如果有很多listener 可以继承这个类,减少样板代码
@@ -36,6 +37,8 @@ public class Listeners<T> {
   @NonNull
   private final List<T> mListeners = new LinkedList<>();
 
+  @Nullable
+  private List<? extends T> mPipeListeners;
 
   public void addListener(@NonNull T listener) {
     Log.d(TAG, "addListener() called with: listener = [" + listener + "]");
@@ -63,6 +66,11 @@ public class Listeners<T> {
     mListeners.remove(listener);
   }
 
+  public void pipeEventTo(Listeners<? extends T> l) {
+    Log.d(TAG, "pipeEventTo: this=" + this + " to " + l);
+    mPipeListeners = l.mListeners;
+  }
+
   public void clearListener() {
     Log.d(TAG, "clearListener() called");
     mListeners.clear();
@@ -73,8 +81,17 @@ public class Listeners<T> {
   }
 
   public void notifyListeners(Applyer<T> applyer) {
+    Log.d(TAG, "notifyListeners: mListeners=" + mListeners);
+    Log.d(TAG, "notifyListeners: mPipeListeners=" + mPipeListeners);
+
     for (T listener : mListeners) {
       applyer.apply(listener);
+    }
+
+    if (mPipeListeners != null) {
+      for (T listener : mPipeListeners) {
+        applyer.apply(listener);
+      }
     }
   }
 }

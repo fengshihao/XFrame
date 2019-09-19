@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,36 +14,43 @@ import android.view.ViewGroup;
 
 import com.fengshihao.album.R;
 import com.fengshihao.album.api.AlbumLoaderRequest;
-import com.fengshihao.album.api.IAlbumDataLoaderListener;
-import com.fengshihao.album.logic.AlbumDataLoader;
+import com.fengshihao.album.api.IAlbumProjectListener;
 import com.fengshihao.album.logic.AlbumItem;
-import com.fengshihao.xframe.logic.ItemSelection;
+import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import io.reactivex.disposables.Disposable;
 
-public class AlbumFragment extends Fragment implements IAlbumDataLoaderListener {
+public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   private static final String TAG = "AlbumFragment";
   @Nullable
   private CommonRecyclerView mAlbumItemListView;
 
-  @NonNull
-  AlbumDataLoader mAlbumDataLoader = new AlbumDataLoader();
-
-  private ItemSelection<Integer> mSelection = new ItemSelection<>();
 
   public AlbumFragment() {
+  }
+
+  @NonNull
+  private AlbumProject getProject() {
+    return AlbumProject.getActiveProject();
   }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     Log.d(TAG, "onCreate: ");
-    mAlbumDataLoader.addListener(this);
+    getProject().addListener(this);
+  }
+  @Override
+  public  void onDestroy() {
+    super.onDestroy();
+    Log.d(TAG, "onDestroy: ");
+    getProject().removeListener(this);
   }
 
   @Override
@@ -59,25 +67,11 @@ public class AlbumFragment extends Fragment implements IAlbumDataLoaderListener 
     Disposable disposable = rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
         .subscribe(granted -> {
           if (granted) {
-            mAlbumDataLoader.loadAlbum(
+            getProject().loadAlbum(
                 new AlbumLoaderRequest(AlbumItem.VIDEO_IMAGE, 0, 1000));
           }
         });
 
-//
-//    mAlbumItemListView.setListener((view , pos) -> {
-//      if (mSelects.isSelected(pos)) {
-//        mSelects.remove(Integer.valueOf(pos));
-//      } else {
-//        mSelects.add(pos);
-//        if (mSelects.size() > 5) {
-//          mSelects.remove(0);
-//        }
-//      }
-//
-//      mAlbumItemListView.select(mSelects.toArray(new Integer[0]));
-//
-//    });
     return mAlbumItemListView;
   }
 
@@ -98,10 +92,25 @@ public class AlbumFragment extends Fragment implements IAlbumDataLoaderListener 
     Log.d(TAG, "onAlbumLoaded() called with: result = [" + result.size() + "]");
     List<AlbumItemUIModel> l = new LinkedList<>();
     for (AlbumItem item : result) {
-      l.add(new AlbumItemUIModel(0, "no " + l.size(), item.mPath));
+      l.add(new AlbumItemUIModel(item.mPosition, 0, "no " + l.size(), item.mPath));
     }
     if (mAlbumItemListView != null) {
       mAlbumItemListView.setModels(l);
+    }
+  }
+
+  @Override
+  public void onSelect(@NonNull Integer item) {
+    if (mAlbumItemListView!= null && mAlbumItemListView.getAdapter() != null) {
+      mAlbumItemListView.getAdapter().notifyItemChanged(item);
+
+    }
+  }
+
+  @Override
+  public void onUnSelect(@NonNull Integer item) {
+    if (mAlbumItemListView!= null && mAlbumItemListView.getAdapter() != null) {
+      mAlbumItemListView.getAdapter().notifyItemChanged(item);
     }
   }
 }

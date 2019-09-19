@@ -6,19 +6,17 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.fengshihao.album.R;
-import com.fengshihao.xframe.logic.ItemSelection;
+import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.ui.util.FrescoUtil;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView;
 
 final class AlbumItemView extends CommonRecyclerView.ItemView<AlbumItemUIModel> {
   private static final String TAG = "AlbumItemView";
-
-  @Nullable
-  public static ItemSelection<Integer> sSelection;
 
   public AlbumItemView(Context context) {
     super(context);
@@ -39,15 +37,19 @@ final class AlbumItemView extends CommonRecyclerView.ItemView<AlbumItemUIModel> 
   public void bindViews() {
     mTextView = findViewById(R.id.text_view);
     mImageView = findViewById(R.id.image_view);
-    mTextView.setOnClickListener(v -> Log.d(TAG, "bindViews: click TextView"));
+    setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        AlbumProject.getActiveProject().select(getPosition());
+      }
+    });
   }
 
   @Override
   public void updateView(@NonNull AlbumItemUIModel uiModel) {
     AlbumItemUIModel m = uiModel;
     mTextView.setText(m.mInfo);
-    boolean selected = sSelection != null && sSelection.isSelected(getPosition());
-    mTextView.setVisibility(selected ? INVISIBLE : VISIBLE);
+    mTextView.setVisibility(m.isSelected() ? INVISIBLE : VISIBLE);
     if (TextUtils.isEmpty(m.mImagePath)) {
       mImageView.setImageResource(R.drawable.placeholder);
     } else {
