@@ -121,8 +121,8 @@ public class CommonRecyclerView extends RecyclerView {
 
     @Override
     public void onBindViewHolder(@NonNull CommonViewHolder holder, int position) {
-      Log.v(TAG, "onBindViewHolder: position=" + position);
       ItemModel item = mList.get(position);
+      mList.updateCurrentPage(position);
       if (item == null) {
         return;
       }
@@ -158,10 +158,6 @@ public class CommonRecyclerView extends RecyclerView {
       mList.addAll(list);
       Log.d(TAG, "addAll: size=" + list.size());
       notifyDataSetChanged();
-    }
-
-    void add(ItemModel m) {
-      mList.add(m);
     }
 
     void select(@NonNull Integer... pos) {
