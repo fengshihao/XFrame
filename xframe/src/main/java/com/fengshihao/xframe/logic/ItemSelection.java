@@ -3,14 +3,14 @@ package com.fengshihao.xframe.logic;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.fengshihao.xframe.logic.listener.Listeners;
+import com.fengshihao.xframe.logic.listener.ListenerManager;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ItemSelection<T> extends Listeners<ItemSelection.Listener<T>> {
+public class ItemSelection<T> extends ListenerManager<ItemSelection.Listener<T>> {
 
   private static final String TAG = "ItemSelection";
 

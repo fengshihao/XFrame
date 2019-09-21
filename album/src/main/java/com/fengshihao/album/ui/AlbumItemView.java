@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,9 +12,9 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.fengshihao.album.R;
 import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.ui.util.FrescoUtil;
-import com.fengshihao.xframe.ui.widget.CommonRecyclerView;
+import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonItemView;
 
-final class AlbumItemView extends CommonRecyclerView.ItemView<AlbumItemUIModel> {
+final class AlbumItemView extends CommonItemView<AlbumItemUIModel> {
   private static final String TAG = "AlbumItemView";
 
   public AlbumItemView(Context context) {
@@ -53,7 +52,8 @@ final class AlbumItemView extends CommonRecyclerView.ItemView<AlbumItemUIModel> 
     if (TextUtils.isEmpty(m.mImagePath)) {
       mImageView.setImageResource(R.drawable.placeholder);
     } else {
-      FrescoUtil.imageBindLocalPath(mImageView, m.mImagePath, 100, 100);
+      int size = getResources().getDimensionPixelSize(R.dimen.album_media_thumbnail_size);
+      FrescoUtil.imageBindLocalPath(mImageView, m.mImagePath, size, size);
     }
   }
 }

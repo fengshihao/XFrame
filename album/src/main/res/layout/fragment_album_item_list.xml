@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.fengshihao.xframe.ui.widget.CommonRecyclerView
+<com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonRecyclerView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,9 +7,8 @@
     android:name="com.fengshihao.album.ui.AlbumFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:spanCount="3"
+    android:layout_margin="16dp"
+    app:spanCount="4"
     app:layoutManager="android.support.v7.widget.GridLayoutManager"
     tools:context=".ui.AlbumFragment"
     tools:listitem="@layout/fragment_album_item" />

@@ -243,6 +243,7 @@ public final class AlbumSqlTool {
       return Collections.emptyList();
     }
 
+    Log.d(TAG, "loadImageVideos: cursor count =" + cursor.getCount());
     ArrayList<AlbumMediaItem> ret = new ArrayList<>();
     int position = 0;
     while (cursor.moveToNext()) {

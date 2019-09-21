@@ -15,7 +15,7 @@ import java.util.List;
  * void foo1(int a, int b)
  * }
  *
- * class Test extends Listeners<TestListener> {
+ * class Test extends ListenerManager<TestListener> {
  *
  * }
  *
@@ -32,19 +32,18 @@ import java.util.List;
  *
  * @param <T> 一个接口
  */
-public class Listeners<T> {
-  private static final String TAG = "Listeners";
+public class ListenerManager<T> {
+  private static final String TAG = "ListenerManager";
   @NonNull
   private final List<T> mListeners = new LinkedList<>();
 
   @Nullable
   private List<? extends T> mPipeListeners;
 
-  public void addListener(@NonNull T listener) {
+  public void addListener(T listener) {
     Log.d(TAG, "addListener() called with: listener = [" + listener + "]");
     if (listener == null) {
-      Log.e(TAG, "addListener: listener is null");
-      return;
+      throw new RuntimeException("listener is null");
     }
     if (mListeners.contains(listener)) {
       Log.w(TAG, "addListener: already exist listener=" + listener);
@@ -53,11 +52,10 @@ public class Listeners<T> {
     mListeners.add(listener);
   }
 
-  public void removeListener(@NonNull T listener) {
+  public void removeListener(T listener) {
     Log.d(TAG, "removeListener() called with: listener = [" + listener + "]");
     if (listener == null) {
-      Log.e(TAG, "removeListener: listener is null");
-      return;
+      throw new RuntimeException("listener is null");
     }
     if (!mListeners.contains(listener)) {
       Log.w(TAG, "removeListener: don't contain this listener=" + listener);
@@ -66,7 +64,7 @@ public class Listeners<T> {
     mListeners.remove(listener);
   }
 
-  public void pipeEventTo(Listeners<? extends T> l) {
+  public void pipeEventTo(@NonNull ListenerManager<? extends T> l) {
     Log.d(TAG, "pipeEventTo: this=" + this + " to " + l);
     mPipeListeners = l.mListeners;
   }
@@ -76,21 +74,21 @@ public class Listeners<T> {
     mListeners.clear();
   }
 
-  public interface Applyer<T> {
+  public interface Caller<T> {
     void apply(T t);
   }
 
-  public void notifyListeners(Applyer<T> applyer) {
+  public void notifyListeners(Caller<T> caller) {
     Log.d(TAG, "notifyListeners: mListeners=" + mListeners);
     Log.d(TAG, "notifyListeners: mPipeListeners=" + mPipeListeners);
 
     for (T listener : mListeners) {
-      applyer.apply(listener);
+      caller.apply(listener);
     }
 
     if (mPipeListeners != null) {
       for (T listener : mPipeListeners) {
-        applyer.apply(listener);
+        caller.apply(listener);
       }
     }
   }

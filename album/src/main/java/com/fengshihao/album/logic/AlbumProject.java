@@ -10,7 +10,7 @@ import com.fengshihao.album.api.AlbumLoaderResult;
 import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.api.IAlbumProjectListener;
 import com.fengshihao.xframe.logic.ItemSelection;
-import com.fengshihao.xframe.logic.listener.Listeners;
+import com.fengshihao.xframe.logic.listener.ListenerManager;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +24,7 @@ import static com.fengshihao.album.logic.AlbumSqlTool.loadImageVideos;
 import static com.fengshihao.album.logic.AlbumSqlTool.loadImages;
 import static com.fengshihao.album.logic.AlbumSqlTool.loadVideos;
 
-public class AlbumProject extends Listeners<IAlbumProjectListener> implements IAlbumProject {
+public class AlbumProject extends ListenerManager<IAlbumProjectListener> implements IAlbumProject {
 
   private static final String TAG = "AlbumProject";
 

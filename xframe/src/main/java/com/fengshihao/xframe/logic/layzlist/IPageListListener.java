@@ -5,5 +5,5 @@ interface IPageListListener {
 
   default void lackOf(int position) {};
 
-  default void accessPageChage(int newPage, int old) {};
+  default void accessPageChange(int newPage, int old) {};
 }

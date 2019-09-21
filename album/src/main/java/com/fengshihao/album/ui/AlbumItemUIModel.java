@@ -3,9 +3,9 @@ package com.fengshihao.album.ui;
 import android.support.annotation.NonNull;
 
 import com.fengshihao.album.logic.AlbumProject;
-import com.fengshihao.xframe.ui.widget.CommonRecyclerView;
+import com.fengshihao.xframe.ui.widget.CommonRecyclerView.ICommonItemModel;
 
-public class AlbumItemUIModel implements CommonRecyclerView.ItemModel {
+public class AlbumItemUIModel implements ICommonItemModel {
 
   @NonNull
   final String mInfo;

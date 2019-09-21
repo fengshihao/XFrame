@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">album</string>
+    <string name="no_media">no media</string>
 </resources>

@@ -4,12 +4,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.fengshihao.xframe.logic.listener.Listeners;
+import com.fengshihao.xframe.logic.listener.ListenerManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PageList<T> extends Listeners<IPageListListener> {
+public class PageList<T> extends ListenerManager<IPageListListener> {
   private static final String TAG = "PageList";
 
   private static final int DEFAULT_PAGE_SIZE = 100;
@@ -17,7 +17,7 @@ public class PageList<T> extends Listeners<IPageListListener> {
 
   private int mPageSize = DEFAULT_PAGE_SIZE;
 
-  private int mCurrentPage = 0;
+  private int mCurrentPage = -1;
 
   @NonNull
   private final List<T> mList = new ArrayList<>();
@@ -30,6 +30,10 @@ public class PageList<T> extends Listeners<IPageListListener> {
       return;
     }
     mPageSize = pageSize;
+  }
+
+  public int getPageSize() {
+    return mPageSize;
   }
 
   @Nullable
@@ -51,7 +55,7 @@ public class PageList<T> extends Listeners<IPageListListener> {
       int old = mCurrentPage;
       mCurrentPage = newPage;
       Log.d(TAG, "updateCurrentPage: old=" + old + " newPage=" + newPage);
-      notifyListeners(l -> l.accessPageChage(newPage, old));
+      notifyListeners(l -> l.accessPageChange(newPage, old));
     }
   }
 
@@ -82,7 +86,7 @@ public class PageList<T> extends Listeners<IPageListListener> {
   public void clear() {
     Log.d(TAG, "clear() called");
     mList.clear();
-    mCurrentPage = 0;
+    mCurrentPage = -1;
   }
 
   public void addAll(@NonNull List<? extends T> list) {

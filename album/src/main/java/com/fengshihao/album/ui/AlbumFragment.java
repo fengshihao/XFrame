@@ -1,7 +1,6 @@
 package com.fengshihao.album.ui;
 
 import android.Manifest;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.fengshihao.album.R;
 import com.fengshihao.album.api.AlbumLoaderRequest;
@@ -17,7 +17,7 @@ import com.fengshihao.album.api.AlbumLoaderResult;
 import com.fengshihao.album.api.IAlbumProjectListener;
 import com.fengshihao.album.logic.AlbumMediaItem;
 import com.fengshihao.album.logic.AlbumProject;
-import com.fengshihao.xframe.ui.widget.CommonRecyclerView;
+import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonRecyclerView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.LinkedList;
@@ -62,22 +62,26 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     mAlbumItemListView.setItemLayoutIds(R.layout.fragment_album_item,
         R.layout.fragment_album_item_video);
 
-    final RxPermissions rxPermissions = new RxPermissions(this);
-    Disposable disposable = rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
-        .subscribe(granted -> {
-          if (granted) {
-            getProject().loadAlbum(
-                new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 0, 1000));
-          }
-        });
 
     return mAlbumItemListView;
   }
 
   @Override
-  public void onAttach(Context context) {
-    super.onAttach(context);
-    Log.d(TAG, "onAttach: ");
+  public void onStart() {
+    super.onStart();
+    Log.d(TAG, "onStart: ");
+
+    Log.d(TAG, "onStart: w=" + mAlbumItemListView.getWidth()
+        + " " + mAlbumItemListView.getHeight());
+    final RxPermissions rxPermissions = new RxPermissions(this);
+    Disposable disposable = rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
+        .subscribe(granted -> {
+          if (granted) {
+            int pageNo = mAlbumItemListView.getPageSize();
+            getProject().loadAlbum(
+                new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 0, pageNo));
+          }
+        });
   }
 
   @Override
@@ -93,6 +97,12 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     if (result.mError != null) {
       throw new RuntimeException(result.mError);
     }
+    if (result.mRequest.mOffset == 0 && result.mMediaList.isEmpty()) {
+      Log.w(TAG, "onAlbumLoaded: no media");
+      Toast.makeText(getContext(), getString(R.string.no_media), Toast.LENGTH_LONG).show();
+      return;
+    }
+
     List<AlbumItemUIModel> l = new LinkedList<>();
     for (AlbumMediaItem item : result.mMediaList) {
       l.add(new AlbumItemUIModel(item.mPosition, 0, "no " + l.size(), item.mPath));
