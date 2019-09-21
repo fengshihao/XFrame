@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.fengshihao.xframe.logic.XModule;
 
-public interface IAlbum extends XModule {
+public interface IAlbumAPI extends XModule {
 
 
   void startActivity(@NonNull Activity fromActivity);

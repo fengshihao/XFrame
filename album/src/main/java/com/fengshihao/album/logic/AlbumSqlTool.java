@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.fengshihao.album.api.Album.getContext;
-import static com.fengshihao.album.logic.Util.logFirstAndLast;
+import static com.fengshihao.album.logic.AlbumAPI.getContext;
+import static com.fengshihao.album.logic.AlbumLogicUtil.logFirstAndLast;
 
 public final class AlbumSqlTool {
   private static final String TAG = "AlbumSqlTool";
@@ -54,7 +54,7 @@ public final class AlbumSqlTool {
 
   @WorkerThread
   @NonNull
-  public static List<AlbumItem> loadImages(int offset, int pageItemCount) {
+  public static List<AlbumMediaItem> loadImages(int offset, int pageItemCount) {
     Log.d(TAG, "loadImages() offset = [" + offset
         + "], pageItemCount = [" + pageItemCount + "]");
     ContentResolver mContentResolver = getContext().getContentResolver();
@@ -88,7 +88,7 @@ public final class AlbumSqlTool {
       return Collections.emptyList();
     }
 
-    ArrayList<AlbumItem> ret = new ArrayList<>(pageItemCount);
+    ArrayList<AlbumMediaItem> ret = new ArrayList<>(pageItemCount);
     int position = offset;
     while (cursor.moveToNext()) {
       long id = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID));
@@ -97,7 +97,7 @@ public final class AlbumSqlTool {
           cursor.getColumnIndex(MediaStore.Images.ImageColumns.LATITUDE));
       float longitude = cursor.getFloat(
           cursor.getColumnIndex(MediaStore.Images.ImageColumns.LONGITUDE));
-      AlbumItem item = new AlbumItem(id, position, AlbumItem.IMAGE, path);
+      AlbumMediaItem item = new AlbumMediaItem(id, position, AlbumMediaItem.IMAGE, path);
       item.mLatitude = latitude;
       item.mLongitude = longitude;
       Log.d(TAG, "loadImages: item=" + item);
@@ -112,7 +112,7 @@ public final class AlbumSqlTool {
 
   @WorkerThread
   @NonNull
-  public static List<AlbumItem> loadVideos(int offset, int pageItemCount) {
+  public static List<AlbumMediaItem> loadVideos(int offset, int pageItemCount) {
     Log.d(TAG, "loadVideos() offset = [" + offset + "], pageItemCount = ["
         + pageItemCount + "]");
     ContentResolver mContentResolver = getContext().getContentResolver();
@@ -150,7 +150,7 @@ public final class AlbumSqlTool {
       return Collections.emptyList();
     }
 
-    ArrayList<AlbumItem> ret = new ArrayList<>(pageItemCount);
+    ArrayList<AlbumMediaItem> ret = new ArrayList<>(pageItemCount);
     int position = offset;
     while (cursor.moveToNext()) {
       long id = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID));
@@ -159,7 +159,7 @@ public final class AlbumSqlTool {
           cursor.getColumnIndex(MediaStore.Images.ImageColumns.LATITUDE));
       float longitude = cursor.getFloat(
           cursor.getColumnIndex(MediaStore.Images.ImageColumns.LONGITUDE));
-      AlbumItem item = new AlbumItem(id, position, AlbumItem.VIDEO, path);
+      AlbumMediaItem item = new AlbumMediaItem(id, position, AlbumMediaItem.VIDEO, path);
       item.mLatitude = latitude;
       item.mLongitude = longitude;
       ret.add(item);
@@ -205,7 +205,7 @@ public final class AlbumSqlTool {
     }
   }
 
-  public static List<AlbumItem> loadImageVideos(int offset, int pageItemCount) {
+  public static List<AlbumMediaItem> loadImageVideos(int offset, int pageItemCount) {
     Log.d(TAG, "loadImageVideos() called");
     ContentResolver mContentResolver = getContext().getContentResolver();
 
@@ -243,7 +243,7 @@ public final class AlbumSqlTool {
       return Collections.emptyList();
     }
 
-    ArrayList<AlbumItem> ret = new ArrayList<>();
+    ArrayList<AlbumMediaItem> ret = new ArrayList<>();
     int position = 0;
     while (cursor.moveToNext()) {
       long id = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID));
@@ -256,7 +256,7 @@ public final class AlbumSqlTool {
       int size = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.ImageColumns.SIZE));
       Log.v(TAG, "loadImageVideos: latitude=" + latitude + " longitude="
           + longitude + " size=" + size + " " + path);
-      ret.add(new AlbumItem(id, position, AlbumItem.IMAGE, path));
+      ret.add(new AlbumMediaItem(id, position, AlbumMediaItem.IMAGE, path));
       position += 1;
     }
 

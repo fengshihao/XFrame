@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.fengshihao.album.api.IAlbum;
+import com.fengshihao.album.api.IAlbumAPI;
 import com.fengshihao.xframe.logic.XFrame;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    XFrame.getInstance().getModule(IAlbum.class).startActivity(this);
+    XFrame.getInstance().getModule(IAlbumAPI.class).startActivity(this);
 
   }
 
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
       Log.d(TAG, "onItemClick: row=" + row);
       switch (row) {
         case 0:
-          XFrame.getInstance().getModule(IAlbum.class).startActivity(this);
+          XFrame.getInstance().getModule(IAlbumAPI.class).startActivity(this);
           break;
         default:
           Log.e(TAG, "onItemClick: no implementation");

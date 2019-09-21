@@ -3,7 +3,7 @@ package com.fengshihao.xframework;
 import android.app.Application;
 import android.util.Log;
 
-import com.fengshihao.album.api.IAlbum;
+import com.fengshihao.album.api.IAlbumAPI;
 import com.fengshihao.xframe.logic.XFrame;
 
 public class SampleApp extends Application {
@@ -15,7 +15,7 @@ public class SampleApp extends Application {
         Log.d(TAG, "onCreate: create  SampleApp");
 
         XFrame xFrame = XFrame.getInstance();
-        xFrame.register(IAlbum.class, "com.fengshihao.album.api.Album");
+        xFrame.register(IAlbumAPI.class, "com.fengshihao.album.logic.AlbumAPI");
         xFrame.onApplicationStart(this);
     }
 }

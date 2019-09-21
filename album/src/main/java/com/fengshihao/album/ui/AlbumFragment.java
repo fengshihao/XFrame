@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +13,15 @@ import android.view.ViewGroup;
 
 import com.fengshihao.album.R;
 import com.fengshihao.album.api.AlbumLoaderRequest;
+import com.fengshihao.album.api.AlbumLoaderResult;
 import com.fengshihao.album.api.IAlbumProjectListener;
-import com.fengshihao.album.logic.AlbumItem;
+import com.fengshihao.album.logic.AlbumMediaItem;
 import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 import io.reactivex.disposables.Disposable;
 
@@ -68,7 +67,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
         .subscribe(granted -> {
           if (granted) {
             getProject().loadAlbum(
-                new AlbumLoaderRequest(AlbumItem.VIDEO_IMAGE, 0, 1000));
+                new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 0, 1000));
           }
         });
 
@@ -88,10 +87,14 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   }
 
   @Override
-  public void onAlbumLoaded(@NonNull AlbumLoaderRequest request, Throwable error, @NonNull List<AlbumItem> result) {
-    Log.d(TAG, "onAlbumLoaded() called with: result = [" + result.size() + "]");
+  public void onAlbumLoaded(@NonNull AlbumLoaderResult result) {
+    Log.d(TAG, "onAlbumLoaded() called with: result = [" + result + "]");
+
+    if (result.mError != null) {
+      throw new RuntimeException(result.mError);
+    }
     List<AlbumItemUIModel> l = new LinkedList<>();
-    for (AlbumItem item : result) {
+    for (AlbumMediaItem item : result.mMediaList) {
       l.add(new AlbumItemUIModel(item.mPosition, 0, "no " + l.size(), item.mPath));
     }
     if (mAlbumItemListView != null) {

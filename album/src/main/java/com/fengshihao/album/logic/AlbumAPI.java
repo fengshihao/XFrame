@@ -1,4 +1,4 @@
-package com.fengshihao.album.api;
+package com.fengshihao.album.logic;
 
 import android.app.Activity;
 import android.app.Application;
@@ -6,13 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
+import com.fengshihao.album.api.IAlbumAPI;
 import com.fengshihao.album.ui.MediaSelectActivity;
 
-public class Album implements IAlbum {
+public class AlbumAPI implements IAlbumAPI {
 
-  private static Context sContext;
+  private static Application sContext;
 
-  public static Context getContext() {
+  static Context getContext() {
     return sContext;
   }
   

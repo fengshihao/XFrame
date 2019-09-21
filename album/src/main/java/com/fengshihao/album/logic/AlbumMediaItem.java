@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * 页面返回的结果. 是个list.
  */
-public class AlbumItem {
+public class AlbumMediaItem {
 
   public static final int IMAGE = 0;
   public static final int VIDEO = 1;
@@ -52,10 +52,10 @@ public class AlbumItem {
   public int mScore;
 
 
-  public AlbumItem(long id,
-                   @IntRange(from = 0) int position,
-                   @AlbumType int type,
-                   @NonNull String path) {
+  public AlbumMediaItem(long id,
+                        @IntRange(from = 0) int position,
+                        @AlbumType int type,
+                        @NonNull String path) {
     mId = id;
     mPosition = position;
     mType = type;

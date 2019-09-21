@@ -6,11 +6,25 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.fengshihao.album.api.AlbumLoaderRequest;
+import com.fengshihao.album.api.AlbumLoaderResult;
+import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.api.IAlbumProjectListener;
 import com.fengshihao.xframe.logic.ItemSelection;
 import com.fengshihao.xframe.logic.listener.Listeners;
 
-public class AlbumProject extends Listeners<IAlbumProjectListener> {
+import java.util.Collections;
+import java.util.List;
+
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
+import static com.fengshihao.album.logic.AlbumSqlTool.loadImageVideos;
+import static com.fengshihao.album.logic.AlbumSqlTool.loadImages;
+import static com.fengshihao.album.logic.AlbumSqlTool.loadVideos;
+
+public class AlbumProject extends Listeners<IAlbumProjectListener> implements IAlbumProject {
 
   private static final String TAG = "AlbumProject";
 
@@ -21,14 +35,36 @@ public class AlbumProject extends Listeners<IAlbumProjectListener> {
   private final int mId = sIndex += 1;
 
   @NonNull
-  private final AlbumDataLoader mAlbumDataLoader = new AlbumDataLoader();
-
-  @NonNull
   private final ItemSelection<Integer> mSelection = new ItemSelection<>();
 
-  public AlbumProject() {
-    mAlbumDataLoader.pipeEventTo(this);
+  AlbumProject() {
     mSelection.pipeEventTo(this);
+  }
+
+  @Override
+  public void loadAlbum(@NonNull AlbumLoaderRequest request) {
+    Log.d(TAG, "loadAlbum() called with: request = [" + request + "]");
+    Single<List<AlbumMediaItem>> single;
+    if (request.mMediaType == AlbumMediaItem.IMAGE) {
+      single = Single.fromCallable(
+          () -> loadImages(request.mOffset, request.mNum));
+    } else if (request.mMediaType == AlbumMediaItem.VIDEO) {
+      single = Single.fromCallable(
+          () -> loadVideos(request.mOffset, request.mNum));
+    } else {
+      single = Single.fromCallable(
+          () -> loadImageVideos(request.mOffset, request.mNum));
+    }
+
+    Disposable disposable = single.subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(
+            (result) -> notifyListeners(l ->
+                l.onAlbumLoaded(new AlbumLoaderResult(request, result, null))),
+            (e) -> notifyListeners(l -> l.onAlbumLoaded(
+                new AlbumLoaderResult(request, Collections.emptyList(), e))));
+
+    request.setRequestDisposable(disposable);
   }
 
   @NonNull
@@ -57,10 +93,6 @@ public class AlbumProject extends Listeners<IAlbumProjectListener> {
   @Override
   public String toString() {
     return "AlbumProject mId=" + mId;
-  }
-
-  public void loadAlbum(@NonNull AlbumLoaderRequest albumLoaderRequest) {
-    mAlbumDataLoader.loadAlbum(albumLoaderRequest);
   }
 
   public boolean isSelected(int mPosition) {
