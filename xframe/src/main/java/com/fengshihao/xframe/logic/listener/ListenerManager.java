@@ -79,9 +79,6 @@ public class ListenerManager<T> {
   }
 
   public void notifyListeners(Caller<T> caller) {
-    Log.d(TAG, "notifyListeners: mListeners=" + mListeners);
-    Log.d(TAG, "notifyListeners: mPipeListeners=" + mPipeListeners);
-
     for (T listener : mListeners) {
       caller.apply(listener);
     }

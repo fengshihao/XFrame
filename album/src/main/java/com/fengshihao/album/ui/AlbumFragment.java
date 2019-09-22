@@ -34,6 +34,32 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   public AlbumFragment() {
   }
 
+  private void onGetGranted() {
+    Log.d(TAG, "onGetGranted: ");
+    if (mAlbumItemListView == null) {
+      Log.w(TAG, "onGetGranted: mAlbumItemListView is null");
+      return;
+    }
+    int pageNo = mAlbumItemListView.getPageSize();
+
+    getProject().loadAlbum(
+        new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 0, pageNo));
+//
+//    Disposable disposable = getProject().getImageAndVideoNum()
+//        .subscribe(num -> {
+//          Log.d(TAG, "onGetGranted: getImageAndVideoNum " + num);
+//          int pageNo = mAlbumItemListView.getPageSize();
+//          getProject().loadAlbum(
+//              new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 0, pageNo));
+//
+//        }, throwable -> {
+//          Log.e(TAG, "onGetGranted: ", throwable);
+//          Toast.makeText(getContext(), "load num failed", Toast.LENGTH_LONG).show();
+//        }
+//    );
+
+  }
+
   @NonNull
   private AlbumProject getProject() {
     return AlbumProject.getActiveProject();
@@ -45,8 +71,9 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     Log.d(TAG, "onCreate: ");
     getProject().addListener(this);
   }
+
   @Override
-  public  void onDestroy() {
+  public void onDestroy() {
     super.onDestroy();
     Log.d(TAG, "onDestroy: ");
     getProject().removeListener(this);
@@ -77,9 +104,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     Disposable disposable = rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
         .subscribe(granted -> {
           if (granted) {
-            int pageNo = mAlbumItemListView.getPageSize();
-            getProject().loadAlbum(
-                new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 0, pageNo));
+            onGetGranted();
           }
         });
   }
@@ -97,24 +122,27 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     if (result.mError != null) {
       throw new RuntimeException(result.mError);
     }
-    if (result.mRequest.mOffset == 0 && result.mMediaList.isEmpty()) {
+    if (result.mRequest.isFirstPage() && result.mMediaList.isEmpty()) {
       Log.w(TAG, "onAlbumLoaded: no media");
       Toast.makeText(getContext(), getString(R.string.no_media), Toast.LENGTH_LONG).show();
       return;
     }
 
+    if (mAlbumItemListView == null) {
+      Log.e(TAG, "onAlbumLoaded: mAlbumItemListView is null");
+      return;
+    }
+
     List<AlbumItemUIModel> l = new LinkedList<>();
     for (AlbumMediaItem item : result.mMediaList) {
-      l.add(new AlbumItemUIModel(item.mPosition, 0, "no " + l.size(), item.mPath));
+      l.add(new AlbumItemUIModel(item.mPosition, item.mType, "no " + l.size(), item.mPath));
     }
-    if (mAlbumItemListView != null) {
-      mAlbumItemListView.setModels(l);
-    }
+    mAlbumItemListView.setModels(result.mRequest.mOffset, l);
   }
 
   @Override
   public void onSelect(@NonNull Integer item) {
-    if (mAlbumItemListView!= null && mAlbumItemListView.getAdapter() != null) {
+    if (mAlbumItemListView != null && mAlbumItemListView.getAdapter() != null) {
       mAlbumItemListView.getAdapter().notifyItemChanged(item);
 
     }
@@ -122,7 +150,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
 
   @Override
   public void onUnSelect(@NonNull Integer item) {
-    if (mAlbumItemListView!= null && mAlbumItemListView.getAdapter() != null) {
+    if (mAlbumItemListView != null && mAlbumItemListView.getAdapter() != null) {
       mAlbumItemListView.getAdapter().notifyItemChanged(item);
     }
   }

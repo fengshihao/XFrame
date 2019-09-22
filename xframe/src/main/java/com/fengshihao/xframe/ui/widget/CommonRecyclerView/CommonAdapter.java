@@ -1,5 +1,6 @@
 package com.fengshihao.xframe.ui.widget.CommonRecyclerView;
 
+import android.graphics.pdf.PdfDocument;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,12 +8,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.fengshihao.xframe.logic.layzlist.IPageListListener;
 import com.fengshihao.xframe.logic.layzlist.PageList;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class CommonAdapter extends RecyclerView.Adapter<CommonViewHolder> {
+public class CommonAdapter extends RecyclerView.Adapter<CommonViewHolder>
+    implements IPageListListener {
   private static final String TAG = "CommonAdapter";
 
   @NonNull
@@ -22,6 +25,10 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonViewHolder> {
   private int[] mItemLayoutIds;
 
 
+  public CommonAdapter() {
+    mList.addListener(this);
+  }
+  
   @NonNull
   @Override
   public CommonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -82,6 +89,24 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonViewHolder> {
 
   public int getPageSize() {
     return mList.getPageSize();
+  }
+
+  public void addPageListListener(IPageListListener listener) {
+    mList.addListener(listener);
+  }
+
+  public void removePageListListener(IPageListListener listener) {
+    mList.removeListener(listener);
+  }
+
+  public void setModels(int offset, @NonNull List<? extends ICommonItemModel> models) {
+    mList.setItems(offset, models);
+  }
+
+  @Override
+  public void onAddNew(int from, int to) {
+    Log.d(TAG, "onAddNew() called with: from = [" + from + "], to = [" + to + "]");
+    notifyItemRangeInserted(from, to);
   }
 
 //

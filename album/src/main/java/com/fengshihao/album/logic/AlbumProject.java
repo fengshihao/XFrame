@@ -67,6 +67,12 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
     request.setRequestDisposable(disposable);
   }
 
+  public Single<Integer> getImageAndVideoNum() {
+    return Single.fromCallable(AlbumSqlTool::getImagesAndVideosNum)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread());
+  }
+
   @NonNull
   public static AlbumProject getActiveProject() {
     if (sActiveProject == null) {

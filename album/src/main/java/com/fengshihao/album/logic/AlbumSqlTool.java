@@ -243,7 +243,6 @@ public final class AlbumSqlTool {
       return Collections.emptyList();
     }
 
-    Log.d(TAG, "loadImageVideos: cursor count =" + cursor.getCount());
     ArrayList<AlbumMediaItem> ret = new ArrayList<>();
     int position = 0;
     while (cursor.moveToNext()) {
@@ -265,4 +264,40 @@ public final class AlbumSqlTool {
     logFirstAndLast(TAG, "loadImageVideos", ret);
     return ret;
   }
+
+
+  @WorkerThread
+  public static int getImagesAndVideosNum() {
+    ContentResolver mContentResolver = getContext().getContentResolver();
+    String selectionClause = MediaStore.Files.FileColumns.MEDIA_TYPE + "=? or " +
+        MediaStore.Files.FileColumns.MEDIA_TYPE + "=? and (" +
+        MediaStore.Images.Media.MIME_TYPE + "=? or "
+        + MediaStore.Images.Media.MIME_TYPE + "=? or "
+        + MediaStore.Images.Media.MIME_TYPE + "=?)";
+    String[] args = new String[]{
+        "" + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE,
+        "" + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO,
+        "image/jpeg", "image/png", "video/mp4"};
+
+    Cursor cursor = mContentResolver.query(
+        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+        new String[]{
+            "COUNT(" + BaseColumns._ID + ") AS image_num  FROM (SELECT *",
+        }, selectionClause, args, ")");
+
+    if (cursor == null) {
+      Log.e(TAG, "getImagesAndVideosNum: cursor is null ");
+      return 0;
+    }
+
+    int num = 0;
+    if (cursor.moveToNext()) {
+      num = cursor.getInt(0);
+    }
+    cursor.close();
+
+    Log.d(TAG, "getImagesAndVideosNum: get image num = " + num);
+    return num;
+  }
+
 }

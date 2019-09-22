@@ -31,6 +31,10 @@ public class AlbumLoaderRequest {
     mRequestDisposable = disposable;
   }
 
+  public boolean isFirstPage() {
+    return mOffset == 0;
+  }
+
   public void cancel() {
     Log.d(TAG, "cancel: " + this);
     if (mRequestDisposable != null && mRequestDisposable.isDisposed()) {

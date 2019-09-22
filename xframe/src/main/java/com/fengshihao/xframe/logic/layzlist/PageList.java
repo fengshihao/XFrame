@@ -94,6 +94,28 @@ public class PageList<T> extends ListenerManager<IPageListListener> {
       Log.w(TAG, "addAll: empty list");
       return;
     }
+    int from = mList.size();
     mList.addAll(list);
+    int to = mList.size();
+    notifyListeners(l -> l.onAddNew(from, to));
+  }
+
+  public void setItems(int offset, @NonNull List<? extends T> models) {
+    Log.d(TAG, "setItems() called with: offset = [" + offset
+        + "], models = [" + models.size() + "]");
+    if (offset < 0) {
+      Log.e(TAG, "setItems: wrong args offset < 0");
+      return;
+    }
+
+    if (models.isEmpty()) {
+      Log.w(TAG, "setItems: empty models");
+      return;
+    }
+
+    int nowSize = mList.size();
+    if (nowSize == offset) {
+      addAll(models);
+    }
   }
 }

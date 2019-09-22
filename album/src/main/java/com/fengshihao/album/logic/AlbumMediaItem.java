@@ -16,11 +16,6 @@ public class AlbumMediaItem {
   public static final int IMAGE = 0;
   public static final int VIDEO = 1;
   public static final int VIDEO_IMAGE = 2;
-  public String mCountry;
-  public String mProvince;
-  public String mCity;
-  public long mTakeTime;
-  public boolean mUnusable;
 
   /**
    * IMAGE 只选择图片
@@ -31,8 +26,6 @@ public class AlbumMediaItem {
   @Retention(RetentionPolicy.SOURCE)
   public @interface AlbumType {
   }
-
-  public String mName;
 
   @AlbumType
   public final int mType;
@@ -45,11 +38,8 @@ public class AlbumMediaItem {
 
   public final long mId;
 
-  public int mLocationId = -1;
-
   public float mLatitude;
   public float mLongitude;
-  public int mScore;
 
 
   public AlbumMediaItem(long id,
@@ -64,7 +54,6 @@ public class AlbumMediaItem {
 
   @Override
   public String toString() {
-    return "SAMediaItem: mId=" + mId + " mPosition=" + mPosition + " mPath=" + mPath
-        + " lati=" + mLatitude + " longi=" + mLongitude;
+    return "AlbumMediaItem: mId=" + mId + " mPosition=" + mPosition + " mPath=" + mPath;
   }
 }
