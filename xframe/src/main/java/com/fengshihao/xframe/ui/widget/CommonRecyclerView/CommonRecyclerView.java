@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 import com.fengshihao.xframe.logic.layzlist.IPageListListener;
+import com.fengshihao.xframe.logic.layzlist.PageList;
 
 import java.util.List;
 
@@ -44,24 +45,8 @@ public class CommonRecyclerView extends RecyclerView  {
     mCommonAdapter.setItemLayoutIds(layoutIds);
   }
 
-  public <T extends ICommonItemModel> void setModels(@NonNull List<T> list1) {
-    mCommonAdapter.clear();
-    mCommonAdapter.addAll(list1);
-  }
-
-  public int getPageSize() {
-    return mCommonAdapter.getPageSize();
-  }
-
-  public void addPageListListener(IPageListListener listener) {
-    mCommonAdapter.addPageListListener(listener);
-  }
-
-  public void removePageListListener(IPageListListener listener) {
-    mCommonAdapter.removePageListListener(listener);
-  }
-
-  public void setModels(int offset, @NonNull List<? extends ICommonItemModel> models) {
-    mCommonAdapter.setModels(offset, models);
+  @NonNull
+  public PageList<ICommonItemModel> getPageList() {
+    return mCommonAdapter.getPageList();
   }
 }

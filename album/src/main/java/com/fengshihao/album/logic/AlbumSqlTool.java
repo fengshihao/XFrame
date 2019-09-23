@@ -244,7 +244,7 @@ public final class AlbumSqlTool {
     }
 
     ArrayList<AlbumMediaItem> ret = new ArrayList<>();
-    int position = 0;
+    int position = offset;
     while (cursor.moveToNext()) {
       long id = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID));
       String path = cursor.getString(

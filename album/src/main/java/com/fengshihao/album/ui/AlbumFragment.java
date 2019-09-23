@@ -17,6 +17,7 @@ import com.fengshihao.album.api.AlbumLoaderResult;
 import com.fengshihao.album.api.IAlbumProjectListener;
 import com.fengshihao.album.logic.AlbumMediaItem;
 import com.fengshihao.album.logic.AlbumProject;
+import com.fengshihao.xframe.logic.layzlist.IPageListListener;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonRecyclerView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -31,6 +32,16 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   private CommonRecyclerView mAlbumItemListView;
 
 
+  @NonNull
+  private IPageListListener mPageListener = new IPageListListener() {
+    @Override
+    public void onRequireLoad(int pageNo, int pageSize) {
+      int first = pageNo * pageSize;
+      getProject().loadAlbum(
+          new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, first, pageSize));
+    }
+  };
+
   public AlbumFragment() {
   }
 
@@ -40,24 +51,11 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
       Log.w(TAG, "onGetGranted: mAlbumItemListView is null");
       return;
     }
-    int pageNo = mAlbumItemListView.getPageSize();
+    mAlbumItemListView.getPageList().addListener(mPageListener);
+    int pageSize = mAlbumItemListView.getPageList().getPageSize();
 
     getProject().loadAlbum(
-        new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 0, pageNo));
-//
-//    Disposable disposable = getProject().getImageAndVideoNum()
-//        .subscribe(num -> {
-//          Log.d(TAG, "onGetGranted: getImageAndVideoNum " + num);
-//          int pageNo = mAlbumItemListView.getPageSize();
-//          getProject().loadAlbum(
-//              new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 0, pageNo));
-//
-//        }, throwable -> {
-//          Log.e(TAG, "onGetGranted: ", throwable);
-//          Toast.makeText(getContext(), "load num failed", Toast.LENGTH_LONG).show();
-//        }
-//    );
-
+        new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 0, pageSize));
   }
 
   @NonNull
@@ -77,6 +75,9 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     super.onDestroy();
     Log.d(TAG, "onDestroy: ");
     getProject().removeListener(this);
+    if (mAlbumItemListView != null) {
+      mAlbumItemListView.getPageList().removeListener(mPageListener);
+    }
   }
 
   @Override
@@ -98,8 +99,6 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     super.onStart();
     Log.d(TAG, "onStart: ");
 
-    Log.d(TAG, "onStart: w=" + mAlbumItemListView.getWidth()
-        + " " + mAlbumItemListView.getHeight());
     final RxPermissions rxPermissions = new RxPermissions(this);
     Disposable disposable = rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
         .subscribe(granted -> {
@@ -135,16 +134,16 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
 
     List<AlbumItemUIModel> l = new LinkedList<>();
     for (AlbumMediaItem item : result.mMediaList) {
-      l.add(new AlbumItemUIModel(item.mPosition, item.mType, "no " + l.size(), item.mPath));
+      l.add(new AlbumItemUIModel(item.mPosition, item.mType, "no " + item.mPosition, item.mPath));
     }
-    mAlbumItemListView.setModels(result.mRequest.mOffset, l);
+    int pageNo = result.mRequest.mOffset / mAlbumItemListView.getPageList().getPageSize();
+    mAlbumItemListView.getPageList().setItems(pageNo, l);
   }
 
   @Override
   public void onSelect(@NonNull Integer item) {
     if (mAlbumItemListView != null && mAlbumItemListView.getAdapter() != null) {
       mAlbumItemListView.getAdapter().notifyItemChanged(item);
-
     }
   }
 

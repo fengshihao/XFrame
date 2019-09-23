@@ -7,20 +7,27 @@ import android.util.Log;
 import com.fengshihao.xframe.logic.listener.ListenerManager;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class PageList<T> extends ListenerManager<IPageListListener> {
   private static final String TAG = "PageList";
 
   private static final int DEFAULT_PAGE_SIZE = 100;
   private static final int MIN_PAGE_SIZE = 4;
-
+  private static final int NO_POS = -1;
   private int mPageSize = DEFAULT_PAGE_SIZE;
 
-  private int mCurrentPage = -1;
+  private int mCurrentPage = NO_POS;
+
+  private int mLastPage = NO_POS;
 
   @NonNull
   private final List<T> mList = new ArrayList<>();
+
+  @NonNull
+  private final Set<Integer> mLoadingPage = new HashSet<>();
 
 
   public void setPageSize(int pageSize) {
@@ -45,15 +52,19 @@ public class PageList<T> extends ListenerManager<IPageListListener> {
     return mList.get(position);
   }
 
-  public void updateCurrentPage(int position) {
+  private void updateCurrentPage(int position) {
     if (position < 0) {
-      Log.e(TAG, "get: wrong arg position=" + position);
+      Log.e(TAG, "updateCurrentPage: wrong arg position=" + position);
       return;
     }
     int newPage = position / mPageSize;
     if (newPage != mCurrentPage) {
       int old = mCurrentPage;
       mCurrentPage = newPage;
+      if (mCurrentPage >= 1) {
+        requireLoadPage(mCurrentPage - 1);
+      }
+      requireLoadPage(mCurrentPage + 1);
       Log.d(TAG, "updateCurrentPage: old=" + old + " newPage=" + newPage);
       notifyListeners(l -> l.accessPageChange(newPage, old));
     }
@@ -86,7 +97,8 @@ public class PageList<T> extends ListenerManager<IPageListListener> {
   public void clear() {
     Log.d(TAG, "clear() called");
     mList.clear();
-    mCurrentPage = -1;
+    mCurrentPage = NO_POS;
+    mLastPage = NO_POS;
   }
 
   public void addAll(@NonNull List<? extends T> list) {
@@ -100,22 +112,85 @@ public class PageList<T> extends ListenerManager<IPageListListener> {
     notifyListeners(l -> l.onAddNew(from, to));
   }
 
-  public void setItems(int offset, @NonNull List<? extends T> models) {
-    Log.d(TAG, "setItems() called with: offset = [" + offset
+  public void setItems(int pageNo, @NonNull List<? extends T> models) {
+    Log.d(TAG, "setItems() called with: pageNo = [" + pageNo
         + "], models = [" + models.size() + "]");
-    if (offset < 0) {
-      Log.e(TAG, "setItems: wrong args offset < 0");
+    if (pageNo < 0) {
+      Log.e(TAG, "setItems: wrong args pageNo < 0");
       return;
     }
+
+    mLoadingPage.remove(pageNo);
 
     if (models.isEmpty()) {
       Log.w(TAG, "setItems: empty models");
       return;
     }
 
-    int nowSize = mList.size();
-    if (nowSize == offset) {
-      addAll(models);
+    if (models.size() < mPageSize && pageNo != mLastPage) {
+      Log.w(TAG, "setItems: less than mPageSize " + models.size() + " pageNo=" + pageNo
+          + " mLastPage=" + mLastPage);
+    }
+    int startPos = pageNo * mPageSize;
+
+    if (mList.size() < startPos) {
+      int needFillNum = startPos - mList.size();
+      Log.d(TAG, "setItems: need fill empty items " + needFillNum);
+      for (int i = startPos; i < needFillNum; i++) {
+        mList.add(i, null);
+      }
+      notifyListeners(l -> l.onAddNew(startPos, mList.size() - 1));
+    }
+
+    addAll(models);
+  }
+
+  private void fillPreviousPageItems(int pageNo) {
+
+  }
+
+  public void visitItem(int position) {
+    if (position < 0) {
+      Log.e(TAG, "visitItem: wrong arg position=" + position);
+      return;
+    }
+    updateCurrentPage(position);
+  }
+
+  private void requireLoadPage(int page) {
+    Log.d(TAG, "requireLoadPage() called with: page = [" + page + "]");
+    if (page < 0) {
+      Log.e(TAG, "requireLoadPage: wrong arg page=" + page);
+      return;
+    }
+
+    // 到了最后一页
+    if (mLastPage >= 0 && page >= mLastPage) {
+      return;
+    }
+
+
+    if (pageIsLoaded(page)) {
+      Log.d(TAG, "requireLoadPage: has loaded " + page);
+      return;
+    }
+
+    if (mLoadingPage.contains(page)) {
+      Log.d(TAG, "requireLoadPage: is loading " + page);
+      return;
+    }
+
+    mLoadingPage.add(page);
+    notifyListeners(l-> l.onRequireLoad(page, mPageSize));
+
+  }
+
+  private boolean pageIsLoaded(int page) {
+    int pageFirst = page * mPageSize;
+    if (pageFirst >= mList.size()) {
+      return false;
+    } else {
+      return mList.get(pageFirst) != null;
     }
   }
 }

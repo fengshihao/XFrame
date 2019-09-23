@@ -1,6 +1,7 @@
 package com.fengshihao.xframe.ui.widget.CommonRecyclerView;
 
-import android.graphics.pdf.PdfDocument;
+import java.util.Arrays;
+
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,9 +11,6 @@ import android.view.ViewGroup;
 
 import com.fengshihao.xframe.logic.layzlist.IPageListListener;
 import com.fengshihao.xframe.logic.layzlist.PageList;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CommonAdapter extends RecyclerView.Adapter<CommonViewHolder>
     implements IPageListListener {
@@ -25,7 +23,7 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonViewHolder>
   private int[] mItemLayoutIds;
 
 
-  public CommonAdapter() {
+  CommonAdapter() {
     mList.addListener(this);
   }
   
@@ -50,7 +48,7 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonViewHolder>
   @Override
   public void onBindViewHolder(@NonNull CommonViewHolder holder, int position) {
     ICommonItemModel item = mList.get(position);
-    mList.updateCurrentPage(position);
+    mList.visitItem(position);
     if (item == null) {
       return;
     }
@@ -77,62 +75,14 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonViewHolder>
     mItemLayoutIds = layoutIds;
   }
 
-  void clear() {
-    mList.clear();
-  }
-
-  <T extends ICommonItemModel> void addAll(@NonNull List<T> list) {
-    mList.addAll(list);
-    Log.d(TAG, "addAll: size=" + list.size());
-    notifyDataSetChanged();
-  }
-
-  public int getPageSize() {
-    return mList.getPageSize();
-  }
-
-  public void addPageListListener(IPageListListener listener) {
-    mList.addListener(listener);
-  }
-
-  public void removePageListListener(IPageListListener listener) {
-    mList.removeListener(listener);
-  }
-
-  public void setModels(int offset, @NonNull List<? extends ICommonItemModel> models) {
-    mList.setItems(offset, models);
-  }
-
   @Override
   public void onAddNew(int from, int to) {
     Log.d(TAG, "onAddNew() called with: from = [" + from + "], to = [" + to + "]");
     notifyItemRangeInserted(from, to);
   }
 
-//
-//    void select(@NonNull Integer... pos) {
-//      Set<Integer> oldSelect = new HashSet<>(mSelects);
-//
-//      mSelects.clear();
-//      for (Integer idx : pos) {
-//        if (idx < 0 || idx >= mList.size()) {
-//          throw new IllegalArgumentException("wrong idx=" + idx);
-//        }
-//
-//        mSelects.add(idx);
-//      }
-//
-//      for (Integer idx : mSelects) {
-//        if (oldSelect.isSelected(idx)) {
-//          continue;
-//        }
-//        Log.d(TAG, "select: new select =" + idx);
-//        notifyItemChanged(idx);
-//      }
-//      oldSelect.removeAll(mSelects);
-//      for (Integer idx : oldSelect) {
-//        Log.d(TAG, "select: un select =" + idx);
-//        notifyItemChanged(idx);
-//      }
-//    }
+  @NonNull
+  public PageList<ICommonItemModel> getPageList() {
+    return mList;
+  }
 }
