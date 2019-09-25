@@ -55,7 +55,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     int pageSize = mAlbumItemListView.getPageList().getPageSize();
 
     getProject().loadAlbum(
-        new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 0, pageSize));
+        new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, pageSize, pageSize));
   }
 
   @NonNull
@@ -138,6 +138,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     }
     int pageNo = result.mRequest.mOffset / mAlbumItemListView.getPageList().getPageSize();
     mAlbumItemListView.getPageList().setItems(pageNo, l);
+    mAlbumItemListView.scrollToPosition(pageNo * mAlbumItemListView.getPageList().size());
   }
 
   @Override

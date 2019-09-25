@@ -76,11 +76,16 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonViewHolder>
   }
 
   @Override
-  public void onAddNew(int from, int to) {
-    Log.d(TAG, "onAddNew() called with: from = [" + from + "], to = [" + to + "]");
+  public void onAddNewItems(int from, int to) {
+    Log.d(TAG, "onAddNewItems() called with: from = [" + from + "], to = [" + to + "]");
     notifyItemRangeInserted(from, to);
   }
 
+  @Override
+  public void onUpdateItems(int from, int to) {
+    Log.d(TAG, "onUpdateItems() called with: from = [" + from + "], to = [" + to + "]");
+    notifyItemChanged(from, to);
+  }
   @NonNull
   public PageList<ICommonItemModel> getPageList() {
     return mList;

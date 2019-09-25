@@ -109,14 +109,14 @@ public class PageList<T> extends ListenerManager<IPageListListener> {
     int from = mList.size();
     mList.addAll(list);
     int to = mList.size();
-    notifyListeners(l -> l.onAddNew(from, to));
+    notifyListeners(l -> l.onAddNewItems(from, to));
   }
 
   public void setItems(int pageNo, @NonNull List<? extends T> models) {
     Log.d(TAG, "setItems() called with: pageNo = [" + pageNo
         + "], models = [" + models.size() + "]");
     if (pageNo < 0) {
-      Log.e(TAG, "setItems: wrong args pageNo < 0");
+      Log.e(TAG, "setItems: wrong args pageNo=" + pageNo);
       return;
     }
 
@@ -132,6 +132,11 @@ public class PageList<T> extends ListenerManager<IPageListListener> {
           + " mLastPage=" + mLastPage);
     }
     int startPos = pageNo * mPageSize;
+    int endPos = startPos + models.size();
+
+    if (updatePageItems(startPos, endPos, models)) {
+      return;
+    }
 
     if (mList.size() < startPos) {
       int needFillNum = startPos - mList.size();
@@ -139,14 +144,32 @@ public class PageList<T> extends ListenerManager<IPageListListener> {
       for (int i = startPos; i < needFillNum; i++) {
         mList.add(i, null);
       }
-      notifyListeners(l -> l.onAddNew(startPos, mList.size() - 1));
+      notifyListeners(l -> l.onAddNewItems(startPos, mList.size() - 1));
     }
 
     addAll(models);
   }
 
-  private void fillPreviousPageItems(int pageNo) {
-
+  private boolean updatePageItems(int start, int end, @NonNull List<? extends T> models) {
+    Log.d(TAG, "updatePageItems() called with: start = ["
+        + start + "], end = [" + end + "], models size = [" + models.size() + "]");
+    if (start < 0 || end < start) {
+      Log.e(TAG, "updatePageItems: wrong args");
+      return false;
+    }
+    Log.d(TAG, "updatePageItems: start=" + start
+        + " end=" + end + " list size=" + models.size()) ;
+    if (end < mList.size()) {
+      boolean success = mList.addAll (start, models);
+      if (!success) {
+        Log.e(TAG, "updatePageItems: failed ");
+        return false;
+      }
+      notifyListeners(l -> l.onUpdateItems(start, end));
+      Log.d(TAG, "updatePageItems: update items success");
+      return true;
+    }
+    return false;
   }
 
   public void visitItem(int position) {
