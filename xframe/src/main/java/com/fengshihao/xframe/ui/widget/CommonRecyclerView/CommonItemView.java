@@ -1,12 +1,12 @@
 package com.fengshihao.xframe.ui.widget.CommonRecyclerView;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-public abstract class CommonItemView<T extends ICommonItemModel> extends FrameLayout {
+public abstract class CommonItemView extends FrameLayout {
   protected int mPosition = RecyclerView.NO_POSITION;
 
   public CommonItemView(Context context) {
@@ -31,5 +31,5 @@ public abstract class CommonItemView<T extends ICommonItemModel> extends FrameLa
 
   abstract public void bindViews();
 
-  abstract public void updateView(@NonNull T uiModel);
+  abstract public void updateView(@Nullable ICommonItemModel uiModel);
 }

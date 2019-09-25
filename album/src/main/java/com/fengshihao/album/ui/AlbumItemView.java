@@ -1,7 +1,6 @@
 package com.fengshihao.album.ui;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -13,8 +12,9 @@ import com.fengshihao.album.R;
 import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.ui.util.FrescoUtil;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonItemView;
+import com.fengshihao.xframe.ui.widget.CommonRecyclerView.ICommonItemModel;
 
-final class AlbumItemView extends CommonItemView<AlbumItemUIModel> {
+final class AlbumItemView extends CommonItemView {
   private static final String TAG = "AlbumItemView";
 
   public AlbumItemView(Context context) {
@@ -45,8 +45,14 @@ final class AlbumItemView extends CommonItemView<AlbumItemUIModel> {
   }
 
   @Override
-  public void updateView(@NonNull AlbumItemUIModel uiModel) {
-    AlbumItemUIModel m = uiModel;
+  public void updateView(@Nullable ICommonItemModel uiModel) {
+    if (uiModel == null) {
+      mTextView.setVisibility(VISIBLE);
+      mTextView.setText("empty");
+      mImageView.setImageResource(R.drawable.placeholder);
+      return;
+    }
+    AlbumItemUIModel m = (AlbumItemUIModel) uiModel;
     mTextView.setText(m.mInfo);
     mTextView.setVisibility(m.isSelected() ? INVISIBLE : VISIBLE);
     if (TextUtils.isEmpty(m.mImagePath)) {

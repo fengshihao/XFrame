@@ -13,7 +13,7 @@ import com.fengshihao.xframe.logic.layzlist.IPageListListener;
 import com.fengshihao.xframe.logic.layzlist.PageList;
 
 public class CommonAdapter<T extends ICommonItemModel>
-    extends RecyclerView.Adapter<CommonViewHolder<T>>
+    extends RecyclerView.Adapter<CommonViewHolder>
     implements IPageListListener {
   private static final String TAG = "CommonAdapter";
 
@@ -30,7 +30,7 @@ public class CommonAdapter<T extends ICommonItemModel>
   
   @NonNull
   @Override
-  public CommonViewHolder<T> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+  public CommonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     if (mItemLayoutIds == null) {
       throw new IllegalStateException("must call CommonAdapter.setItemLayoutIds first!!");
     }
@@ -43,16 +43,13 @@ public class CommonAdapter<T extends ICommonItemModel>
     CommonItemView v = (CommonItemView) LayoutInflater
         .from(parent.getContext()).inflate(mItemLayoutIds[viewType], parent, false);
     v.bindViews();
-    return new CommonViewHolder<T>(v);
+    return new CommonViewHolder(v);
   }
 
   @Override
-  public void onBindViewHolder(@NonNull CommonViewHolder<T> holder, int position) {
+  public void onBindViewHolder(@NonNull CommonViewHolder holder, int position) {
     T item = mList.get(position);
     mList.visitItem(position);
-    if (item == null) {
-      return;
-    }
     holder.updateView(item, position);
   }
 
@@ -63,7 +60,7 @@ public class CommonAdapter<T extends ICommonItemModel>
 
   @Override
   public int getItemViewType(int position) {
-    ICommonItemModel item = mList.get(position);
+    T item = mList.get(position);
     if (item == null) {
       return 0;
     }

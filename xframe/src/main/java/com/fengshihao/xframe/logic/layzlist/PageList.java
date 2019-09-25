@@ -29,7 +29,6 @@ public class PageList<T> extends ListenerManager<IPageListListener> {
   @NonNull
   private final Set<Integer> mLoadingPage = new HashSet<>();
 
-
   public void setPageSize(int pageSize) {
     Log.d(TAG, "setPageSize() called with: pageSize = [" + pageSize + "]");
     if (pageSize < MIN_PAGE_SIZE) {
@@ -128,7 +127,8 @@ public class PageList<T> extends ListenerManager<IPageListListener> {
     }
 
     if (models.size() < mPageSize && pageNo != mLastPage) {
-      Log.w(TAG, "setItems: less than mPageSize " + models.size() + " pageNo=" + pageNo
+      Log.w(TAG, "setItems: less than mPageSize " + models.size()
+          + " pageNo=" + pageNo
           + " mLastPage=" + mLastPage);
     }
     int startPos = pageNo * mPageSize;
@@ -139,12 +139,13 @@ public class PageList<T> extends ListenerManager<IPageListListener> {
     }
 
     if (mList.size() < startPos) {
-      int needFillNum = startPos - mList.size();
+      int nowEnd = mList.size();
+      int needFillNum = startPos - nowEnd;
       Log.d(TAG, "setItems: need fill empty items " + needFillNum);
-      for (int i = startPos; i < needFillNum; i++) {
+      for (int i = nowEnd; i < needFillNum; i++) {
         mList.add(i, null);
       }
-      notifyListeners(l -> l.onAddNewItems(startPos, mList.size() - 1));
+      notifyListeners(l -> l.onAddNewItems(nowEnd, mList.size() - 1));
     }
 
     addAll(models);

@@ -20,7 +20,7 @@ public class CommonRecyclerView<T extends ICommonItemModel> extends RecyclerView
   private static final String TAG = "CommonRecyclerView";
 
   @NonNull
-  private final CommonAdapter mCommonAdapter = new CommonAdapter();
+  private final CommonAdapter<T> mCommonAdapter = new CommonAdapter<T>();
 
   public CommonRecyclerView(Context context) {
     super(context);

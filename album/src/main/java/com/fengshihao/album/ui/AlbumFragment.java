@@ -33,7 +33,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   private RecyclerView mAlbumItemListView;
 
   @NonNull
-  private CommonAdapter mCommonAdapter = new CommonAdapter();
+  private CommonAdapter<AlbumItemUIModel> mCommonAdapter = new CommonAdapter<>();
 
 
   @NonNull
@@ -59,7 +59,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     int pageSize = mCommonAdapter.getPageList().getPageSize();
 
     getProject().loadAlbum(
-        new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, pageSize, pageSize));
+        new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 2 * pageSize, pageSize));
   }
 
   @NonNull
@@ -137,14 +137,18 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
       Log.e(TAG, "onAlbumLoaded: mAlbumItemListView is null");
       return;
     }
-
+    final int pageSize = mCommonAdapter.getPageList().getPageSize();
+    boolean isFirstCallback = mCommonAdapter.getPageList().size() == 0;
     List<AlbumItemUIModel> l = new LinkedList<>();
     for (AlbumMediaItem item : result.mMediaList) {
       l.add(new AlbumItemUIModel(item.mPosition, item.mType, "no " + item.mPosition, item.mPath));
     }
-    int pageNo = result.mRequest.mOffset / mCommonAdapter.getPageList().getPageSize();
+    int pageNo = result.mRequest.mOffset / pageSize;
     mCommonAdapter.getPageList().setItems(pageNo, l);
-    mAlbumItemListView.scrollToPosition(pageNo * mCommonAdapter.getPageList().size());
+    if (isFirstCallback) {
+      Log.d(TAG, "onAlbumLoaded: scroll to " + (pageNo * pageSize));
+      mAlbumItemListView.scrollToPosition(pageNo * pageSize);
+    }
   }
 
   @Override
