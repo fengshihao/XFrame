@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * A Common RecyclerView to avoiding define a Adapter and a ViewHolder
  */
-public class CommonRecyclerView extends RecyclerView  {
+public class CommonRecyclerView<T extends ICommonItemModel> extends RecyclerView  {
 
   private static final String TAG = "CommonRecyclerView";
 
@@ -46,7 +46,7 @@ public class CommonRecyclerView extends RecyclerView  {
   }
 
   @NonNull
-  public PageList<ICommonItemModel> getPageList() {
+  public PageList<T> getPageList() {
     return mCommonAdapter.getPageList();
   }
 }

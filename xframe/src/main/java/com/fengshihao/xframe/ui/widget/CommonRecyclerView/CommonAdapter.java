@@ -12,12 +12,13 @@ import android.view.ViewGroup;
 import com.fengshihao.xframe.logic.layzlist.IPageListListener;
 import com.fengshihao.xframe.logic.layzlist.PageList;
 
-public class CommonAdapter extends RecyclerView.Adapter<CommonViewHolder>
+public class CommonAdapter<T extends ICommonItemModel>
+    extends RecyclerView.Adapter<CommonViewHolder<T>>
     implements IPageListListener {
   private static final String TAG = "CommonAdapter";
 
   @NonNull
-  private final PageList<ICommonItemModel> mList = new PageList<>();
+  private final PageList<T> mList = new PageList<>();
 
   @LayoutRes
   private int[] mItemLayoutIds;
@@ -29,7 +30,7 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonViewHolder>
   
   @NonNull
   @Override
-  public CommonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+  public CommonViewHolder<T> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     if (mItemLayoutIds == null) {
       throw new IllegalStateException("must call CommonAdapter.setItemLayoutIds first!!");
     }
@@ -42,12 +43,12 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonViewHolder>
     CommonItemView v = (CommonItemView) LayoutInflater
         .from(parent.getContext()).inflate(mItemLayoutIds[viewType], parent, false);
     v.bindViews();
-    return new CommonViewHolder(v);
+    return new CommonViewHolder<T>(v);
   }
 
   @Override
-  public void onBindViewHolder(@NonNull CommonViewHolder holder, int position) {
-    ICommonItemModel item = mList.get(position);
+  public void onBindViewHolder(@NonNull CommonViewHolder<T> holder, int position) {
+    T item = mList.get(position);
     mList.visitItem(position);
     if (item == null) {
       return;
@@ -88,7 +89,7 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonViewHolder>
   }
 
   @NonNull
-  public PageList<ICommonItemModel> getPageList() {
+  public PageList<T> getPageList() {
     return mList;
   }
 }
