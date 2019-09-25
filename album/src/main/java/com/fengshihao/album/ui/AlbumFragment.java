@@ -59,7 +59,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     int pageSize = mCommonAdapter.getPageList().getPageSize();
 
     getProject().loadAlbum(
-        new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 2 * pageSize, pageSize));
+        new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 3*pageSize, pageSize));
   }
 
   @NonNull
@@ -127,9 +127,11 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     if (result.mError != null) {
       throw new RuntimeException(result.mError);
     }
-    if (result.mRequest.isFirstPage() && result.mMediaList.isEmpty()) {
-      Log.w(TAG, "onAlbumLoaded: no media");
-      Toast.makeText(getContext(), getString(R.string.no_media), Toast.LENGTH_LONG).show();
+    if (result.mMediaList.isEmpty()) {
+      if (result.mRequest.isFirstPage()) {
+        Log.w(TAG, "onAlbumLoaded: no media");
+        Toast.makeText(getContext(), getString(R.string.no_media), Toast.LENGTH_LONG).show();
+      }
       return;
     }
 
@@ -145,7 +147,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     }
     int pageNo = result.mRequest.mOffset / pageSize;
     mCommonAdapter.getPageList().setItems(pageNo, l);
-    if (isFirstCallback) {
+    if (isFirstCallback && !result.mMediaList.isEmpty()) {
       Log.d(TAG, "onAlbumLoaded: scroll to " + (pageNo * pageSize));
       mAlbumItemListView.scrollToPosition(pageNo * pageSize);
     }

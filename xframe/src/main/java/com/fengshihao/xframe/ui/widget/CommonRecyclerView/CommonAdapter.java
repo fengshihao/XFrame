@@ -74,15 +74,15 @@ public class CommonAdapter<T extends ICommonItemModel>
   }
 
   @Override
-  public void onAddNewItems(int from, int to) {
-    Log.d(TAG, "onAddNewItems() called with: from = [" + from + "], to = [" + to + "]");
-    notifyItemRangeInserted(from, to);
+  public void onAddNewItems(int start, int count) {
+    Log.d(TAG, "onAddNewItems() called with: start = [" + start + "], count = [" + count + "]");
+    notifyItemRangeInserted(start, count);
   }
 
   @Override
-  public void onUpdateItems(int from, int to) {
-    Log.d(TAG, "onUpdateItems() called with: from = [" + from + "], to = [" + to + "]");
-    notifyItemChanged(from, to);
+  public void onUpdateItems(int start, int count) {
+    Log.d(TAG, "onUpdateItems() called with: start = [" + start + "], count = [" + count + "]");
+    notifyItemRangeChanged(start, count);
   }
 
   @NonNull

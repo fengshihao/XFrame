@@ -7,9 +7,9 @@ public interface IPageListListener {
 
   default void accessPageChange(int newPage, int old) {}
 
-  default void onAddNewItems(int from, int to) {}
+  default void onAddNewItems(int start, int count) {}
 
   default void onRequireLoad(int pageNo, int pageSize) {}
 
-  default void onUpdateItems(int start, int end) {}
+  default void onUpdateItems(int start, int count) {}
 }

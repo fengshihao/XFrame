@@ -132,9 +132,7 @@ public class PageList<T> extends ListenerManager<IPageListListener> {
           + " mLastPage=" + mLastPage);
     }
     int startPos = pageNo * mPageSize;
-    int endPos = startPos + models.size();
-
-    if (updatePageItems(startPos, endPos, models)) {
+    if (updatePageItems(startPos, models)) {
       return;
     }
 
@@ -145,29 +143,28 @@ public class PageList<T> extends ListenerManager<IPageListListener> {
       for (int i = nowEnd; i < needFillNum; i++) {
         mList.add(i, null);
       }
-      notifyListeners(l -> l.onAddNewItems(nowEnd, mList.size() - 1));
+      notifyListeners(l -> l.onAddNewItems(nowEnd, needFillNum));
     }
 
     addAll(models);
   }
 
-  private boolean updatePageItems(int start, int end, @NonNull List<? extends T> models) {
-    Log.d(TAG, "updatePageItems() called with: start = ["
-        + start + "], end = [" + end + "], models size = [" + models.size() + "]");
-    if (start < 0 || end < start) {
+  private boolean updatePageItems(int start, @NonNull List<? extends T> models) {
+    Log.v(TAG, "updatePageItems() called with: start = ["
+        + start + ", models size = [" + models.size() + "]");
+    if (start < 0  || models.isEmpty()) {
       Log.e(TAG, "updatePageItems: wrong args");
       return false;
     }
-    Log.d(TAG, "updatePageItems: start=" + start
-        + " end=" + end + " list size=" + models.size()) ;
-    if (end < mList.size()) {
-      boolean success = mList.addAll (start, models);
-      if (!success) {
-        Log.e(TAG, "updatePageItems: failed ");
-        return false;
+
+    int end = start + models.size();
+    if (end <= mList.size()) {
+      for (int i = start, j = 0; i < end; i++, j++) {
+        mList.set(i, models.get(j));
       }
-      notifyListeners(l -> l.onUpdateItems(start, end));
-      Log.d(TAG, "updatePageItems: update items success");
+      notifyListeners(l -> l.onUpdateItems(start, end - start));
+      Log.d(TAG, "updatePageItems: start=" + start
+          + " end=" + end + " list size=" + models.size()) ;
       return true;
     }
     return false;
