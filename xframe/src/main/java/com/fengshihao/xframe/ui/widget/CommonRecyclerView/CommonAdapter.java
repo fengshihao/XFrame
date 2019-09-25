@@ -23,7 +23,7 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonViewHolder>
   private int[] mItemLayoutIds;
 
 
-  CommonAdapter() {
+  public CommonAdapter() {
     mList.addListener(this);
   }
   
@@ -69,7 +69,7 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonViewHolder>
     return item.getViewType();
   }
 
-  void setItemLayoutIds(@LayoutRes int... layoutIds) {
+  public void setItemLayoutIds(@LayoutRes int... layoutIds) {
     Log.d(TAG, "setItemLayoutIds() called with: layoutIds = ["
         + Arrays.toString(layoutIds) + "]");
     mItemLayoutIds = layoutIds;
@@ -86,6 +86,7 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonViewHolder>
     Log.d(TAG, "onUpdateItems() called with: from = [" + from + "], to = [" + to + "]");
     notifyItemChanged(from, to);
   }
+
   @NonNull
   public PageList<ICommonItemModel> getPageList() {
     return mList;

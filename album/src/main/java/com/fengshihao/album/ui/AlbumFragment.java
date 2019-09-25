@@ -1,10 +1,14 @@
 package com.fengshihao.album.ui;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,18 +22,18 @@ import com.fengshihao.album.api.IAlbumProjectListener;
 import com.fengshihao.album.logic.AlbumMediaItem;
 import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.logic.layzlist.IPageListListener;
-import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonRecyclerView;
+import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonAdapter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-
-import java.util.LinkedList;
-import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 
 public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   private static final String TAG = "AlbumFragment";
   @Nullable
-  private CommonRecyclerView mAlbumItemListView;
+  private RecyclerView mAlbumItemListView;
+
+  @NonNull
+  private CommonAdapter mCommonAdapter = new CommonAdapter();
 
 
   @NonNull
@@ -51,8 +55,8 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
       Log.w(TAG, "onGetGranted: mAlbumItemListView is null");
       return;
     }
-    mAlbumItemListView.getPageList().addListener(mPageListener);
-    int pageSize = mAlbumItemListView.getPageList().getPageSize();
+    mCommonAdapter.getPageList().addListener(mPageListener);
+    int pageSize = mCommonAdapter.getPageList().getPageSize();
 
     getProject().loadAlbum(
         new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, pageSize, pageSize));
@@ -75,21 +79,23 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     super.onDestroy();
     Log.d(TAG, "onDestroy: ");
     getProject().removeListener(this);
-    if (mAlbumItemListView != null) {
-      mAlbumItemListView.getPageList().removeListener(mPageListener);
-    }
+    mCommonAdapter.getPageList().removeListener(mPageListener);
   }
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     Log.d(TAG, "onCreateView: ");
-    mAlbumItemListView = (CommonRecyclerView) inflater.inflate(R.layout.fragment_album_item_list,
+    mAlbumItemListView = (RecyclerView) inflater.inflate(R.layout.fragment_album_item_list,
         container, false);
 
-    mAlbumItemListView.setItemLayoutIds(R.layout.fragment_album_item,
+
+    mCommonAdapter.setItemLayoutIds(R.layout.fragment_album_item,
         R.layout.fragment_album_item_video);
 
+    if (mAlbumItemListView != null) {
+      mAlbumItemListView.setAdapter(mCommonAdapter);
+    }
 
     return mAlbumItemListView;
   }
@@ -136,22 +142,18 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     for (AlbumMediaItem item : result.mMediaList) {
       l.add(new AlbumItemUIModel(item.mPosition, item.mType, "no " + item.mPosition, item.mPath));
     }
-    int pageNo = result.mRequest.mOffset / mAlbumItemListView.getPageList().getPageSize();
-    mAlbumItemListView.getPageList().setItems(pageNo, l);
-    mAlbumItemListView.scrollToPosition(pageNo * mAlbumItemListView.getPageList().size());
+    int pageNo = result.mRequest.mOffset / mCommonAdapter.getPageList().getPageSize();
+    mCommonAdapter.getPageList().setItems(pageNo, l);
+    mAlbumItemListView.scrollToPosition(pageNo * mCommonAdapter.getPageList().size());
   }
 
   @Override
   public void onSelect(@NonNull Integer item) {
-    if (mAlbumItemListView != null && mAlbumItemListView.getAdapter() != null) {
-      mAlbumItemListView.getAdapter().notifyItemChanged(item);
-    }
+    mCommonAdapter.notifyItemChanged(item);
   }
 
   @Override
   public void onUnSelect(@NonNull Integer item) {
-    if (mAlbumItemListView != null && mAlbumItemListView.getAdapter() != null) {
-      mAlbumItemListView.getAdapter().notifyItemChanged(item);
-    }
+    mCommonAdapter.notifyItemChanged(item);
   }
 }
