@@ -35,7 +35,7 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
   private final int mId = sIndex += 1;
 
   @NonNull
-  private final ItemSelection<Integer> mSelection = new ItemSelection<>();
+  private final ItemSelection<AlbumMediaItem> mSelection = new ItemSelection<>();
 
   AlbumProject() {
     mSelection.pipeEventTo(this);
@@ -88,9 +88,9 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
   }
 
 
-  public void select(int position) {
-    Log.d(TAG, "select: position=" + position);
-    if (!mSelection.select(position)) {
+  public void select(@NonNull AlbumMediaItem item) {
+    Log.d(TAG, "select: item=" + item);
+    if (!mSelection.select(item)) {
 
     }
   }
@@ -101,7 +101,7 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
     return "AlbumProject mId=" + mId;
   }
 
-  public boolean isSelected(int mPosition) {
-    return mSelection.isSelected(mPosition);
+  public boolean isSelected(@NonNull AlbumMediaItem item) {
+    return mSelection.isSelected(item);
   }
 }

@@ -36,7 +36,7 @@ public class ItemSelection<T> extends ListenerManager<ItemSelection.Listener<T>>
       return true;
     }
 
-    if (!couldAddSelect(item)) {
+    if (!couldSelect(item)) {
       Log.d(TAG, "select: cant select " + item);
       return false;
     }
@@ -77,7 +77,7 @@ public class ItemSelection<T> extends ListenerManager<ItemSelection.Listener<T>>
     return mSelectList.indexOf(item);
   }
 
-  protected boolean couldAddSelect(@NonNull T item) {
+  protected boolean couldSelect(@NonNull T item) {
     return true;
   }
 

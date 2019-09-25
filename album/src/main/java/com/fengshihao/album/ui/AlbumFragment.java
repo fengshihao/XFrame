@@ -59,7 +59,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     int pageSize = mCommonAdapter.getPageList().getPageSize();
 
     getProject().loadAlbum(
-        new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 3*pageSize, pageSize));
+        new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 1*pageSize, pageSize));
   }
 
   @NonNull
@@ -143,7 +143,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     boolean isFirstCallback = mCommonAdapter.getPageList().size() == 0;
     List<AlbumItemUIModel> l = new LinkedList<>();
     for (AlbumMediaItem item : result.mMediaList) {
-      l.add(new AlbumItemUIModel(item.mPosition, item.mType, "no " + item.mPosition, item.mPath));
+      l.add(new AlbumItemUIModel("No. " + item.mPosition, item));
     }
     int pageNo = result.mRequest.mOffset / pageSize;
     mCommonAdapter.getPageList().setItems(pageNo, l);
@@ -154,12 +154,12 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   }
 
   @Override
-  public void onSelect(@NonNull Integer item) {
-    mCommonAdapter.notifyItemChanged(item);
+  public void onSelect(@NonNull AlbumMediaItem item) {
+    mCommonAdapter.notifyItemChanged(item.mPosition);
   }
 
   @Override
-  public void onUnSelect(@NonNull Integer item) {
-    mCommonAdapter.notifyItemChanged(item);
+  public void onUnSelect(@NonNull AlbumMediaItem item) {
+    mCommonAdapter.notifyItemChanged(item.mPosition);
   }
 }
