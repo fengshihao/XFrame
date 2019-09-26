@@ -39,14 +39,12 @@ final class AlbumItemView extends CommonItemView {
   public void bindViews() {
     mTextView = findViewById(R.id.text_view);
     mImageView = findViewById(R.id.image_view);
-    setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        if (mModel == null) {
-          return;
-        }
-        AlbumProject.getActiveProject().select(mModel.mData);
+    setOnClickListener(view -> {
+      if (mModel == null) {
+        return;
       }
+      AlbumProject project = AlbumProject.getActiveProject();
+      project.toggleSelect(mModel.mItemId);
     });
   }
 
@@ -61,11 +59,12 @@ final class AlbumItemView extends CommonItemView {
     }
     mTextView.setText(mModel.mInfo);
     mTextView.setVisibility(mModel.isSelected() ? INVISIBLE : VISIBLE);
-    if (TextUtils.isEmpty(mModel.mData.mPath)) {
+    if (TextUtils.isEmpty(mModel.mImagePath)) {
+      Log.e(TAG, "updateView: get a wrong data " + mModel);
       mImageView.setImageResource(R.drawable.placeholder);
     } else {
       int size = getResources().getDimensionPixelSize(R.dimen.album_media_thumbnail_size);
-      FrescoUtil.imageBindLocalPath(mImageView, mModel.mData.mPath, size, size);
+      FrescoUtil.imageBindLocalPath(mImageView, mModel.mImagePath, size, size);
     }
   }
 }

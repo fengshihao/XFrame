@@ -4,6 +4,7 @@ package com.fengshihao.album.logic;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.util.LongSparseArray;
 
 import com.fengshihao.album.api.AlbumLoaderRequest;
 import com.fengshihao.album.api.AlbumLoaderResult;
@@ -34,11 +35,17 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
 
   private final int mId = sIndex += 1;
 
+
+  @NonNull
+  private final LongSparseArray<AlbumMediaItem> mAllMediaItems =
+      new LongSparseArray<>(3000);
+
   @NonNull
   private final ItemSelection<AlbumMediaItem> mSelection = new ItemSelection<>();
 
   AlbumProject() {
     mSelection.pipeEventTo(this);
+    mSelection.setMaxSelectNum(3);
   }
 
   @Override
@@ -59,8 +66,13 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
     Disposable disposable = single.subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(
-            (result) -> notifyListeners(l ->
-                l.onAlbumLoaded(new AlbumLoaderResult(request, result, null))),
+            (result) -> notifyListeners(l -> {
+                  for (AlbumMediaItem item : result) {
+                    mAllMediaItems.put(item.mId, item);
+                  }
+                  l.onAlbumLoaded(new AlbumLoaderResult(request, result, null));
+                }
+            ),
             (e) -> notifyListeners(l -> l.onAlbumLoaded(
                 new AlbumLoaderResult(request, Collections.emptyList(), e))));
 
@@ -88,10 +100,37 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
   }
 
 
-  public void select(@NonNull AlbumMediaItem item) {
-    Log.d(TAG, "select: item=" + item);
-    if (!mSelection.select(item)) {
+  public void select(long itemId) {
+    Log.d(TAG, "select: itemId=" + itemId);
+    AlbumMediaItem item = mAllMediaItems.get(itemId);
+    if (item == null) {
+      Log.w(TAG, "select: select a not exit itemId " + itemId);
+      return;
+    }
+    mSelection.select(item);
+  }
 
+  public void unSelect(long itemId) {
+    Log.d(TAG, "unSelect: itemId=" + itemId);
+    AlbumMediaItem item = mAllMediaItems.get(itemId);
+    if (item == null) {
+      Log.w(TAG, "unSelect: select a not exit itemId " + itemId);
+      return;
+    }
+    mSelection.unSelect(item);
+  }
+
+  public void toggleSelect(long itemId) {
+    Log.d(TAG, "toggleSelect: itemId=" + itemId);
+    AlbumMediaItem item = mAllMediaItems.get(itemId);
+    if (item == null) {
+      Log.w(TAG, "toggleSelect: select a not exit itemId " + itemId);
+      return;
+    }
+    if (mSelection.isSelected(item)) {
+      mSelection.unSelect(item);
+    } else {
+      mSelection.select(item);
     }
   }
 
@@ -101,7 +140,12 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
     return "AlbumProject mId=" + mId;
   }
 
-  public boolean isSelected(@NonNull AlbumMediaItem item) {
+  public boolean isSelected(long itemId) {
+    AlbumMediaItem item = mAllMediaItems.get(itemId);
+    if (item == null) {
+      Log.w(TAG, "isSelected: a not exit itemId " + itemId);
+      return false;
+    }
     return mSelection.isSelected(item);
   }
 }

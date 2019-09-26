@@ -143,7 +143,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     boolean isFirstCallback = mCommonAdapter.getPageList().size() == 0;
     List<AlbumItemUIModel> l = new LinkedList<>();
     for (AlbumMediaItem item : result.mMediaList) {
-      l.add(new AlbumItemUIModel("No. " + item.mPosition, item));
+      l.add(new AlbumItemUIModel(item.mId, item.mType, "No. " + item.mPosition, item.mPath));
     }
     int pageNo = result.mRequest.mOffset / pageSize;
     mCommonAdapter.getPageList().setItems(pageNo, l);
@@ -161,5 +161,10 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   @Override
   public void onUnSelect(@NonNull AlbumMediaItem item) {
     mCommonAdapter.notifyItemChanged(item.mPosition);
+  }
+
+  @Override
+  public void onSelectFull(int maxSelectCount) {
+    Toast.makeText(getContext(), "max select " + maxSelectCount, Toast.LENGTH_LONG).show();
   }
 }

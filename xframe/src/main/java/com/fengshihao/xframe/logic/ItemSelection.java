@@ -14,10 +14,13 @@ public class ItemSelection<T> extends ListenerManager<ItemSelection.Listener<T>>
 
   private static final String TAG = "ItemSelection";
 
+
   public interface Listener<T> {
     void onSelect(@NonNull T item);
 
     void onUnSelect(@NonNull T item);
+
+    void onSelectFull(int maxSelectCount);
   }
 
   @NonNull
@@ -41,10 +44,13 @@ public class ItemSelection<T> extends ListenerManager<ItemSelection.Listener<T>>
       return false;
     }
 
-    if (isSingleSelectMode() && mSelects.size() == 1) {
-      unSelect(item);
+    if (isSingleSelectMode() && !mSelects.isEmpty()) {
+      for (T it: mSelectList) {
+        unSelect(it);
+      }
     } else if (mSelects.size() >= mMaxSelectNum) {
       Log.d(TAG, "select: mMaxSelectNum=" + mMaxSelectNum + " select=" + mSelects.size());
+      notifyListeners(l -> l.onSelectFull(mMaxSelectNum));
       return false;
     }
 

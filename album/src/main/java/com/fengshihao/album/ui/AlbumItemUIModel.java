@@ -2,7 +2,6 @@ package com.fengshihao.album.ui;
 
 import android.support.annotation.NonNull;
 
-import com.fengshihao.album.logic.AlbumMediaItem;
 import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.ICommonItemModel;
 
@@ -12,14 +11,17 @@ public class AlbumItemUIModel implements ICommonItemModel {
   final String mInfo;
 
   @NonNull
-  final AlbumMediaItem mData;
+  final String mImagePath;
 
   private final int mViewType;
 
-  AlbumItemUIModel(@NonNull String info, @NonNull AlbumMediaItem data) {
-    mData = data;
-    mViewType = mData.mType;
+  final long mItemId;
+
+  public AlbumItemUIModel(long id, int viewType, @NonNull String info, @NonNull String img) {
+    mItemId = id;
+    mViewType = viewType;
     mInfo = info;
+    mImagePath = img;
   }
 
   @Override
@@ -29,6 +31,12 @@ public class AlbumItemUIModel implements ICommonItemModel {
 
 
   boolean isSelected() {
-    return AlbumProject.getActiveProject().isSelected(mData);
+    return AlbumProject.getActiveProject().isSelected(mItemId);
+  }
+
+  @NonNull
+  @Override
+  public String toString() {
+    return "AlbumItemUIModel mItemId=" + mItemId + " mViewType=" + mViewType;
   }
 }
