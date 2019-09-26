@@ -13,7 +13,7 @@ import com.fengshihao.xframe.logic.layzlist.IPageListListener;
 import com.fengshihao.xframe.logic.layzlist.PageList;
 
 public class CommonAdapter<T extends ICommonItemModel>
-    extends RecyclerView.Adapter<CommonViewHolder>
+    extends RecyclerView.Adapter<CommonViewHolder<T>>
     implements IPageListListener {
   private static final String TAG = "CommonAdapter";
 
@@ -30,7 +30,7 @@ public class CommonAdapter<T extends ICommonItemModel>
   
   @NonNull
   @Override
-  public CommonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+  public CommonViewHolder<T> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     if (mItemLayoutIds == null) {
       throw new IllegalStateException("must call CommonAdapter.setItemLayoutIds first!!");
     }
@@ -43,11 +43,11 @@ public class CommonAdapter<T extends ICommonItemModel>
     CommonItemView v = (CommonItemView) LayoutInflater
         .from(parent.getContext()).inflate(mItemLayoutIds[viewType], parent, false);
     v.bindViews();
-    return new CommonViewHolder(v);
+    return new CommonViewHolder<>(v);
   }
 
   @Override
-  public void onBindViewHolder(@NonNull CommonViewHolder holder, int position) {
+  public void onBindViewHolder(@NonNull CommonViewHolder<T> holder, int position) {
     T item = mList.get(position);
     mList.visitItem(position);
     holder.updateView(item, position);

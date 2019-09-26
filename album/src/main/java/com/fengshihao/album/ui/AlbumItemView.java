@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -50,7 +51,7 @@ final class AlbumItemView extends CommonItemView {
   }
 
   @Override
-  public void updateView(@Nullable ICommonItemModel uiModel) {
+  public void updateView(@Nullable ICommonItemModel uiModel, int position) {
     mModel = (AlbumItemUIModel) uiModel;
     if (uiModel == null) {
       mTextView.setVisibility(VISIBLE);
