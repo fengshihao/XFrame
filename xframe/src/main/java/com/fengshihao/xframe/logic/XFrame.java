@@ -1,5 +1,6 @@
 package com.fengshihao.xframe.logic;
 
+import android.app.Activity;
 import android.app.Application;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -52,5 +53,9 @@ public final class XFrame {
     for (XModule m: mModuleMap.values()) {
       m.onApplicationStart(app);
     }
+  }
+
+  public void startDebugActivity(@NonNull Activity activity) {
+
   }
 }

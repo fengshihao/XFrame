@@ -2,7 +2,6 @@ package com.fengshihao.xframe.ui.widget.CommonRecyclerView;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 

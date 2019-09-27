@@ -14,7 +14,8 @@ public class MainActivity extends AppCompatActivity {
 
   private static final String TAG = "MainActivity";
   private static final String[] ACTIVITIES = new String[]{
-      "ALBUM ACTIVITY"
+      "ALBUM ACTIVITY",
+      "Debug Config"
   };
 
   @Override
@@ -36,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
       switch (row) {
         case 0:
           XFrame.getInstance().getModule(IAlbumAPI.class).startActivity(this);
+          break;
+        case 1:
+          XFrame.getInstance().startDebugActivity(this);
           break;
         default:
           Log.e(TAG, "onItemClick: no implementation");
