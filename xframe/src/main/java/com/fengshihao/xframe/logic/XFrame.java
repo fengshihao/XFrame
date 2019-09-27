@@ -2,12 +2,17 @@ package com.fengshihao.xframe.logic;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.fengshihao.xframe.ui.debug.ModuleConfigActivity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -55,7 +60,12 @@ public final class XFrame {
     }
   }
 
-  public void startDebugActivity(@NonNull Activity activity) {
+  public void startDebugActivity(@NonNull Activity fromActivity) {
+    fromActivity.startActivity(new Intent(fromActivity, ModuleConfigActivity.class));
+  }
 
+  @NonNull
+  public List<XModule> getAllModules() {
+    return new ArrayList<>(mModuleMap.values());
   }
 }

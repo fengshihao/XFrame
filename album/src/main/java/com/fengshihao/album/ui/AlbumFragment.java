@@ -33,7 +33,8 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   private RecyclerView mAlbumItemListView;
 
   @NonNull
-  private CommonAdapter<AlbumItemUIModel> mCommonAdapter = new CommonAdapter<>();
+  private CommonAdapter<AlbumItemUIModel> mCommonAdapter = new CommonAdapter<>(R.layout.fragment_album_item,
+      R.layout.fragment_album_item_video);
 
 
   @NonNull
@@ -88,10 +89,6 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     Log.d(TAG, "onCreateView: ");
     mAlbumItemListView = (RecyclerView) inflater.inflate(R.layout.fragment_album_item_list,
         container, false);
-
-
-    mCommonAdapter.setItemLayoutIds(R.layout.fragment_album_item,
-        R.layout.fragment_album_item_video);
 
     if (mAlbumItemListView != null) {
       mAlbumItemListView.setAdapter(mCommonAdapter);

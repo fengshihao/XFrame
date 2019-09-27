@@ -11,6 +11,7 @@ import com.fengshihao.album.api.AlbumLoaderResult;
 import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.api.IAlbumProjectListener;
 import com.fengshihao.xframe.logic.ItemSelection;
+import com.fengshihao.xframe.logic.debug.IConfigListener;
 import com.fengshihao.xframe.logic.listener.ListenerManager;
 
 import java.util.Collections;
@@ -45,7 +46,14 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
 
   AlbumProject() {
     mSelection.pipeEventTo(this);
-    mSelection.setMaxSelectNum(3);
+    mSelection.setMaxSelectNum(AlbumAPI.MAX_SELECT_NUM.get());
+    AlbumAPI.MAX_SELECT_NUM.addListener(v -> {
+      Log.d(TAG, "onChanged() called with: v = [" + v + "]");
+      if (v == null) {
+        return;
+      }
+      mSelection.setMaxSelectNum((Integer) v);
+    });
   }
 
   @Override

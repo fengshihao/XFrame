@@ -3,9 +3,9 @@ package com.fengshihao.xframe.ui.widget.CommonRecyclerView;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
-public abstract class CommonItemView extends FrameLayout {
+public abstract class CommonItemView extends LinearLayout {
 
   public CommonItemView(Context context) {
     super(context);

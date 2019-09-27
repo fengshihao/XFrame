@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.fengshihao.album.ui.AlbumItemView
+<com.fengshihao.xframe.ui.debug.ModuleConfigTitleView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="3dp"
-    android:orientation="vertical"
     xmlns:fresco="http://schemas.android.com/apk/res-auto">
-
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/image_view"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:background="@color/hotspotField"
-        fresco:failureImage="@drawable/placeholder" />
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/text_view"
-        android:background="@color/colorPrimaryDark"
         android:layout_gravity="center_horizontal|bottom"
-        android:textColor="@color/white"
+        android:textSize="25sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-</com.fengshihao.album.ui.AlbumItemView>
+</com.fengshihao.xframe.ui.debug.ModuleConfigTitleView>

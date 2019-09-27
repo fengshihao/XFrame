@@ -1,5 +1,7 @@
 package com.fengshihao.xframe.logic.debug;
 
+import android.support.annotation.Nullable;
+
 public interface IConfigListener {
-  void onChanged(Object v);
+  void onChanged(@Nullable Object v);
 }

@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,12 +21,13 @@ public class CommonAdapter<T extends ICommonItemModel>
   @NonNull
   private final PageList<T> mList = new PageList<>();
 
+  @Nullable
   @LayoutRes
   private int[] mItemLayoutIds;
 
-
-  public CommonAdapter() {
+  public CommonAdapter(@LayoutRes int... layoutIds) {
     mList.addListener(this);
+    setItemLayoutIds(layoutIds);
   }
   
   @NonNull
@@ -67,7 +69,7 @@ public class CommonAdapter<T extends ICommonItemModel>
     return item.getViewType();
   }
 
-  public void setItemLayoutIds(@LayoutRes int... layoutIds) {
+  private void setItemLayoutIds(@LayoutRes int... layoutIds) {
     Log.d(TAG, "setItemLayoutIds() called with: layoutIds = ["
         + Arrays.toString(layoutIds) + "]");
     mItemLayoutIds = layoutIds;
