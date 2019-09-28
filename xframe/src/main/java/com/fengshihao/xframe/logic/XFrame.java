@@ -7,11 +7,10 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.fengshihao.xframe.ui.debug.ModuleConfigActivity;
+import com.fengshihao.xframe.ui.config.ModuleConfigActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 

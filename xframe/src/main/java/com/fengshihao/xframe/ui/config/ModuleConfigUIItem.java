@@ -1,9 +1,9 @@
-package com.fengshihao.xframe.ui.debug;
+package com.fengshihao.xframe.ui.config;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.fengshihao.xframe.logic.debug.ModuleConfig;
+import com.fengshihao.xframe.logic.config.ModuleConfig;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.ICommonItemModel;
 
 public class ModuleConfigUIItem implements ICommonItemModel {

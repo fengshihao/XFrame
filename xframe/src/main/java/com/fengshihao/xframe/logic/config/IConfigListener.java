@@ -1,4 +1,4 @@
-package com.fengshihao.xframe.logic.debug;
+package com.fengshihao.xframe.logic.config;
 
 import android.support.annotation.Nullable;
 

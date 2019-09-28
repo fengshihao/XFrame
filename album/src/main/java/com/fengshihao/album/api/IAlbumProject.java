@@ -10,5 +10,7 @@ import com.fengshihao.xframe.logic.listener.IListenerManager;
 public interface IAlbumProject extends IListenerManager<IAlbumProjectListener> {
 
   void loadAlbum(@NonNull AlbumLoaderRequest request);
+
+  void close();
 }
  

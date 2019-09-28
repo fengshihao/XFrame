@@ -6,7 +6,7 @@ import java.util.List;
 import android.app.Application;
 import android.support.annotation.NonNull;
 
-import com.fengshihao.xframe.logic.debug.ModuleConfig;
+import com.fengshihao.xframe.logic.config.ModuleConfig;
 
 public interface XModule {
 

@@ -1,4 +1,4 @@
-package com.fengshihao.xframe.ui.debug;
+package com.fengshihao.xframe.ui.config;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import com.fengshihao.xframe.R;
 import com.fengshihao.xframe.logic.XFrame;
 import com.fengshihao.xframe.logic.XModule;
-import com.fengshihao.xframe.logic.debug.ModuleConfig;
+import com.fengshihao.xframe.logic.config.ModuleConfig;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonAdapter;
 
 import java.util.LinkedList;

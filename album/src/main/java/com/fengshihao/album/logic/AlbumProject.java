@@ -11,7 +11,6 @@ import com.fengshihao.album.api.AlbumLoaderResult;
 import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.api.IAlbumProjectListener;
 import com.fengshihao.xframe.logic.ItemSelection;
-import com.fengshihao.xframe.logic.debug.IConfigListener;
 import com.fengshihao.xframe.logic.listener.ListenerManager;
 
 import java.util.Collections;
@@ -48,11 +47,15 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
     mSelection.pipeEventTo(this);
     mSelection.setMaxSelectNum(AlbumAPI.MAX_SELECT_NUM.get());
     AlbumAPI.MAX_SELECT_NUM.addListener(v -> {
-      Log.d(TAG, "onChanged() called with: v = [" + v + "]");
+      Log.d(TAG, "AlbumAPI.MAX_SELECT_NUM onChanged() called with: v = [" + v + "]");
       if (v == null) {
         return;
       }
       mSelection.setMaxSelectNum((Integer) v);
+    });
+
+    AlbumAPI.TEST_BOOL.addListener(v -> {
+      Log.d(TAG, "AlbumAPI.TEST_BOOL change: " + v);
     });
   }
 
@@ -155,5 +158,10 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
       return false;
     }
     return mSelection.isSelected(item);
+  }
+
+  @Override
+  public void close() {
+
   }
 }

@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 
 import com.fengshihao.album.api.IAlbumAPI;
 import com.fengshihao.album.ui.MediaSelectActivity;
-import com.fengshihao.xframe.logic.debug.ModuleConfig;
+import com.fengshihao.xframe.logic.config.ModuleConfig;
 
 import java.util.Arrays;
 import java.util.List;

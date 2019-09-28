@@ -1,4 +1,4 @@
-package com.fengshihao.xframe.logic.debug;
+package com.fengshihao.xframe.logic.config;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,7 +30,7 @@ public class ModuleConfig extends ListenerManager<IConfigListener> {
     if (mValue == v) {
       return;
     }
-    Log.d(TAG, "setValue: " + mName + " v=" + mValue);
+    Log.d(TAG, "setValue: " + mName + " v=" + v);
     mValue = v;
     notifyListeners(l -> l.onChanged(mValue));
   }
