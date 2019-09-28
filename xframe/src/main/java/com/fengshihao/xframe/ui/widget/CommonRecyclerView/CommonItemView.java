@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-public abstract class CommonItemView extends LinearLayout {
+public abstract class CommonItemView<T extends ICommonItemModel> extends LinearLayout {
 
   public CommonItemView(Context context) {
     super(context);
@@ -21,5 +21,5 @@ public abstract class CommonItemView extends LinearLayout {
 
   abstract public void bindViews();
 
-  abstract public void updateView(@Nullable ICommonItemModel uiModel, int position);
+  abstract public void updateView(@Nullable T uiModel, int position);
 }

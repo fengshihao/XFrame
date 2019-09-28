@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -13,27 +12,26 @@ import com.fengshihao.album.R;
 import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.ui.util.FrescoUtil;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonItemView;
-import com.fengshihao.xframe.ui.widget.CommonRecyclerView.ICommonItemModel;
 
-final class AlbumItemView extends CommonItemView {
+final class AlbumItemView extends CommonItemView<AlbumItemUIModel> {
   private static final String TAG = "AlbumItemView";
-
-  public AlbumItemView(Context context) {
-    super(context);
-  }
-
-  public AlbumItemView(Context context, @Nullable AttributeSet attrs) {
-    super(context, attrs);
-  }
-
-  public AlbumItemView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-    super(context, attrs, defStyleAttr);
-  }
 
   private TextView mTextView;
   private SimpleDraweeView mImageView;
 
   private AlbumItemUIModel mModel;
+
+  public AlbumItemView(Context context) {
+    super(context);
+  }
+
+  public AlbumItemView(Context context, AttributeSet attrs) {
+    super(context, attrs);
+  }
+
+  public AlbumItemView(Context context, AttributeSet attrs, int defStyleAttr) {
+    super(context, attrs, defStyleAttr);
+  }
 
   @Override
   public void bindViews() {
@@ -49,8 +47,8 @@ final class AlbumItemView extends CommonItemView {
   }
 
   @Override
-  public void updateView(@Nullable ICommonItemModel uiModel, int position) {
-    mModel = (AlbumItemUIModel) uiModel;
+  public void updateView(@Nullable AlbumItemUIModel uiModel, int position) {
+    mModel = uiModel;
     if (uiModel == null) {
       mTextView.setVisibility(VISIBLE);
       mTextView.setText("empty");

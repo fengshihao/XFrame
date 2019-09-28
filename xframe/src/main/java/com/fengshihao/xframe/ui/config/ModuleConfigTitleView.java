@@ -9,22 +9,22 @@ import com.fengshihao.xframe.R;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonItemView;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.ICommonItemModel;
 
-final class ModuleConfigTitleView extends CommonItemView {
+final class ModuleConfigTitleView extends CommonItemView<ModuleConfigUIItem> {
   private static final String TAG = "ModuleConfigBooleanView";
+
+  private TextView mTextView;
 
   public ModuleConfigTitleView(Context context) {
     super(context);
   }
 
-  public ModuleConfigTitleView(Context context, @Nullable AttributeSet attrs) {
+  public ModuleConfigTitleView(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
 
-  public ModuleConfigTitleView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+  public ModuleConfigTitleView(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
   }
-
-  private TextView mTextView;
 
 
   @Override
@@ -33,8 +33,8 @@ final class ModuleConfigTitleView extends CommonItemView {
   }
 
   @Override
-  public void updateView(@Nullable ICommonItemModel uiModel, int position) {
-    ModuleConfigUIItem item = (ModuleConfigUIItem) uiModel;
+  public void updateView(@Nullable ModuleConfigUIItem uiModel, int position) {
+    ModuleConfigUIItem item = uiModel;
     if (item != null) {
       mTextView.setText(item.mTitle);
     } else {
