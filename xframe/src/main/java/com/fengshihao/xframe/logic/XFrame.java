@@ -23,15 +23,29 @@ public final class XFrame {
   private static XFrame instance = new XFrame();
   private Map<Class<? extends XModule>, XModule> mModuleMap = new HashMap<>();
 
-  private XFrame() {}
+  private XFrame() {
+  }
 
   public static XFrame getInstance() {
     return instance;
   }
 
-  public void register(Class<? extends XModule> moduleClass, @NonNull String className) {
-    Log.d(TAG, "register() called with: moduleClass = [" 
+  public <T extends XModule> void register(@NonNull Class<T> moduleClass, @NonNull T module) {
+    if (mModuleMap.containsKey(moduleClass)) {
+      Log.e(TAG, "register: already exist " + moduleClass);
+      return;
+    }
+    Log.d(TAG, "register: " + module);
+    mModuleMap.put(moduleClass, module);
+  }
+
+  public <T extends XModule> void register(@NonNull Class<T> moduleClass, @NonNull String className) {
+    Log.d(TAG, "register() called with: moduleClass = ["
         + moduleClass + "], className = [" + className + "]");
+    if (mModuleMap.containsKey(moduleClass)) {
+      Log.e(TAG, "register: already exist " + moduleClass);
+      return;
+    }
     try {
       Class cl = Class.forName(className);
       mModuleMap.put(moduleClass, (XModule) cl.newInstance());
@@ -54,7 +68,7 @@ public final class XFrame {
 
   public void onApplicationStart(@NonNull Application app) {
     Fresco.initialize(app);
-    for (XModule m: mModuleMap.values()) {
+    for (XModule m : mModuleMap.values()) {
       m.onApplicationStart(app);
     }
   }

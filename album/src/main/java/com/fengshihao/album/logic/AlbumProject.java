@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.LongSparseArray;
 
+import com.fengshihao.album.api.AlbumAPI;
 import com.fengshihao.album.api.AlbumLoaderRequest;
 import com.fengshihao.album.api.AlbumLoaderResult;
 import com.fengshihao.album.api.IAlbumProject;

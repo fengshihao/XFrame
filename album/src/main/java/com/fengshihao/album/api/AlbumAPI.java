@@ -1,10 +1,11 @@
-package com.fengshihao.album.logic;
+package com.fengshihao.album.api;
 
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.fengshihao.album.api.IAlbumAPI;
 import com.fengshihao.album.ui.MediaSelectActivity;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class AlbumAPI implements IAlbumAPI {
 
+  @Nullable
   private static Application sContext;
 
   @NonNull
@@ -23,7 +25,23 @@ public class AlbumAPI implements IAlbumAPI {
   @NonNull
   public static final ModuleConfig TEST_BOOL = new ModuleConfig("test_bool", false);
 
-  static Context getContext() {
+  private AlbumAPI() {}
+
+  @NonNull
+  private static AlbumAPI sInstance = new AlbumAPI();
+
+  @NonNull
+  public static IAlbumAPI getInstance() {
+    return sInstance;
+  }
+
+  @Override
+  public void onApplicationStart(@NonNull Application app) {
+    sContext = app;
+  }
+
+  @Nullable
+  public static Context getContext() {
     return sContext;
   }
 
@@ -36,11 +54,6 @@ public class AlbumAPI implements IAlbumAPI {
   @Override
   public String getName() {
     return "album";
-  }
-
-  @Override
-  public void onApplicationStart(Application app) {
-    sContext = app;
   }
 
 

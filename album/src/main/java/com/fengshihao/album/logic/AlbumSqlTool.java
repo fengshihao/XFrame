@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.fengshihao.album.logic.AlbumAPI.getContext;
+import static com.fengshihao.album.api.AlbumAPI.getContext;
 import static com.fengshihao.album.logic.AlbumLogicUtil.logFirstAndLast;
 
 public final class AlbumSqlTool {
