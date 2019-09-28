@@ -16,7 +16,7 @@ import java.util.List;
 public class ModuleConfigActivity extends AppCompatActivity {
 
   private RecyclerView mModuleConfigView;
-  private CommonAdapter<ModuleConfigUIItem> mAdapter = new CommonAdapter<>(
+  private CommonAdapter<ModuleConfigUIModel> mAdapter = new CommonAdapter<>(
       R.layout.module_config_title_item,
       R.layout.module_config_int_item,
       R.layout.module_config_boolean_item);
@@ -28,12 +28,12 @@ public class ModuleConfigActivity extends AppCompatActivity {
     mModuleConfigView.setAdapter(mAdapter);
 
     List<XModule> moduleList = XFrame.getInstance().getAllModules();
-    List<ModuleConfigUIItem> items = new LinkedList<>();
+    List<ModuleConfigUIModel> items = new LinkedList<>();
     for (XModule m : moduleList) {
-      items.add(new ModuleConfigUIItem(m.getName(), null));
+      items.add(new ModuleConfigUIModel(m.getName(), null));
       List<ModuleConfig> configs = m.getConfigs();
       for (ModuleConfig config: configs) {
-        items.add(new ModuleConfigUIItem(config.mName, config));
+        items.add(new ModuleConfigUIModel(config.mName, config));
       }
     }
     mAdapter.getPageList().addAll(items);

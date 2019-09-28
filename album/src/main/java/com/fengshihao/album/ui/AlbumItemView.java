@@ -1,7 +1,6 @@
 package com.fengshihao.album.ui;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -18,8 +17,6 @@ final class AlbumItemView extends CommonItemView<AlbumItemUIModel> {
 
   private TextView mTextView;
   private SimpleDraweeView mImageView;
-
-  private AlbumItemUIModel mModel;
 
   public AlbumItemView(Context context) {
     super(context);
@@ -47,9 +44,8 @@ final class AlbumItemView extends CommonItemView<AlbumItemUIModel> {
   }
 
   @Override
-  public void updateView(@Nullable AlbumItemUIModel uiModel, int position) {
-    mModel = uiModel;
-    if (uiModel == null) {
+  public void updateView(int position) {
+    if (mModel == null) {
       mTextView.setVisibility(VISIBLE);
       mTextView.setText("empty");
       mImageView.setImageResource(R.drawable.placeholder);

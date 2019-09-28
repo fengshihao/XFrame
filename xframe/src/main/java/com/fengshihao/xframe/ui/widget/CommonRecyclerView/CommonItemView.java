@@ -7,6 +7,8 @@ import android.widget.LinearLayout;
 
 public abstract class CommonItemView<T extends ICommonItemModel> extends LinearLayout {
 
+  @Nullable
+  protected T mModel;
   public CommonItemView(Context context) {
     super(context);
   }
@@ -19,7 +21,11 @@ public abstract class CommonItemView<T extends ICommonItemModel> extends LinearL
     super(context, attrs, defStyleAttr);
   }
 
+  public void setModel(@Nullable T uiModel) {
+    mModel = uiModel;
+  }
+
   abstract public void bindViews();
 
-  abstract public void updateView(@Nullable T uiModel, int position);
+  abstract public void updateView(int position);
 }

@@ -10,7 +10,10 @@ class CommonViewHolder<T extends ICommonItemModel> extends RecyclerView.ViewHold
     super(itemView);
   }
 
+  @SuppressWarnings("unchecked")
   void updateView(@Nullable T model, int position) {
-    ((CommonItemView)itemView).updateView(model, position);
+    CommonItemView<T> view = (CommonItemView<T>) itemView;
+    view.setModel(model);
+    view.updateView(position);
   }
 }

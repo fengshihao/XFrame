@@ -1,15 +1,13 @@
 package com.fengshihao.xframe.ui.config;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
 import com.fengshihao.xframe.R;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonItemView;
-import com.fengshihao.xframe.ui.widget.CommonRecyclerView.ICommonItemModel;
 
-final class ModuleConfigTitleView extends CommonItemView<ModuleConfigUIItem> {
+final class ModuleConfigTitleView extends CommonItemView<ModuleConfigUIModel> {
   private static final String TAG = "ModuleConfigBooleanView";
 
   private TextView mTextView;
@@ -33,10 +31,9 @@ final class ModuleConfigTitleView extends CommonItemView<ModuleConfigUIItem> {
   }
 
   @Override
-  public void updateView(@Nullable ModuleConfigUIItem uiModel, int position) {
-    ModuleConfigUIItem item = uiModel;
-    if (item != null) {
-      mTextView.setText(item.mTitle);
+  public void updateView(int position) {
+    if (mModel != null) {
+      mTextView.setText(mModel.mTitle);
     } else {
       mTextView.setText("some thing wrong !!!");
     }
