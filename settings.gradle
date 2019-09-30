@@ -1,1 +1,1 @@
-include ':app', ':xframe', ':album'
+include ':app', ':xframe', ':album', ':xframelint'

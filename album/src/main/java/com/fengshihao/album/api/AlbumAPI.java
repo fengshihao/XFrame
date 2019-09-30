@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.fengshihao.album.api.IAlbumAPI;
+import com.fengshihao.album.Settings;
 import com.fengshihao.album.ui.MediaSelectActivity;
 import com.fengshihao.xframe.logic.config.ModuleConfig;
 
@@ -16,33 +16,9 @@ import java.util.List;
 
 public class AlbumAPI implements IAlbumAPI {
 
-  @Nullable
-  private static Application sContext;
-
-  @NonNull
-  public static final ModuleConfig MAX_SELECT_NUM = new ModuleConfig("max_select_num", 10);
-
-  @NonNull
-  public static final ModuleConfig TEST_BOOL = new ModuleConfig("test_bool", false);
-
-  private AlbumAPI() {}
-
-  @NonNull
-  private static AlbumAPI sInstance = new AlbumAPI();
-
-  @NonNull
-  public static IAlbumAPI getInstance() {
-    return sInstance;
-  }
-
   @Override
   public void onApplicationStart(@NonNull Application app) {
-    sContext = app;
-  }
 
-  @Nullable
-  public static Context getContext() {
-    return sContext;
   }
 
   @Override
@@ -60,7 +36,7 @@ public class AlbumAPI implements IAlbumAPI {
   @Override
   @NonNull
   public List<ModuleConfig> getConfigs() {
-    return Arrays.asList(MAX_SELECT_NUM, TEST_BOOL);
+    return Arrays.asList(Settings.MAX_SELECT_NUM, Settings.TEST_BOOL);
   }
 
 }

@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.fengshihao.album.api.AlbumAPI.getContext;
 import static com.fengshihao.album.logic.AlbumLogicUtil.logFirstAndLast;
+import static com.fengshihao.xframe.logic.XFrame.getContext;
 
 public final class AlbumSqlTool {
   private static final String TAG = "AlbumSqlTool";

@@ -1,4 +1,4 @@
-package com.fengshihao.xframe.logic;
+package com.fengshihao.xframe.logic.selection;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -10,18 +10,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ItemSelection<T> extends ListenerManager<ItemSelection.Listener<T>> {
+public class ItemSelection<T> extends ListenerManager<IItemSelectionListener<T>> {
 
   private static final String TAG = "ItemSelection";
 
-
-  public interface Listener<T> {
-    void onSelect(@NonNull T item);
-
-    void onUnSelect(@NonNull T item);
-
-    void onSelectFull(int maxSelectCount);
-  }
 
   @NonNull
   private final Set<T> mSelects = new HashSet<>();

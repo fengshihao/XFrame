@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 
 import com.fengshihao.xframe.logic.config.ModuleConfig;
 
-public interface XModule {
+public interface IXModule {
 
   @NonNull
   String getName();

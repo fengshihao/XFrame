@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.fengshihao.xframe.ui.config.ModuleConfigBooleanView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.fengshihao.xframe.ui.config.ModuleConfigBooleanView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="3dp">
 
-    <android.support.v7.widget.AppCompatTextView
+    <TextView
         android:id="@+id/text_view"
+        tools:text="test name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginStart="10dp" />
 
     <Switch android:id="@+id/value_switch"
-        android:layout_marginLeft="20dp"
+        tools:checked="true"
+        android:layout_marginStart="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 

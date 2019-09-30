@@ -12,7 +12,6 @@ import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonItemView;
 final class ModuleConfigIntView extends CommonItemView<ModuleConfigUIModel>  {
   private static final String TAG = "ModuleConfigIntView";
 
-
   private TextView mTextView;
 
   private EditText mValueView;

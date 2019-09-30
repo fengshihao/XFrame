@@ -2,6 +2,7 @@ package com.fengshihao.xframe.logic;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -20,8 +21,9 @@ import java.util.Map;
 public final class XFrame {
 
   private static final String TAG = "XFrame";
+  private static Application context;
   private static XFrame instance = new XFrame();
-  private Map<Class<? extends XModule>, XModule> mModuleMap = new HashMap<>();
+  private Map<Class<? extends IXModule>, IXModule> mModuleMap = new HashMap<>();
 
   private XFrame() {
   }
@@ -30,7 +32,12 @@ public final class XFrame {
     return instance;
   }
 
-  public <T extends XModule> void register(@NonNull Class<T> moduleClass, @NonNull T module) {
+  @NonNull
+  public static Context getContext() {
+    return context;
+  }
+
+  public <T extends IXModule> void register(@NonNull Class<T> moduleClass, @NonNull T module) {
     if (mModuleMap.containsKey(moduleClass)) {
       Log.e(TAG, "register: already exist " + moduleClass);
       return;
@@ -39,7 +46,7 @@ public final class XFrame {
     mModuleMap.put(moduleClass, module);
   }
 
-  public <T extends XModule> void register(@NonNull Class<T> moduleClass, @NonNull String className) {
+  public <T extends IXModule> void register(@NonNull Class<T> moduleClass, @NonNull String className) {
     Log.d(TAG, "register() called with: moduleClass = ["
         + moduleClass + "], className = [" + className + "]");
     if (mModuleMap.containsKey(moduleClass)) {
@@ -48,7 +55,7 @@ public final class XFrame {
     }
     try {
       Class cl = Class.forName(className);
-      mModuleMap.put(moduleClass, (XModule) cl.newInstance());
+      mModuleMap.put(moduleClass, (IXModule) cl.newInstance());
 
     } catch (Exception e) {
       Log.e(TAG, "register: failed for className=" + className, e);
@@ -57,8 +64,8 @@ public final class XFrame {
   }
 
   @NonNull
-  public <T extends XModule> T getModule(@NonNull Class<T> moduleClass) {
-    XModule module = mModuleMap.get(moduleClass);
+  public <T extends IXModule> T getModule(@NonNull Class<T> moduleClass) {
+    IXModule module = mModuleMap.get(moduleClass);
     if (module == null) {
       Log.e(TAG, "getModule: cant find module " + moduleClass);
       throw new RuntimeException("getModule: cant find module " + moduleClass);
@@ -67,8 +74,9 @@ public final class XFrame {
   }
 
   public void onApplicationStart(@NonNull Application app) {
+    context = app;
     Fresco.initialize(app);
-    for (XModule m : mModuleMap.values()) {
+    for (IXModule m : mModuleMap.values()) {
       m.onApplicationStart(app);
     }
   }
@@ -78,7 +86,7 @@ public final class XFrame {
   }
 
   @NonNull
-  public List<XModule> getAllModules() {
+  public List<IXModule> getAllModules() {
     return new ArrayList<>(mModuleMap.values());
   }
 }

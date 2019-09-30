@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 
 class CommonViewHolder<T extends ICommonItemModel> extends RecyclerView.ViewHolder {
 
-  CommonViewHolder(@NonNull CommonItemView itemView) {
+  CommonViewHolder(@NonNull CommonItemView<T> itemView) {
     super(itemView);
   }
 

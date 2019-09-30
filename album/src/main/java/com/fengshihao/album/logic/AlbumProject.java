@@ -6,12 +6,12 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.LongSparseArray;
 
-import com.fengshihao.album.api.AlbumAPI;
+import com.fengshihao.album.Settings;
 import com.fengshihao.album.api.AlbumLoaderRequest;
 import com.fengshihao.album.api.AlbumLoaderResult;
 import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.api.IAlbumProjectListener;
-import com.fengshihao.xframe.logic.ItemSelection;
+import com.fengshihao.xframe.logic.selection.ItemSelection;
 import com.fengshihao.xframe.logic.listener.ListenerManager;
 
 import java.util.Collections;
@@ -46,8 +46,8 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
 
   AlbumProject() {
     mSelection.pipeEventTo(this);
-    mSelection.setMaxSelectNum(AlbumAPI.MAX_SELECT_NUM.get());
-    AlbumAPI.MAX_SELECT_NUM.addListener(v -> {
+    mSelection.setMaxSelectNum(Settings.MAX_SELECT_NUM.get());
+    Settings.MAX_SELECT_NUM.addListener(v -> {
       Log.d(TAG, "AlbumAPI.MAX_SELECT_NUM onChanged() called with: v = [" + v + "]");
       if (v == null) {
         return;
@@ -55,7 +55,7 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
       mSelection.setMaxSelectNum((Integer) v);
     });
 
-    AlbumAPI.TEST_BOOL.addListener(v -> {
+    Settings.TEST_BOOL.addListener(v -> {
       Log.d(TAG, "AlbumAPI.TEST_BOOL change: " + v);
     });
   }
@@ -98,7 +98,7 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
   }
 
   @NonNull
-  public static AlbumProject getActiveProject() {
+  public static IAlbumProject getActiveProject() {
     if (sActiveProject == null) {
       Log.d(TAG, "getActiveProject: create new project ");
       sActiveProject = new AlbumProject();

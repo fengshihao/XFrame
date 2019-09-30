@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.fengshihao.album.R;
 import com.fengshihao.album.api.AlbumLoaderRequest;
 import com.fengshihao.album.api.AlbumLoaderResult;
+import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.api.IAlbumProjectListener;
 import com.fengshihao.album.logic.AlbumMediaItem;
 import com.fengshihao.album.logic.AlbumProject;
@@ -64,7 +65,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   }
 
   @NonNull
-  private AlbumProject getProject() {
+  private IAlbumProject getProject() {
     return AlbumProject.getActiveProject();
   }
 

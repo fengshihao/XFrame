@@ -3,8 +3,8 @@ package com.fengshihao.album.api;
 import android.support.annotation.NonNull;
 
 import com.fengshihao.album.logic.AlbumMediaItem;
-import com.fengshihao.xframe.logic.ItemSelection;
+import com.fengshihao.xframe.logic.selection.IItemSelectionListener;
 
-public interface IAlbumProjectListener extends ItemSelection.Listener<AlbumMediaItem> {
+public interface IAlbumProjectListener extends IItemSelectionListener<AlbumMediaItem> {
   void onAlbumLoaded(@NonNull AlbumLoaderResult result);
 }

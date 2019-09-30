@@ -21,7 +21,7 @@ public abstract class CommonItemView<T extends ICommonItemModel> extends LinearL
     super(context, attrs, defStyleAttr);
   }
 
-  public void setModel(@Nullable T uiModel) {
+  void setModel(@Nullable T uiModel) {
     mModel = uiModel;
   }
 
