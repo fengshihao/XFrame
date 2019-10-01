@@ -14,7 +14,7 @@ import com.fengshihao.xframe.logic.layzlist.PageList;
 
 import java.util.Arrays;
 
-public class CommonAdapter<T extends ICommonItemModel>
+public class CommonAdapter<T extends CommonItemModel>
     extends RecyclerView.Adapter<CommonViewHolder<T>>
     implements IPageListListener {
   private static final String TAG = "CommonAdapter";
@@ -25,6 +25,9 @@ public class CommonAdapter<T extends ICommonItemModel>
   @Nullable
   @LayoutRes
   private int[] mItemLayoutIds;
+
+  @Nullable
+  private ViewOperatorCreator<T> mItemViewOperatorCreator;
 
   public CommonAdapter(@LayoutRes int... layoutIds) {
     mList.addListener(this);
@@ -45,17 +48,21 @@ public class CommonAdapter<T extends ICommonItemModel>
     }
     View  v = LayoutInflater
         .from(parent.getContext()).inflate(mItemLayoutIds[viewType], parent, false);
-    CommonViewHolder<T> holder = generateViewHolder(v);
-    if (holder != null) {
-      return holder;
+    if (v instanceof CommonItemView) {
+      return new CommonViewHolder<>(v, (IItemViewOperator<T>) v);
     }
-    CommonItemView<T>  cv = (CommonItemView<T>) v;
-    cv.bindViews();
-    return new CommonViewHolder<>(cv);
+
+    if (mItemViewOperatorCreator != null) {
+      IItemViewOperator<T> operator = mItemViewOperatorCreator.generateViewOperator(viewType);
+      if (operator != null) {
+        return new CommonViewHolder<>(v, operator);
+      }
+    }
+    throw new RuntimeException("you should setOperatorCreator() or using CommonItemView");
   }
 
-  public CommonViewHolder<T> generateViewHolder(@NonNull View v) {
-    return null;
+  public void setOperatorCreator(@NonNull ViewOperatorCreator<T> creator) {
+    mItemViewOperatorCreator = creator;
   }
 
   @Override
@@ -100,5 +107,10 @@ public class CommonAdapter<T extends ICommonItemModel>
   @NonNull
   public PageList<T> getPageList() {
     return mList;
+  }
+
+  public interface ViewOperatorCreator<T extends CommonItemModel> {
+    @Nullable
+    IItemViewOperator<T> generateViewOperator(int viewType);
   }
 }

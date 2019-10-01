@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.fengshihao.xframe.logic.config.ModuleConfig;
-import com.fengshihao.xframe.ui.widget.CommonRecyclerView.ICommonItemModel;
+import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonItemModel;
 
-public class ModuleConfigUIModel implements ICommonItemModel {
+public class ModuleConfigUIModel extends CommonItemModel {
   @NonNull
   public final String mTitle;
 
