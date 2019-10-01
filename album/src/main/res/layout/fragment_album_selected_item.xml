@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.fengshihao.album.ui.AlbumItemView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="3dp"
+    android:orientation="vertical">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/image_view"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@color/hotspotField"
+        fresco:failureImage="@drawable/placeholder" />
+    <android.support.v7.widget.AppCompatImageButton
+        android:id="@+id/remove_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@android:drawable/alert_dark_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</com.fengshihao.album.ui.AlbumItemView>

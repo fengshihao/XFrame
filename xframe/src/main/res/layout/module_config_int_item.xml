@@ -9,14 +9,15 @@
         android:id="@+id/text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
+        android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
         tools:text="test name" />
 
     <EditText
         android:id="@+id/value_edit_view"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/text_view"
         android:layout_marginStart="20dp"
         tools:text="1000" />
 

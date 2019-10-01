@@ -1,7 +1,5 @@
 package com.fengshihao.xframe.ui.widget.CommonRecyclerView;
 
-import java.util.Arrays;
-
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +11,8 @@ import android.view.ViewGroup;
 
 import com.fengshihao.xframe.logic.layzlist.IPageListListener;
 import com.fengshihao.xframe.logic.layzlist.PageList;
+
+import java.util.Arrays;
 
 public class CommonAdapter<T extends ICommonItemModel>
     extends RecyclerView.Adapter<CommonViewHolder<T>>
@@ -43,17 +43,18 @@ public class CommonAdapter<T extends ICommonItemModel>
       throw new IllegalStateException("must call CommonAdapter.setItemLayoutIds lack of viewType="
           + viewType + " now mItemLayoutIds=" + Arrays.toString(mItemLayoutIds));
     }
-
-    CommonItemView<T> v = createView(parent, viewType);
-    if (v == null) {
-      v = (CommonItemView<T>) LayoutInflater
-          .from(parent.getContext()).inflate(mItemLayoutIds[viewType], parent, false);
+    View  v = LayoutInflater
+        .from(parent.getContext()).inflate(mItemLayoutIds[viewType], parent, false);
+    CommonViewHolder<T> holder = generateViewHolder(v);
+    if (holder != null) {
+      return holder;
     }
-    v.bindViews();
-    return new CommonViewHolder<>(v);
+    CommonItemView<T>  cv = (CommonItemView<T>) v;
+    cv.bindViews();
+    return new CommonViewHolder<>(cv);
   }
 
-  public CommonItemView<T> createView(@NonNull ViewGroup parent, int viewType) {
+  public CommonViewHolder<T> generateViewHolder(@NonNull View v) {
     return null;
   }
 

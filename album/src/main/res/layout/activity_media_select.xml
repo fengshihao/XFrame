@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.MediaSelectActivity">
 
     <fragment
@@ -11,5 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/fragment_album_item_list" />
+
+
+
+    <fragment
+        android:id="@+id/media_selected"
+        android:name="com.fengshihao.album.ui.AlbumSelectedFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout="@layout/fragment_album_selected" />
 
 </android.support.constraint.ConstraintLayout>
