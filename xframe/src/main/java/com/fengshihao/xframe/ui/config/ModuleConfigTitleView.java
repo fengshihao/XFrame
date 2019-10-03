@@ -8,7 +8,7 @@ import com.fengshihao.xframe.R;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonItemView;
 
 final class ModuleConfigTitleView extends CommonItemView<ModuleConfigUIModel> {
-  private static final String TAG = "ModuleConfigBooleanView";
+  private static final String TAG = "ModuleConfigTitleView";
 
   private TextView mTextView;
 

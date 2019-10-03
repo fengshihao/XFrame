@@ -20,16 +20,13 @@ import java.util.List;
 public class ModuleConfigActivity extends AppCompatActivity {
 
   private RecyclerView mModuleConfigView;
-  private CommonAdapter<ModuleConfigUIModel> mAdapter = new CommonAdapter<>(
-      R.layout.module_config_title_item,
-      R.layout.module_config_int_item,
-      R.layout.module_config_boolean_item);
+  private CommonAdapter<ModuleConfigUIModel> mAdapter = new CommonAdapter<>();
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_debug);
-    mAdapter.setOperatorCreator(viewType -> {
-      if (viewType == 1) {
+    mAdapter.setOperatorCreator(layoutId -> {
+      if (layoutId == R.layout.module_config_int_item) {
         return new ModuleConfigIntOperator();
       }
       return  null;

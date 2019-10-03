@@ -12,42 +12,37 @@ import android.view.ViewGroup;
 import com.fengshihao.xframe.logic.layzlist.IPageListListener;
 import com.fengshihao.xframe.logic.layzlist.PageList;
 
-import java.util.Arrays;
-
 public class CommonAdapter<T extends CommonItemModel>
     extends RecyclerView.Adapter<CommonViewHolder<T>>
     implements IPageListListener {
   private static final String TAG = "CommonAdapter";
 
+  @LayoutRes
+  private int mEmptyLayoutId;
+
   @NonNull
   private final PageList<T> mList = new PageList<>();
 
   @Nullable
-  @LayoutRes
-  private int[] mItemLayoutIds;
-
-  @Nullable
   private ViewOperatorCreator<T> mItemViewOperatorCreator;
 
-  public CommonAdapter(@LayoutRes int... layoutIds) {
+  public CommonAdapter() {
     mList.addListener(this);
-    setItemLayoutIds(layoutIds);
+  }
+
+  public void setEmptyLayoutId(@LayoutRes int emptyLayoutId) {
+    mEmptyLayoutId = emptyLayoutId;
   }
 
   @SuppressWarnings("unchecked")
   @NonNull
   @Override
   public CommonViewHolder<T> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    if (mItemLayoutIds == null) {
-      throw new IllegalStateException("must call CommonAdapter.setItemLayoutIds first!!");
-    }
-
-    if (mItemLayoutIds.length <= viewType) {
-      throw new IllegalStateException("must call CommonAdapter.setItemLayoutIds lack of viewType="
-          + viewType + " now mItemLayoutIds=" + Arrays.toString(mItemLayoutIds));
+    if (viewType == 0) {
+      throw new IllegalArgumentException("viewType must be a layout resource");
     }
     View  v = LayoutInflater
-        .from(parent.getContext()).inflate(mItemLayoutIds[viewType], parent, false);
+        .from(parent.getContext()).inflate(viewType, parent, false);
     if (v instanceof CommonItemView) {
       return new CommonViewHolder<>(v, (IItemViewOperator<T>) v);
     }
@@ -81,15 +76,9 @@ public class CommonAdapter<T extends CommonItemModel>
   public int getItemViewType(int position) {
     T item = mList.get(position);
     if (item == null) {
-      return 0;
+      return mEmptyLayoutId;
     }
-    return item.getViewType();
-  }
-
-  private void setItemLayoutIds(@LayoutRes int... layoutIds) {
-    Log.d(TAG, "setItemLayoutIds() called with: layoutIds = ["
-        + Arrays.toString(layoutIds) + "]");
-    mItemLayoutIds = layoutIds;
+    return item.getLayoutId();
   }
 
   @Override
@@ -111,6 +100,6 @@ public class CommonAdapter<T extends CommonItemModel>
 
   public interface ViewOperatorCreator<T extends CommonItemModel> {
     @Nullable
-    IItemViewOperator<T> generateViewOperator(int viewType);
+    IItemViewOperator<T> generateViewOperator(@LayoutRes int layoutId);
   }
 }

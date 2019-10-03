@@ -3,6 +3,7 @@ package com.fengshihao.xframe.ui.config;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.fengshihao.xframe.R;
 import com.fengshihao.xframe.logic.config.ModuleConfig;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonItemModel;
 
@@ -18,18 +19,18 @@ public class ModuleConfigUIModel extends CommonItemModel {
   }
 
   @Override
-  public int getViewType() {
+  public int getLayoutId() {
     if (mConfig == null) {
-      return 0;
+      return R.layout.module_config_title_item;
     }
 
     if (mConfig.isInt()) {
-      return 1;
+      return R.layout.module_config_int_item;
     }
 
     if (mConfig.isBoolean()) {
-      return 2;
+      return R.layout.module_config_boolean_item;
     }
-    return 0;
+    return R.layout.module_config_title_item;
   }
 }

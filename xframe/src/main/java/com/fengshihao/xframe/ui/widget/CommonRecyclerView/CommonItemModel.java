@@ -1,6 +1,9 @@
 package com.fengshihao.xframe.ui.widget.CommonRecyclerView;
 
+import android.support.annotation.LayoutRes;
+
 public abstract class CommonItemModel {
 
-  public abstract int getViewType();
+  @LayoutRes
+  public abstract int getLayoutId();
 }

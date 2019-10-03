@@ -1,7 +1,10 @@
 package com.fengshihao.album.ui;
 
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 
+import com.fengshihao.album.R;
+import com.fengshihao.album.logic.AlbumMediaItem;
 import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonItemModel;
 
@@ -13,20 +16,26 @@ public class AlbumItemUIModel extends CommonItemModel {
   @NonNull
   final String mImagePath;
 
-  private final int mViewType;
+  @LayoutRes
+  private final int mLayoutId;
 
   final long mItemId;
 
-  public AlbumItemUIModel(long id, int viewType, @NonNull String info, @NonNull String img) {
+  public AlbumItemUIModel(long id, @AlbumMediaItem.AlbumType int viewType,
+                          @NonNull String info, @NonNull String img) {
     mItemId = id;
-    mViewType = viewType;
     mInfo = info;
+    if (viewType == AlbumMediaItem.IMAGE) {
+      mLayoutId = R.layout.fragment_album_item;
+    } else {
+      mLayoutId = R.layout.fragment_album_item_video;
+    }
     mImagePath = img;
   }
 
   @Override
-  public int getViewType() {
-    return mViewType;
+  public int getLayoutId() {
+    return mLayoutId;
   }
 
 
@@ -37,6 +46,6 @@ public class AlbumItemUIModel extends CommonItemModel {
   @NonNull
   @Override
   public String toString() {
-    return "AlbumItemUIModel mItemId=" + mItemId + " mViewType=" + mViewType;
+    return "AlbumItemUIModel mItemId=" + mItemId + " mLayoutId=" + mLayoutId;
   }
 }

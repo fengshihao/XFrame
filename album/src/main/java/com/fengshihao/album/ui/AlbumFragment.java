@@ -34,8 +34,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   private RecyclerView mAlbumItemListView;
 
   @NonNull
-  private CommonAdapter<AlbumItemUIModel> mCommonAdapter = new CommonAdapter<>(R.layout.fragment_album_item,
-      R.layout.fragment_album_item_video);
+  private CommonAdapter<AlbumItemUIModel> mCommonAdapter = new CommonAdapter<>();
 
 
   @NonNull
@@ -49,6 +48,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   };
 
   public AlbumFragment() {
+    mCommonAdapter.setEmptyLayoutId(R.layout.fragment_album_item);
   }
 
   private void onGetGranted() {
