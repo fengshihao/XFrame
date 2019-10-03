@@ -7,8 +7,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
-public abstract class CommonItemView<T extends CommonItemModel> extends FrameLayout
-    implements IItemViewOperator<T> {
+public abstract class CommonItemView<T extends CommonItemModel> extends FrameLayout {
 
   @Nullable
   protected T mModel;
@@ -25,12 +24,6 @@ public abstract class CommonItemView<T extends CommonItemModel> extends FrameLay
     super(context, attrs, defStyleAttr);
   }
 
-  @Override
-  public void bindViews(@NonNull View view) {
-    bindViews();
-  }
-
-  @Override
   public void updateView(@Nullable T data, int position) {
     mModel = data;
     updateView(position);

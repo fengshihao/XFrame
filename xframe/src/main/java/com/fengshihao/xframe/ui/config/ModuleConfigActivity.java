@@ -1,8 +1,8 @@
 package com.fengshihao.xframe.ui.config;
 
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,7 +12,7 @@ import com.fengshihao.xframe.logic.IXModule;
 import com.fengshihao.xframe.logic.XFrame;
 import com.fengshihao.xframe.logic.config.ModuleConfig;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonAdapter;
-import com.fengshihao.xframe.ui.widget.CommonRecyclerView.IItemViewOperator;
+import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonViewHolder;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,17 +20,21 @@ import java.util.List;
 public class ModuleConfigActivity extends AppCompatActivity {
 
   private RecyclerView mModuleConfigView;
-  private CommonAdapter<ModuleConfigUIModel> mAdapter = new CommonAdapter<>();
+  private CommonAdapter<ModuleConfigUIModel> mAdapter = new CommonAdapter<ModuleConfigUIModel>() {
+    @Override
+    protected CommonViewHolder<ModuleConfigUIModel> createItemViewHolder(
+        @NonNull View v, @LayoutRes int layoutId) {
+      if (layoutId == R.layout.module_config_int_item) {
+        return new ModuleConfigIntViewHolder(v);
+      }
+      return  null;
+    }
+  };
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_debug);
-    mAdapter.setOperatorCreator(layoutId -> {
-      if (layoutId == R.layout.module_config_int_item) {
-        return new ModuleConfigIntOperator();
-      }
-      return  null;
-    });
     mModuleConfigView = findViewById(R.id.module_list);
     mModuleConfigView.setAdapter(mAdapter);
 

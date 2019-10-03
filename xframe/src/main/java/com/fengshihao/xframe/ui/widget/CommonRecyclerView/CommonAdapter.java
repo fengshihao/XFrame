@@ -23,9 +23,6 @@ public class CommonAdapter<T extends CommonItemModel>
   @NonNull
   private final PageList<T> mList = new PageList<>();
 
-  @Nullable
-  private ViewOperatorCreator<T> mItemViewOperatorCreator;
-
   public CommonAdapter() {
     mList.addListener(this);
   }
@@ -41,23 +38,24 @@ public class CommonAdapter<T extends CommonItemModel>
     if (viewType == 0) {
       throw new IllegalArgumentException("viewType must be a layout resource");
     }
+
     View  v = LayoutInflater
         .from(parent.getContext()).inflate(viewType, parent, false);
-    if (v instanceof CommonItemView) {
-      return new CommonViewHolder<>(v, (IItemViewOperator<T>) v);
+    CommonViewHolder<T> holder = createItemViewHolder(v, viewType);
+    if (holder != null) {
+      return holder;
     }
 
-    if (mItemViewOperatorCreator != null) {
-      IItemViewOperator<T> operator = mItemViewOperatorCreator.generateViewOperator(viewType);
-      if (operator != null) {
-        return new CommonViewHolder<>(v, operator);
-      }
+    if (v instanceof CommonItemView) {
+      return new CommonItemViewHolder<>((CommonItemView<T>) v);
     }
-    throw new RuntimeException("you should setOperatorCreator() or using CommonItemView");
+
+    throw new RuntimeException("you should override createItemViewHolder() or using CommonItemView");
   }
 
-  public void setOperatorCreator(@NonNull ViewOperatorCreator<T> creator) {
-    mItemViewOperatorCreator = creator;
+  @Nullable
+  protected CommonViewHolder<T> createItemViewHolder(@NonNull View v, @LayoutRes int layoutId) {
+    return null;
   }
 
   @Override
@@ -96,10 +94,5 @@ public class CommonAdapter<T extends CommonItemModel>
   @NonNull
   public PageList<T> getPageList() {
     return mList;
-  }
-
-  public interface ViewOperatorCreator<T extends CommonItemModel> {
-    @Nullable
-    IItemViewOperator<T> generateViewOperator(@LayoutRes int layoutId);
   }
 }
