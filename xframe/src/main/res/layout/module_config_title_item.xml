@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.fengshihao.xframe.ui.config.ModuleConfigTitleView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.fengshihao.xframe.ui.config.ModuleConfigTitleView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_margin="3dp"
     xmlns:fresco="http://schemas.android.com/apk/res-auto">
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/text_view"
         android:layout_gravity="center_horizontal|bottom"
         android:textSize="25sp"
+        tool:text="module name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </com.fengshihao.xframe.ui.config.ModuleConfigTitleView>

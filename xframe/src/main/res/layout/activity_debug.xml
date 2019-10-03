@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:listitem="@layout/module_config_int_item"
+        tools:listitem="@layout/module_config_boolean_item"
         app:spanCount="1"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 </android.support.constraint.ConstraintLayout>

@@ -33,4 +33,9 @@ public class ModuleConfigUIModel extends CommonItemModel {
     }
     return R.layout.module_config_title_item;
   }
+
+  @Override
+  public String toString() {
+    return "ModuleConfigUIModel name=" + mTitle + " " + mConfig;
+  }
 }

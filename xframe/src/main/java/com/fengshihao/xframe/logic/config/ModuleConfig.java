@@ -50,4 +50,9 @@ public class ModuleConfig extends ListenerManager<IConfigListener> {
     return mValue instanceof Boolean || mDefault instanceof  Boolean;
 
   }
+
+  @Override
+  public String toString() {
+    return TAG + " " + mName + " " + mValue;
+  }
 }

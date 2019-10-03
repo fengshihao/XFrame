@@ -7,7 +7,7 @@ class CommonItemViewHolder<T extends CommonItemModel> extends CommonViewHolder<T
 
   @NonNull
   private final CommonItemView<T> mItemView;
-  public CommonItemViewHolder(@NonNull CommonItemView<T> itemView) {
+  CommonItemViewHolder(@NonNull CommonItemView<T> itemView) {
     super(itemView);
     mItemView = itemView;
     mItemView.bindViews();

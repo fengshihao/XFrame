@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.fengshihao.xframe.ui.config.ModuleConfigIntView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="3dp"
     tools:context=".ui.config.ModuleConfigActivity">
-    <TextView
-        android:id="@+id/text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="10dp"
-        tools:text="test name" />
 
-    <EditText
-        android:id="@+id/value_edit_view"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        tools:text="1000" />
+        android:orientation="horizontal"
+        android:layout_margin="3dp">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            tools:text="test name" />
+
+        <EditText
+            android:id="@+id/value_edit_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/text_view"
+            tools:text="1000" />
+    </RelativeLayout>
+</com.fengshihao.xframe.ui.config.ModuleConfigIntView>

@@ -6,8 +6,9 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
-public abstract class CommonItemView<T extends CommonItemModel> extends FrameLayout {
+public abstract class CommonItemView<T extends CommonItemModel> extends RelativeLayout {
 
   @Nullable
   protected T mModel;
@@ -29,7 +30,7 @@ public abstract class CommonItemView<T extends CommonItemModel> extends FrameLay
     updateView(position);
   }
 
-  abstract public void bindViews();
+  abstract protected void bindViews();
 
-  abstract public void updateView(int position);
+  abstract protected void updateView(int position);
 }
