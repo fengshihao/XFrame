@@ -38,7 +38,7 @@ public class CommonAdapter<T extends CommonItemModel>
     if (viewType == 0) {
       throw new IllegalArgumentException("viewType must be a layout resource");
     }
-
+    Log.d(TAG, "onCreateViewHolder: " + viewType);
     View  v = LayoutInflater
         .from(parent.getContext()).inflate(viewType, parent, false);
     CommonViewHolder<T> holder = createItemViewHolder(v, viewType);
