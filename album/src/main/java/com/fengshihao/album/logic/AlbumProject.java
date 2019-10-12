@@ -30,12 +30,8 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
 
   private static final String TAG = "AlbumProject";
 
-  private static AlbumProject sActiveProject;
   private static int sIndex = 0;
-
-
   private final int mId = sIndex += 1;
-
 
   @NonNull
   private final LongSparseArray<AlbumMediaItem> mAllMediaItems =
@@ -44,7 +40,7 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
   @NonNull
   private final ItemSelection<AlbumMediaItem> mSelection = new ItemSelection<>();
 
-  AlbumProject() {
+  public AlbumProject() {
     mSelection.pipeEventTo(this);
     mSelection.setMaxSelectNum(Settings.MAX_SELECT_NUM.get());
     Settings.MAX_SELECT_NUM.addListener(v -> {
@@ -96,21 +92,6 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread());
   }
-
-  @NonNull
-  public static IAlbumProject getActiveProject() {
-    if (sActiveProject == null) {
-      Log.d(TAG, "getActiveProject: create new project ");
-      sActiveProject = new AlbumProject();
-    }
-    return sActiveProject;
-  }
-
-  public static void setActiveProject(@Nullable AlbumProject project) {
-    Log.d(TAG, "setActiveProject: " + project);
-    sActiveProject = project;
-  }
-
 
   public void select(long itemId) {
     Log.d(TAG, "select: itemId=" + itemId);

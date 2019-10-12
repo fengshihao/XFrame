@@ -34,6 +34,9 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   private RecyclerView mAlbumItemListView;
 
   @NonNull
+  private final AlbumProject mProject = new AlbumProject();
+
+  @NonNull
   private CommonAdapter<AlbumItemUIModel> mCommonAdapter = new CommonAdapter<>();
 
 
@@ -66,7 +69,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
 
   @NonNull
   private IAlbumProject getProject() {
-    return AlbumProject.getActiveProject();
+    return mProject;
   }
 
   @Override
@@ -141,7 +144,8 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     boolean isFirstCallback = mCommonAdapter.getPageList().size() == 0;
     List<AlbumItemUIModel> l = new LinkedList<>();
     for (AlbumMediaItem item : result.mMediaList) {
-      l.add(new AlbumItemUIModel(item.mId, item.mType, "No. " + item.mPosition, item.mPath));
+      l.add(new AlbumItemUIModel(getProject(),
+          item.mId, item.mType, "No. " + item.mPosition, item.mPath));
     }
     int pageNo = result.mRequest.mOffset / pageSize;
     mCommonAdapter.getPageList().setItems(pageNo, l);

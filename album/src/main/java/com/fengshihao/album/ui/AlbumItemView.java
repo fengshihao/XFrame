@@ -8,8 +8,6 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.fengshihao.album.R;
-import com.fengshihao.album.api.IAlbumProject;
-import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.ui.util.FrescoUtil;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonItemView;
 
@@ -39,8 +37,7 @@ final class AlbumItemView extends CommonItemView<AlbumItemUIModel> {
       if (mModel == null) {
         return;
       }
-      IAlbumProject project = AlbumProject.getActiveProject();
-      project.toggleSelect(mModel.mItemId);
+      mModel.select();
     });
   }
 
