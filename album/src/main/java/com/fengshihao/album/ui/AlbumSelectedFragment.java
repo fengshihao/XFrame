@@ -10,14 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fengshihao.album.R;
-import com.fengshihao.album.logic.AlbumProject;
+import com.fengshihao.album.api.IAlbumProject;
 
 
 /**
  */
 public class AlbumSelectedFragment extends Fragment {
   @Nullable
-  private AlbumProject mProject;
+  private IAlbumProject mProject;
 
   public AlbumSelectedFragment() {
     // Required empty public constructor
@@ -45,7 +45,7 @@ public class AlbumSelectedFragment extends Fragment {
     super.onDetach();
   }
 
-  public void setProject(@NonNull AlbumProject project) {
+  public void setProject(@NonNull IAlbumProject project) {
     mProject = project;
   }
 }

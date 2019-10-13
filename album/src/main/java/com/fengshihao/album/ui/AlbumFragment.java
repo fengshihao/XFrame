@@ -15,9 +15,9 @@ import android.widget.Toast;
 import com.fengshihao.album.R;
 import com.fengshihao.album.api.AlbumLoaderRequest;
 import com.fengshihao.album.api.AlbumLoaderResult;
+import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.api.IAlbumProjectListener;
 import com.fengshihao.album.logic.AlbumMediaItem;
-import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.logic.layzlist.IPageListListener;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonAdapter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -34,7 +34,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   private RecyclerView mAlbumItemListView;
 
   @Nullable
-  private AlbumProject mProject;
+  private IAlbumProject mProject;
 
   @NonNull
   private CommonAdapter<AlbumItemUIModel> mCommonAdapter = new CommonAdapter<>();
@@ -50,7 +50,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     }
   };
 
-  public void setProject(@NonNull AlbumProject project) {
+  public void setProject(@NonNull IAlbumProject project) {
     mProject = project;
     mProject.addListener(this);
   }
