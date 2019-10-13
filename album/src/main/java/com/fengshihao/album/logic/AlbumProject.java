@@ -2,7 +2,6 @@ package com.fengshihao.album.logic;
 
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.LongSparseArray;
 
@@ -11,8 +10,8 @@ import com.fengshihao.album.api.AlbumLoaderRequest;
 import com.fengshihao.album.api.AlbumLoaderResult;
 import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.api.IAlbumProjectListener;
-import com.fengshihao.xframe.logic.selection.ItemSelection;
 import com.fengshihao.xframe.logic.listener.ListenerManager;
+import com.fengshihao.xframe.logic.selection.ItemSelection;
 
 import java.util.Collections;
 import java.util.List;
