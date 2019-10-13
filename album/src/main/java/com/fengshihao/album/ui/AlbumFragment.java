@@ -1,8 +1,5 @@
 package com.fengshihao.album.ui;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,13 +15,16 @@ import android.widget.Toast;
 import com.fengshihao.album.R;
 import com.fengshihao.album.api.AlbumLoaderRequest;
 import com.fengshihao.album.api.AlbumLoaderResult;
-import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.api.IAlbumProjectListener;
 import com.fengshihao.album.logic.AlbumMediaItem;
 import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.logic.layzlist.IPageListListener;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonAdapter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.disposables.Disposable;
 
@@ -33,8 +33,8 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   @Nullable
   private RecyclerView mAlbumItemListView;
 
-  @NonNull
-  private final AlbumProject mProject = new AlbumProject();
+  @Nullable
+  private AlbumProject mProject;
 
   @NonNull
   private CommonAdapter<AlbumItemUIModel> mCommonAdapter = new CommonAdapter<>();
@@ -45,10 +45,15 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     @Override
     public void onRequireLoad(int pageNo, int pageSize) {
       int first = pageNo * pageSize;
-      getProject().loadAlbum(
+      mProject.loadAlbum(
           new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, first, pageSize));
     }
   };
+
+  public void setProject(@NonNull AlbumProject project) {
+    mProject = project;
+    mProject.addListener(this);
+  }
 
   public AlbumFragment() {
     mCommonAdapter.setEmptyLayoutId(R.layout.fragment_album_item);
@@ -63,27 +68,23 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     mCommonAdapter.getPageList().addListener(mPageListener);
     int pageSize = mCommonAdapter.getPageList().getPageSize();
 
-    getProject().loadAlbum(
-        new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 1*pageSize, pageSize));
-  }
-
-  @NonNull
-  private IAlbumProject getProject() {
-    return mProject;
+    Objects.requireNonNull(mProject).loadAlbum(
+        new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 0, pageSize));
   }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     Log.d(TAG, "onCreate: ");
-    getProject().addListener(this);
   }
 
   @Override
   public void onDestroy() {
     super.onDestroy();
     Log.d(TAG, "onDestroy: ");
-    getProject().removeListener(this);
+    if (mProject != null) {
+      mProject.removeListener(this);
+    }
     mCommonAdapter.getPageList().removeListener(mPageListener);
   }
 
@@ -144,7 +145,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     boolean isFirstCallback = mCommonAdapter.getPageList().size() == 0;
     List<AlbumItemUIModel> l = new LinkedList<>();
     for (AlbumMediaItem item : result.mMediaList) {
-      l.add(new AlbumItemUIModel(getProject(),
+      l.add(new AlbumItemUIModel(Objects.requireNonNull(mProject),
           item.mId, item.mType, "No. " + item.mPosition, item.mPath));
     }
     int pageNo = result.mRequest.mOffset / pageSize;

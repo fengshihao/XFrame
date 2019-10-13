@@ -86,12 +86,6 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
     request.setRequestDisposable(disposable);
   }
 
-  public Single<Integer> getImageAndVideoNum() {
-    return Single.fromCallable(AlbumSqlTool::getImagesAndVideosNum)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread());
-  }
-
   public void select(long itemId) {
     Log.d(TAG, "select: itemId=" + itemId);
     AlbumMediaItem item = mAllMediaItems.get(itemId);

@@ -4,7 +4,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 
 import com.fengshihao.album.R;
-import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.logic.AlbumMediaItem;
 import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonItemModel;
@@ -20,14 +19,14 @@ public class AlbumItemUIModel extends CommonItemModel {
   @LayoutRes
   private final int mLayoutId;
 
-  final long mItemId;
+  private final long mItemId;
 
   @NonNull
-  private final IAlbumProject mProject;
+  private final AlbumProject mProject;
 
-  public AlbumItemUIModel(@NonNull IAlbumProject project,
-                          long id, @AlbumMediaItem.AlbumType int viewType,
-                          @NonNull String info, @NonNull String img) {
+  AlbumItemUIModel(@NonNull AlbumProject project,
+                   long id, @AlbumMediaItem.AlbumType int viewType,
+                   @NonNull String info, @NonNull String img) {
     mProject = project;
     mItemId = id;
     mInfo = info;
