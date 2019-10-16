@@ -1,13 +1,18 @@
 package com.fengshihao.album;
 
-import android.content.Context;
+import android.Manifest;
+import android.app.Application;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.fengshihao.album.logic.AlbumSqlTool;
+import com.fengshihao.xframe.logic.XFrame;
+
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.junit.Assert.*;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -16,11 +21,22 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
-  @Test
-  public void useAppContext() {
-    // Context of the app under test.
-    Context appContext = InstrumentationRegistry.getTargetContext();
 
-    assertEquals("com.fengshihao.album.test", appContext.getPackageName());
+  @Rule
+  public GrantPermissionRule mRuntimePermissionRule =
+      GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+          Manifest.permission.READ_EXTERNAL_STORAGE);
+
+  @Before
+  public void useAppContext() {
+    XFrame.getInstance().onApplicationStart((Application)
+        InstrumentationRegistry.getContext().getApplicationContext());
+  }
+
+  @Test
+  public void test1() {
+
+    int imageNum = AlbumSqlTool.getImagesNum();
+    assert(imageNum > 0);
   }
 }
