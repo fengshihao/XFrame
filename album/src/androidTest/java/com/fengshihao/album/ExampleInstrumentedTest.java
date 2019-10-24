@@ -9,7 +9,8 @@ import android.support.test.runner.AndroidJUnit4;
 import com.fengshihao.album.logic.AlbumSqlTool;
 import com.fengshihao.xframe.logic.XFrame;
 
-import org.junit.Before;
+import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,19 +25,23 @@ public class ExampleInstrumentedTest {
 
   @Rule
   public GrantPermissionRule mRuntimePermissionRule =
-      GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-          Manifest.permission.READ_EXTERNAL_STORAGE);
+      GrantPermissionRule.grant(Manifest.permission.READ_EXTERNAL_STORAGE);
 
-  @Before
-  public void useAppContext() {
+  @BeforeClass
+  public static void useAppContext() {
     XFrame.getInstance().onApplicationStart((Application)
         InstrumentationRegistry.getContext().getApplicationContext());
+
   }
 
   @Test
-  public void test1() {
-
+  public void testGetImagesNum() {
     int imageNum = AlbumSqlTool.getImagesNum();
     assert(imageNum > 0);
+  }
+
+  @Test
+  public void testLoadAlbumInfo() {
+    AlbumSqlTool.loadAlbumInfo();
   }
 }
