@@ -23,36 +23,6 @@ public final class AlbumSqlTool {
   }
 
   @WorkerThread
-  public static int getImagesNum() {
-    ContentResolver mContentResolver = getContext().getContentResolver();
-
-    String selectionClause = MediaStore.Images.Media.MIME_TYPE + "=? or "
-        + MediaStore.Images.Media.MIME_TYPE + "=?";
-    String[] args = new String[]{"image/jpeg", "image/png"};
-    String sortOrder = MediaStore.Files.FileColumns.DATE_MODIFIED + " DESC";
-
-    Cursor cursor = mContentResolver.query(
-        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-        new String[]{
-            "COUNT(" + BaseColumns._ID + ") AS image_num  FROM (SELECT *",
-        }, selectionClause, args, sortOrder + ")");
-
-    if (cursor == null) {
-      Log.e(TAG, "getImagesNum: cursor is null ");
-      return 0;
-    }
-
-    while (cursor.moveToNext()) {
-      int num = cursor.getInt(0);
-      Log.d(TAG, "getImagesNum: get image num = " + num);
-      return num;
-    }
-    cursor.close();
-
-    return 0;
-  }
-
-  @WorkerThread
   @NonNull
   public static List<AlbumMediaItem> loadImages(int offset, int pageItemCount) {
     Log.d(TAG, "loadImages() offset = [" + offset
