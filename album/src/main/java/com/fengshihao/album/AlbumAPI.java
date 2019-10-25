@@ -1,4 +1,4 @@
-package com.fengshihao.album.api;
+package com.fengshihao.album;
 
 import android.app.Activity;
 import android.app.Application;
@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.fengshihao.album.Settings;
+import com.fengshihao.album.api.IAlbumAPI;
 import com.fengshihao.album.ui.MediaSelectActivity;
 import com.fengshihao.xframe.logic.config.ModuleConfig;
 
