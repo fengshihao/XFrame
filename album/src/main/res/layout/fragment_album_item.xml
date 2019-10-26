@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_margin="3dp"
-    android:orientation="vertical"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/image_view"
@@ -13,11 +13,14 @@
         android:layout_height="70dp"
         android:background="@color/hotspotField"
         fresco:failureImage="@drawable/placeholder" />
+
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/text_view"
+        android:layout_width="70dp"
+        tool:text="No-90"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:background="@color/colorPrimaryDark"
-        android:layout_gravity="center_horizontal|bottom"
-        android:textColor="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</RelativeLayout>
+        android:textColor="@color/white" />
+</FrameLayout>
