@@ -19,16 +19,14 @@ public class AlbumItemUIModel extends CommonItemModel {
   @LayoutRes
   private final int mLayoutId;
 
-  private final long mItemId;
-
   @NonNull
   private final IAlbumProject mProject;
 
   AlbumItemUIModel(@NonNull IAlbumProject project,
                    long id, @AlbumMediaItem.AlbumType int viewType,
                    @NonNull String info, @NonNull String img) {
+    super(id);
     mProject = project;
-    mItemId = id;
     mInfo = info;
     if (viewType == AlbumMediaItem.IMAGE) {
       mLayoutId = R.layout.fragment_album_item;
@@ -43,18 +41,17 @@ public class AlbumItemUIModel extends CommonItemModel {
     return mLayoutId;
   }
 
-
   boolean isSelected() {
-    return mProject.isSelected(mItemId);
+    return mProject.isSelected(mId);
   }
 
   void select() {
-    mProject.toggleSelect(mItemId);
+    mProject.toggleSelect(mId);
   }
 
   @NonNull
   @Override
   public String toString() {
-    return "AlbumItemUIModel mItemId=" + mItemId + " mLayoutId=" + mLayoutId;
+    return "AlbumItemUIModel mId=" + mId + " mLayoutId=" + mLayoutId;
   }
 }

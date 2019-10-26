@@ -15,6 +15,8 @@ public interface IAlbumProject extends IListenerManager<IAlbumProjectListener> {
 
   void toggleSelect(long id);
 
+  void unSelect(long id);
+
   boolean isSelected(long mItemId);
 }
  

@@ -96,6 +96,7 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
     mSelection.select(item);
   }
 
+  @Override
   public void unSelect(long itemId) {
     Log.d(TAG, "unSelect: itemId=" + itemId);
     AlbumMediaItem item = mAllMediaItems.get(itemId);
@@ -106,6 +107,8 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
     mSelection.unSelect(item);
   }
 
+
+  @Override
   public void toggleSelect(long itemId) {
     Log.d(TAG, "toggleSelect: itemId=" + itemId);
     AlbumMediaItem item = mAllMediaItems.get(itemId);

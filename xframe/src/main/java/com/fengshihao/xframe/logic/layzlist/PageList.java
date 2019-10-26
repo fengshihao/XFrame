@@ -5,8 +5,11 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.fengshihao.xframe.logic.listener.ListenerManager;
+import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonItemModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -98,6 +101,22 @@ public class PageList<T> extends ListenerManager<IPageListListener> {
     mList.clear();
     mCurrentPage = NO_POS;
     mLastPage = NO_POS;
+  }
+
+  public T remove(int index) {
+    if (index < 0 || index >= mList.size()) {
+      Log.e(TAG, "remove: wrong arg index=" + index + " list size=" + mList.size());
+      return null;
+    }
+    T item = mList.remove(index);
+    if (mList.isEmpty()) {
+      clear();
+    }
+    return item;
+  }
+
+  public void addItem(@NonNull T item) {
+    addAll(Collections.singletonList(item));
   }
 
   public void addAll(@NonNull List<? extends T> list) {

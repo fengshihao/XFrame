@@ -12,4 +12,7 @@ public interface IPageListListener {
   default void onRequireLoad(int pageNo, int pageSize) {}
 
   default void onUpdateItems(int start, int count) {}
+
+  default void onRemoveItems(int start, int count) {}
+
 }

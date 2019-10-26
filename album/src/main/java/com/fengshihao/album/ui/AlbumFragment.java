@@ -37,7 +37,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   private IAlbumProject mProject;
 
   @NonNull
-  private CommonAdapter<AlbumItemUIModel> mCommonAdapter = new CommonAdapter<>();
+  private final CommonAdapter<AlbumItemUIModel> mCommonAdapter = new CommonAdapter<>();
 
 
   @NonNull
@@ -92,14 +92,14 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     Log.d(TAG, "onCreateView: ");
-    mAlbumItemListView = (RecyclerView) inflater.inflate(R.layout.fragment_album_item_list,
-        container, false);
+    return inflater.inflate(R.layout.fragment_album_item_list, container, false);
+  }
 
-    if (mAlbumItemListView != null) {
-      mAlbumItemListView.setAdapter(mCommonAdapter);
-    }
-
-    return mAlbumItemListView;
+  @Override
+  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    Log.d(TAG, "onViewCreated: ");
+    mAlbumItemListView = view.findViewById(R.id.list);
+    mAlbumItemListView.setAdapter(mCommonAdapter);
   }
 
   @Override

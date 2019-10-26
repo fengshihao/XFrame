@@ -7,5 +7,5 @@ public interface IItemSelectionListener<T> {
 
   void onUnSelect(@NonNull T item);
 
-  void onSelectFull(int maxSelectCount);
+  default void onSelectFull(int maxSelectCount) {}
 }

@@ -91,8 +91,18 @@ public class CommonAdapter<T extends CommonItemModel>
     notifyItemRangeChanged(start, count);
   }
 
+  @Override
+  public void onRemoveItems(int start, int count) {
+    Log.d(TAG, "onRemoveItems() called with: start = [" + start + "], count = [" + count + "]");
+    notifyItemRangeRemoved(start, count);
+  }
+
   @NonNull
   public PageList<T> getPageList() {
     return mList;
+  }
+
+  public void addItem(@NonNull T item) {
+    mList.addItem(item);
   }
 }

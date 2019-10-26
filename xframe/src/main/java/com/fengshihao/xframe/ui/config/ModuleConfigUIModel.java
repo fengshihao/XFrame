@@ -14,6 +14,7 @@ public class ModuleConfigUIModel extends CommonItemModel {
   @Nullable
   public final ModuleConfig mConfig;
   public ModuleConfigUIModel(@NonNull String title, @Nullable ModuleConfig config) {
+    super(-1);
     mTitle = title;
     mConfig = config;
   }

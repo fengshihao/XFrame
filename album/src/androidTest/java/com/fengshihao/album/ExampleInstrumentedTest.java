@@ -39,7 +39,7 @@ public class ExampleInstrumentedTest {
 
   @Test
   public void testLoadImages() {
-    int loadNum = 100;
+    int loadNum = 10;
     List<AlbumMediaItem> imgs = AlbumSqlTool.loadImages(0, loadNum);
     Assert.assertEquals("test AlbumSqlTool.loadImages", loadNum, imgs.size());
   }
