@@ -1,5 +1,6 @@
 package com.fengshihao.xframe.ui.config;
 
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -19,7 +20,7 @@ public class ModuleConfigUIModel extends CommonItemModel {
     mConfig = config;
   }
 
-  @Override
+  @LayoutRes
   public int getLayoutId() {
     if (mConfig == null) {
       return R.layout.module_config_title_item;

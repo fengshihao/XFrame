@@ -20,7 +20,7 @@ public abstract class CommonViewHolder<T extends CommonItemModel> extends Recycl
     updateView(position);
   }
 
-  protected abstract void bindView(@Nullable View itemView);
+  protected abstract void bindView(@NonNull View itemView);
 
   protected abstract void updateView(int position);
 }

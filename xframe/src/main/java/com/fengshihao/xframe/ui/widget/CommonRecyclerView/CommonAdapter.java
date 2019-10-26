@@ -89,9 +89,9 @@ public class CommonAdapter<T extends CommonItemModel>
   }
 
   @Override
-  public void onRemoveItems(int start, int count) {
-    Log.d(TAG, "onRemoveItems() called with: start = [" + start + "], count = [" + count + "]");
-    notifyItemRangeRemoved(start, count);
+  public void onRemoveItem(int index) {
+    Log.d(TAG, "onRemoveItem() called with: index = [" + index + "]");
+    notifyItemRemoved(index);
   }
 
   @NonNull
@@ -105,5 +105,17 @@ public class CommonAdapter<T extends CommonItemModel>
 
   public void setHolderCreator(@Nullable ICommonViewHolderCreator<T> creator) {
     mHolderCreator = creator;
+  }
+
+  public void removeById(long id) {
+    for (int i = 0; i < mList.size(); i++) {
+      T item = mList.get(i);
+      if (item != null && item.mId == id) {
+        Log.d(TAG, "removeById: find it and remove it");
+        mList.remove(i);
+        return;
+      }
+    }
+    Log.w(TAG, "removeById: cant find id " + id);
   }
 }

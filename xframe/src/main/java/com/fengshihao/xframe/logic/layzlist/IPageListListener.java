@@ -15,4 +15,5 @@ public interface IPageListListener {
 
   default void onRemoveItems(int start, int count) {}
 
+  default void onRemoveItem(int index) {};
 }

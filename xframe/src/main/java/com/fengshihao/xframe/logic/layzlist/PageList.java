@@ -109,6 +109,7 @@ public class PageList<T> extends ListenerManager<IPageListListener> {
       return null;
     }
     T item = mList.remove(index);
+    notifyListeners(l-> l.onRemoveItem(index));
     if (mList.isEmpty()) {
       clear();
     }

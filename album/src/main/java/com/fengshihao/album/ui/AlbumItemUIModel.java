@@ -4,7 +4,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 
 import com.fengshihao.album.R;
-import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.logic.AlbumMediaItem;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonItemModel;
 
@@ -17,16 +16,11 @@ public class AlbumItemUIModel extends CommonItemModel {
   final String mImagePath;
 
   @LayoutRes
-  private final int mLayoutId;
+  final int mLayoutId;
 
-  @NonNull
-  private final IAlbumProject mProject;
-
-  AlbumItemUIModel(@NonNull IAlbumProject project,
-                   long id, @AlbumMediaItem.AlbumType int viewType,
+  AlbumItemUIModel(long id, @AlbumMediaItem.AlbumType int viewType,
                    @NonNull String info, @NonNull String img) {
     super(id);
-    mProject = project;
     mInfo = info;
     if (viewType == AlbumMediaItem.IMAGE) {
       mLayoutId = R.layout.fragment_album_item;
@@ -39,14 +33,6 @@ public class AlbumItemUIModel extends CommonItemModel {
   @Override
   public int getLayoutId() {
     return mLayoutId;
-  }
-
-  boolean isSelected() {
-    return mProject.isSelected(mId);
-  }
-
-  void select() {
-    mProject.toggleSelect(mId);
   }
 
   @NonNull

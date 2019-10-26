@@ -39,7 +39,7 @@ import com.fengshihao.xframe.BuildConfig;
 @MainThread
 public class ListenerManager<T> {
   private static final String TAG = "ListenerManager";
-  private static final int TOO_LONG = 16; //ms
+  private static final int TOO_LONG = 100; //ms
 
 
   @NonNull

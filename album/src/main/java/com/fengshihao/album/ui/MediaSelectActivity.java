@@ -9,8 +9,6 @@ import com.fengshihao.album.R;
 import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.logic.AlbumProject;
 
-import java.util.Objects;
-
 public class MediaSelectActivity extends AppCompatActivity {
 
   private static final String TAG = "MediaSelectActivity";
@@ -21,30 +19,26 @@ public class MediaSelectActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    AlbumProject.setCurrentProject(mProject);
     setContentView(R.layout.activity_media_select);
-
-    AlbumFragment mAlbumFragment = (AlbumFragment) getSupportFragmentManager()
-        .findFragmentById(R.id.media_list);
-    Objects.requireNonNull(mAlbumFragment).setProject(mProject);
-
-
-    AlbumSelectedFragment mAlbumSelectedFragment = (AlbumSelectedFragment) getSupportFragmentManager()
-        .findFragmentById(R.id.media_selected);
-    Objects.requireNonNull(mAlbumSelectedFragment).setProject(mProject);
-
   }
 
   @Override
   protected void onStart() {
     super.onStart();
     Log.d(TAG, "onStart: ");
-
-
   }
 
   @Override
   protected void onStop() {
     super.onStop();
     Log.d(TAG, "onStop: ");
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    mProject.close();
+    AlbumProject.setCurrentProject(null);
   }
 }

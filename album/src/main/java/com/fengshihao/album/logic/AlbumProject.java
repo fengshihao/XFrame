@@ -2,6 +2,7 @@ package com.fengshihao.album.logic;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.LongSparseArray;
 
@@ -32,6 +33,9 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
   private static int sIndex = 0;
   private final int mId = sIndex += 1;
 
+  @Nullable
+  private static IAlbumProject sCurrentProject;
+
   @NonNull
   private final LongSparseArray<AlbumMediaItem> mAllMediaItems =
       new LongSparseArray<>(3000);
@@ -53,6 +57,18 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
     Settings.TEST_BOOL.addListener(v -> {
       Log.d(TAG, "AlbumAPI.TEST_BOOL change: " + v);
     });
+  }
+
+  public static void setCurrentProject(@Nullable IAlbumProject project) {
+    sCurrentProject = project;
+  }
+
+  @NonNull
+  public static IAlbumProject getsCurrentProject() {
+    if (sCurrentProject == null) {
+      throw new RuntimeException("should call setCurrentProject first");
+    }
+    return sCurrentProject;
   }
 
   @Override
@@ -140,6 +156,7 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
 
   @Override
   public void close() {
-
+    Log.d(TAG, "close() called");
+    clearListener();
   }
 }
