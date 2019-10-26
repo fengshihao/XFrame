@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.config.ModuleConfigActivity">
 
-    <android.support.v7.widget.RecyclerView
+    <com.fengshihao.xframe.ui.config.ConfigsRecyclerView
         android:id="@+id/module_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

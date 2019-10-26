@@ -20,6 +20,9 @@ public class CommonAdapter<T extends CommonItemModel>
   @LayoutRes
   private int mEmptyLayoutId;
 
+  @Nullable
+  private ICommonViewHolderCreator<T> mHolderCreator;
+
   @NonNull
   private final PageList<T> mList = new PageList<>();
 
@@ -41,9 +44,8 @@ public class CommonAdapter<T extends CommonItemModel>
     Log.d(TAG, "onCreateViewHolder: " + viewType);
     View  v = LayoutInflater
         .from(parent.getContext()).inflate(viewType, parent, false);
-    CommonViewHolder<T> holder = createItemViewHolder(v, viewType);
-    if (holder != null) {
-      return holder;
+    if (mHolderCreator != null) {
+      return mHolderCreator.createViewHolder(v, viewType);
     }
 
     if (v instanceof CommonItemView) {
@@ -53,16 +55,11 @@ public class CommonAdapter<T extends CommonItemModel>
     throw new RuntimeException("you should override createItemViewHolder() or using CommonItemView");
   }
 
-  @Nullable
-  protected CommonViewHolder<T> createItemViewHolder(@NonNull View v, @LayoutRes int layoutId) {
-    return null;
-  }
-
   @Override
   public void onBindViewHolder(@NonNull CommonViewHolder<T> holder, int position) {
     T item = mList.get(position);
     mList.visitItem(position);
-    holder.updateView(item, position);
+    holder.update(item, position);
   }
 
   @Override
@@ -104,5 +101,9 @@ public class CommonAdapter<T extends CommonItemModel>
 
   public void addItem(@NonNull T item) {
     mList.addItem(item);
+  }
+
+  public void setHolderCreator(@Nullable ICommonViewHolderCreator<T> creator) {
+    mHolderCreator = creator;
   }
 }
