@@ -1,13 +1,14 @@
 package com.fengshihao.xframe.ui.config;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.fengshihao.xframe.R;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonViewHolder;
+
+import java.util.List;
 
 class ConfigBooleanViewHolder extends CommonViewHolder<ModuleConfigUIModel> {
 
@@ -32,7 +33,7 @@ class ConfigBooleanViewHolder extends CommonViewHolder<ModuleConfigUIModel> {
   }
 
   @Override
-  protected void updateView(int position) {
+  protected void updateView(int position, List<Object> payloads) {
     if (mModel != null) {
       mTextView.setText(mModel.mTitle);
       mSwitchView.setChecked(mModel.mConfig.get());

@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import java.util.List;
+
 public abstract class CommonViewHolder<T extends CommonItemModel> extends RecyclerView.ViewHolder {
 
   @Nullable
@@ -15,12 +17,12 @@ public abstract class CommonViewHolder<T extends CommonItemModel> extends Recycl
     bindView(itemView);
   }
 
-  public void update(@Nullable T model, int position) {
+  public void update(@Nullable T model, int position, @NonNull List<Object> payloads) {
     mModel = model;
-    updateView(position);
+    updateView(position, payloads);
   }
 
   protected abstract void bindView(@NonNull View itemView);
 
-  protected abstract void updateView(int position);
+  protected abstract void updateView(int position, @NonNull List<Object> payloads);
 }

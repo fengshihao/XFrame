@@ -12,6 +12,8 @@ import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.xframe.ui.util.FrescoUtil;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonViewHolder;
 
+import java.util.List;
+
 class AlbumMediaViewHolder extends CommonViewHolder<AlbumItemUIModel> {
   private static final String TAG = "AlbumItemViewHolder";
 
@@ -40,7 +42,12 @@ class AlbumMediaViewHolder extends CommonViewHolder<AlbumItemUIModel> {
   }
 
   @Override
-  protected void updateView(int position) {
+  protected void updateView(int position, @NonNull List<Object> payloads) {
+    if (!payloads.isEmpty()) {
+      mTextView.setVisibility(mProject.isSelected(mModel.mId)
+          ? View.INVISIBLE : View.VISIBLE);
+      return;
+    }
     if (mModel == null) {
       mTextView.setVisibility(View.VISIBLE);
       mTextView.setText("empty");

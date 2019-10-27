@@ -7,6 +7,8 @@ import android.widget.TextView;
 import com.fengshihao.xframe.R;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonViewHolder;
 
+import java.util.List;
+
 class ConfigTitleViewHolder extends CommonViewHolder<ModuleConfigUIModel> {
   private TextView mTextView;
 
@@ -20,7 +22,7 @@ class ConfigTitleViewHolder extends CommonViewHolder<ModuleConfigUIModel> {
   }
 
   @Override
-  protected void updateView(int position) {
+  protected void updateView(int position, List<Object> payloads) {
     if (mModel != null) {
       mTextView.setText(mModel.mTitle);
     } else {

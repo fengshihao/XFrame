@@ -177,12 +177,12 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
 
   @Override
   public void onSelect(@NonNull AlbumMediaItem item) {
-    mCommonAdapter.notifyItemChanged(item.mPosition);
+    mCommonAdapter.notifyItemChanged(item.mPosition, 1);
   }
 
   @Override
   public void onUnSelect(@NonNull AlbumMediaItem item) {
-    mCommonAdapter.notifyItemChanged(item.mPosition);
+    mCommonAdapter.notifyItemChanged(item.mPosition, 1);
   }
 
   @Override

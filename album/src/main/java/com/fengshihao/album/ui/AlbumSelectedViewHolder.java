@@ -9,9 +9,10 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.fengshihao.album.R;
 import com.fengshihao.album.api.IAlbumProject;
-import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.ui.util.FrescoUtil;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonViewHolder;
+
+import java.util.List;
 
 import static android.view.View.VISIBLE;
 
@@ -42,7 +43,7 @@ class AlbumSelectedViewHolder extends CommonViewHolder<AlbumSelectItemUIModel> {
   }
 
   @Override
-  protected void updateView(int position) {
+  protected void updateView(int position, List<Object> payloads) {
     if (mModel == null) {
       mTextView.setVisibility(VISIBLE);
       mTextView.setText("empty");

@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import com.fengshihao.xframe.logic.layzlist.IPageListListener;
 import com.fengshihao.xframe.logic.layzlist.PageList;
 
+import java.util.Collections;
+import java.util.List;
+
 public class CommonAdapter<T extends CommonItemModel>
     extends RecyclerView.Adapter<CommonViewHolder<T>>
     implements IPageListListener {
@@ -48,18 +51,23 @@ public class CommonAdapter<T extends CommonItemModel>
       return mHolderCreator.createViewHolder(v, viewType);
     }
 
-    if (v instanceof CommonItemView) {
-      return new CommonItemViewHolder<>((CommonItemView<T>) v);
-    }
-
-    throw new RuntimeException("you should override createItemViewHolder() or using CommonItemView");
+    throw new RuntimeException("you should override createItemViewHolder()");
   }
 
   @Override
   public void onBindViewHolder(@NonNull CommonViewHolder<T> holder, int position) {
+    Log.d(TAG, "onBindViewHolder: ");
     T item = mList.get(position);
     mList.visitItem(position);
-    holder.update(item, position);
+    holder.update(item, position, Collections.emptyList());
+  }
+
+  @Override
+  public void onBindViewHolder(@NonNull CommonViewHolder<T> holder, int position, @NonNull List<Object> payloads) {
+    Log.d(TAG, "onBindViewHolder: payloads=" + payloads);
+    T item = mList.get(position);
+    mList.visitItem(position);
+    holder.update(item, position, payloads);
   }
 
   @Override
