@@ -71,6 +71,10 @@ public class CommonAdapter<T extends CommonItemModel>
   public int getItemViewType(int position) {
     T item = mList.get(position);
     if (item == null) {
+      if (mEmptyLayoutId == 0) {
+        throw new RuntimeException("some position need a empty view for placeholder" +
+            " call setEmptyLayoutId first");
+      }
       return mEmptyLayoutId;
     }
     return item.getLayoutId();

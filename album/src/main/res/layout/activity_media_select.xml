@@ -14,13 +14,10 @@
         tools:layout="@layout/fragment_album_item_list" />
 
 
-
-    <fragment
+    <FrameLayout
         android:id="@+id/media_selected"
-        android:name="com.fengshihao.album.ui.AlbumSelectedFragment"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout="@layout/fragment_album_selected" />
-
+        app:layout_constraintBottom_toBottomOf="parent" />
 </android.support.constraint.ConstraintLayout>

@@ -16,7 +16,7 @@ public class AlbumItemUIModel extends CommonItemModel {
   final String mImagePath;
 
   @LayoutRes
-  final int mLayoutId;
+  private final int mLayoutId;
 
   AlbumItemUIModel(long id, @AlbumMediaItem.AlbumType int viewType,
                    @NonNull String info, @NonNull String img) {

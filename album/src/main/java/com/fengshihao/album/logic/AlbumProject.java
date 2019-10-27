@@ -64,7 +64,7 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
   }
 
   @NonNull
-  public static IAlbumProject getsCurrentProject() {
+  public static IAlbumProject getCurrentProject() {
     if (sCurrentProject == null) {
       throw new RuntimeException("should call setCurrentProject first");
     }
@@ -158,5 +158,10 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
   public void close() {
     Log.d(TAG, "close() called");
     clearListener();
+  }
+
+  @Override
+  public int getId() {
+    return mId;
   }
 }

@@ -1,6 +1,5 @@
 package com.fengshihao.album.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fengshihao.album.R;
+import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.api.IAlbumProjectListener;
 import com.fengshihao.album.logic.AlbumMediaItem;
 import com.fengshihao.album.logic.AlbumProject;
@@ -21,19 +21,13 @@ import java.util.Objects;
 
 
 /**
+ *
  */
 public class AlbumSelectedFragment extends Fragment implements IAlbumProjectListener {
   private static final String TAG = "AlbumSelectedFragment";
 
   @NonNull
   private final CommonAdapter<AlbumSelectItemUIModel> mCommonAdapter = new CommonAdapter<>();
-
-  @Nullable
-  private RecyclerView mListView;
-
-  public AlbumSelectedFragment() {
-    // Required empty public constructor
-  }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -43,33 +37,30 @@ public class AlbumSelectedFragment extends Fragment implements IAlbumProjectList
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
-    AlbumProject.getsCurrentProject().addListener(this);
+    Log.d(TAG, "onCreateView: ");
     return inflater.inflate(R.layout.fragment_album_selected, container, false);
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     Log.d(TAG, "onViewCreated: ");
-    mListView = view.findViewById(R.id.list);
-    mCommonAdapter.setHolderCreator((v, layoutId) -> new AlbumSelectedViewHolder(this, v));
-    Objects.requireNonNull(mListView).setAdapter(mCommonAdapter);
+    getProject().addListener(this);
+    RecyclerView listView = view.findViewById(R.id.list);
+    mCommonAdapter.setHolderCreator((v, layoutId) ->
+        new AlbumSelectedViewHolder(v, getProject()));
+    Objects.requireNonNull(listView).setAdapter(mCommonAdapter);
   }
 
   @Override
-  public void onAttach(Context context) {
-    super.onAttach(context);
+  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    Log.d(TAG, "onActivityCreated() savedInstanceState = [" + savedInstanceState + "]");
   }
 
   @Override
-  public void onDetach() {
-    super.onDetach();
-  }
-
-  @Override
-  public void onDestroy() {
-    super.onDestroy();
-    AlbumProject.getsCurrentProject().addListener(this);
+  public void onDestroyView() {
+    super.onDestroyView();
+    getProject().addListener(this);
   }
 
   @Override
@@ -84,4 +75,8 @@ public class AlbumSelectedFragment extends Fragment implements IAlbumProjectList
     mCommonAdapter.removeById(item.mId);
   }
 
+  @NonNull
+  private IAlbumProject getProject() {
+    return AlbumProject.getCurrentProject();
+  }
 }

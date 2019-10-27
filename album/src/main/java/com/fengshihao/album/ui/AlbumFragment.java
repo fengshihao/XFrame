@@ -1,6 +1,7 @@
 package com.fengshihao.album.ui;
 
 import android.Manifest;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,61 +31,48 @@ import io.reactivex.disposables.Disposable;
 
 public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   private static final String TAG = "AlbumFragment";
+
   @Nullable
   private RecyclerView mAlbumItemRecyclerView;
+
+  private Disposable mPermissionDisposable;
 
   @NonNull
   private final CommonAdapter<AlbumItemUIModel> mCommonAdapter = new CommonAdapter<>();
 
   @NonNull
-  private IAlbumProject mProject = AlbumProject.getsCurrentProject();
-
-  @NonNull
-  private IPageListListener mPageListener = new IPageListListener() {
+  private final IPageListListener mPageListener = new IPageListListener() {
     @Override
     public void onRequireLoad(int pageNo, int pageSize) {
       int first = pageNo * pageSize;
-      mProject.loadAlbum(
+      getProject().loadAlbum(
           new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, first, pageSize));
     }
   };
-
-
-  public AlbumFragment() {
-    mCommonAdapter.setEmptyLayoutId(R.layout.fragment_album_item);
-    mCommonAdapter.getPageList().addListener(mPageListener);
-    mCommonAdapter.setHolderCreator((v, layoutId) -> new AlbumMediaViewHolder(v));
-
-    mProject.addListener(this);
-  }
 
   private void onGetGranted() {
     Log.d(TAG, "onGetGranted: ");
 
     int pageSize = mCommonAdapter.getPageList().getPageSize();
-
-    AlbumProject.getsCurrentProject().loadAlbum(
+    getProject().loadAlbum(
         new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 0, pageSize));
   }
+
+  @Override
+  public void onAttach(Context context) {
+    super.onAttach(context);
+    Log.d(TAG, "onAttach() called with: context = [" + context + "]");
+  }
+
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     Log.d(TAG, "onCreate: ");
-  }
-
-  @Override
-  public void onDestroy() {
-    super.onDestroy();
-    Log.d(TAG, "onDestroy: ");
-  }
-
-  @Override
-  public void onDestroyView() {
-    super.onDestroyView();
-    Log.d(TAG, "onDestroyView() called");
-    mProject.removeListener(this);
-    mCommonAdapter.getPageList().removeListener(mPageListener);
+    mCommonAdapter.setEmptyLayoutId(R.layout.fragment_album_item);
+    mCommonAdapter.getPageList().addListener(mPageListener);
+    mCommonAdapter.setHolderCreator((v, layoutId) -> new AlbumMediaViewHolder(v, getProject()));
+    getProject().addListener(this);
   }
 
   @Override
@@ -99,29 +87,61 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
     Log.d(TAG, "onViewCreated: ");
     mAlbumItemRecyclerView = view.findViewById(R.id.list);
     mAlbumItemRecyclerView.setAdapter(mCommonAdapter);
+    askPermission();
   }
+
+  private void askPermission() {
+    if (mPermissionDisposable != null) {
+      return;
+    }
+    final RxPermissions rxPermissions = new RxPermissions(this);
+    mPermissionDisposable = rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
+        .subscribe(granted -> {
+          if (granted) {
+            onGetGranted();
+          }
+          mPermissionDisposable = null;
+        });
+  }
+
+  @Override
+  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    Log.d(TAG, "onActivityCreated() savedInstanceState = [" + savedInstanceState + "]");
+  }
+
 
   @Override
   public void onStart() {
     super.onStart();
     Log.d(TAG, "onStart: ");
+  }
 
-    final RxPermissions rxPermissions = new RxPermissions(this);
-    Disposable disposable = rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
-        .subscribe(granted -> {
-          if (granted) {
-            onGetGranted();
-          }
-        });
+  @Override
+  public void onStop() {
+    super.onStop();
+    Log.d(TAG, "onStop: ");
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    Log.d(TAG, "onDestroyView() called");
+    getProject().removeListener(this);
+    mCommonAdapter.getPageList().removeListener(mPageListener);
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    Log.d(TAG, "onDestroy: ");
   }
 
   @Override
   public void onDetach() {
+    Log.d(TAG, "onDetach() called");
     super.onDetach();
-    Log.d(TAG, "onDetach: ");
   }
-
-
 
   @Override
   public void onAlbumLoaded(@NonNull AlbumLoaderResult result) {
@@ -168,5 +188,10 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   @Override
   public void onSelectFull(int maxSelectCount) {
     Toast.makeText(getContext(), "max select " + maxSelectCount, Toast.LENGTH_LONG).show();
+  }
+
+  @NonNull
+  private IAlbumProject getProject() {
+    return AlbumProject.getCurrentProject();
   }
 }

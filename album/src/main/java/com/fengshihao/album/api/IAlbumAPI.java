@@ -8,4 +8,6 @@ import com.fengshihao.xframe.logic.IXModule;
 public interface IAlbumAPI extends IXModule {
 
   void startActivity(@NonNull Activity fromActivity);
+
+  IAlbumProject createProject();
 }

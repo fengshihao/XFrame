@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.fengshihao.album.R;
+import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.ui.util.FrescoUtil;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonViewHolder;
@@ -17,13 +18,15 @@ import static android.view.View.VISIBLE;
 class AlbumSelectedViewHolder extends CommonViewHolder<AlbumSelectItemUIModel> {
 
   private static final String TAG = "AlbumMediaSelectedViewH";
-  private AlbumSelectedFragment albumSelectedFragment;
   private TextView mTextView;
   private SimpleDraweeView mImageView;
 
-  public AlbumSelectedViewHolder(AlbumSelectedFragment albumSelectedFragment, View v) {
+  @NonNull
+  private final IAlbumProject mProject;
+
+  AlbumSelectedViewHolder(@NonNull View v, @NonNull IAlbumProject project) {
     super(v);
-    this.albumSelectedFragment = albumSelectedFragment;
+    mProject = project;
   }
 
   @Override
@@ -33,7 +36,7 @@ class AlbumSelectedViewHolder extends CommonViewHolder<AlbumSelectItemUIModel> {
     itemView.findViewById(R.id.remove_button).setOnClickListener(view1 -> {
       if (mModel != null) {
         Log.d(TAG, "bindView: click remove " + mModel);
-        AlbumProject.getsCurrentProject().unSelect(mModel.mId);
+        mProject.unSelect(mModel.mId);
       }
     });
   }
@@ -51,7 +54,8 @@ class AlbumSelectedViewHolder extends CommonViewHolder<AlbumSelectItemUIModel> {
       Log.e(TAG, "updateView: get a wrong data " + mModel);
       mImageView.setImageResource(R.drawable.placeholder);
     } else {
-      int size = albumSelectedFragment.getResources().getDimensionPixelSize(R.dimen.album_media_thumbnail_size);
+      int size = mImageView.getResources()
+          .getDimensionPixelSize(R.dimen.album_media_thumbnail_size);
       FrescoUtil.imageBindLocalPath(mImageView, mModel.mImagePath, size, size);
     }
   }

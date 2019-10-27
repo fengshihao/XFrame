@@ -13,6 +13,8 @@ public interface IAlbumProject extends IListenerManager<IAlbumProjectListener> {
 
   void close();
 
+  int getId();
+
   void toggleSelect(long id);
 
   void unSelect(long id);

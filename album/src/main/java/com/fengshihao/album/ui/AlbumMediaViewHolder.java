@@ -9,11 +9,8 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.fengshihao.album.R;
 import com.fengshihao.album.api.IAlbumProject;
-import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.ui.util.FrescoUtil;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonViewHolder;
-
-import java.util.Objects;
 
 class AlbumMediaViewHolder extends CommonViewHolder<AlbumItemUIModel> {
   private static final String TAG = "AlbumItemViewHolder";
@@ -21,9 +18,12 @@ class AlbumMediaViewHolder extends CommonViewHolder<AlbumItemUIModel> {
   private TextView mTextView;
   private SimpleDraweeView mImageView;
 
+  @NonNull
+  private final IAlbumProject mProject;
 
-  AlbumMediaViewHolder(View v) {
+  AlbumMediaViewHolder(@NonNull View v, @NonNull IAlbumProject project) {
     super(v);
+    mProject = project;
   }
 
   @Override
@@ -35,7 +35,7 @@ class AlbumMediaViewHolder extends CommonViewHolder<AlbumItemUIModel> {
         return;
       }
 
-      AlbumProject.getsCurrentProject().toggleSelect(mModel.mId);
+      mProject.toggleSelect(mModel.mId);
     });
   }
 
@@ -48,7 +48,7 @@ class AlbumMediaViewHolder extends CommonViewHolder<AlbumItemUIModel> {
       return;
     }
     mTextView.setText(mModel.mInfo);
-    mTextView.setVisibility(AlbumProject.getsCurrentProject().isSelected(mModel.mId)
+    mTextView.setVisibility(mProject.isSelected(mModel.mId)
         ? View.INVISIBLE : View.VISIBLE);
     if (TextUtils.isEmpty(mModel.mImagePath)) {
       Log.e(TAG, "updateView: get a wrong data " + mModel);
