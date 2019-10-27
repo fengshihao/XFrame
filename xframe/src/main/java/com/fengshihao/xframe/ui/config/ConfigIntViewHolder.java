@@ -34,14 +34,14 @@ class ConfigIntViewHolder extends CommonViewHolder<ModuleConfigUIModel> {
   }
 
   @Override
-  protected void updateView(int position, List<Object> payloads) {
+  protected void updateView(int position, @NonNull List<Object> payloads) {
     if (mModel != null && mModel.mConfig != null) {
       mTextView.setText(mModel.mTitle);
       String val = String.valueOf(mModel.mConfig.<Integer>get());
       mValueView.setText(val);
       mValueView.setSelection(val.length());
     } else {
-      mTextView.setText("some thing wrong !!!");
+      mTextView.setText(R.string.some_thing_wrong);
     }
   }
 }

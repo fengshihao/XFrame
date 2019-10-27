@@ -63,6 +63,7 @@ public final class XFrame {
     }
   }
 
+  @SuppressWarnings("unchecked")
   @NonNull
   public <T extends IXModule> T getModule(@NonNull Class<T> moduleClass) {
     IXModule module = mModuleMap.get(moduleClass);

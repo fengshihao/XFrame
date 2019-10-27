@@ -84,7 +84,7 @@ public final class AlbumSqlTool {
 
   @WorkerThread
   @NonNull
-  public static List<AlbumMediaItem> loadVideos(int offset, int pageItemCount) {
+  static List<AlbumMediaItem> loadVideos(int offset, int pageItemCount) {
     Log.d(TAG, "loadVideos() offset = [" + offset + "], pageItemCount = ["
         + pageItemCount + "]");
     ContentResolver mContentResolver = getContext().getContentResolver();
@@ -177,7 +177,7 @@ public final class AlbumSqlTool {
     }
   }
 
-  public static List<AlbumMediaItem> loadImageVideos(int offset, int pageItemCount) {
+  static List<AlbumMediaItem> loadImageVideos(int offset, int pageItemCount) {
     Log.d(TAG, "loadImageVideos() called");
     ContentResolver mContentResolver = getContext().getContentResolver();
 

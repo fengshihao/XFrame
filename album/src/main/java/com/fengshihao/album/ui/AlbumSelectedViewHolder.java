@@ -46,7 +46,7 @@ class AlbumSelectedViewHolder extends CommonViewHolder<AlbumSelectItemUIModel> {
   protected void updateView(int position, List<Object> payloads) {
     if (mModel == null) {
       mTextView.setVisibility(VISIBLE);
-      mTextView.setText("empty");
+      mTextView.setText(R.string.empty);
       mImageView.setImageResource(R.drawable.placeholder);
       return;
     }

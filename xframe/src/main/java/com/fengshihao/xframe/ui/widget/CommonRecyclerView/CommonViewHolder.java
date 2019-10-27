@@ -24,5 +24,5 @@ public abstract class CommonViewHolder<T extends CommonItemModel> extends Recycl
 
   protected abstract void bindView(@NonNull View itemView);
 
-  protected abstract void updateView(int position, @NonNull List<Object> payloads);
+  protected abstract void updateView(int position, List<Object> payloads);
 }

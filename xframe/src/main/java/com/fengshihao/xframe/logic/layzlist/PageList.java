@@ -5,10 +5,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.fengshihao.xframe.logic.listener.ListenerManager;
-import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonItemModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;

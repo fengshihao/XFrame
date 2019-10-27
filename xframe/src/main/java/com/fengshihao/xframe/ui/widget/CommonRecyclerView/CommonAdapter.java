@@ -37,7 +37,6 @@ public class CommonAdapter<T extends CommonItemModel>
     mEmptyLayoutId = emptyLayoutId;
   }
 
-  @SuppressWarnings("unchecked")
   @NonNull
   @Override
   public CommonViewHolder<T> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

@@ -43,17 +43,19 @@ class AlbumMediaViewHolder extends CommonViewHolder<AlbumItemUIModel> {
 
   @Override
   protected void updateView(int position, @NonNull List<Object> payloads) {
+    if (mModel == null) {
+      mTextView.setVisibility(View.VISIBLE);
+      mTextView.setText(R.string.empty);
+      mImageView.setImageResource(R.drawable.placeholder);
+      return;
+    }
+
     if (!payloads.isEmpty()) {
       mTextView.setVisibility(mProject.isSelected(mModel.mId)
           ? View.INVISIBLE : View.VISIBLE);
       return;
     }
-    if (mModel == null) {
-      mTextView.setVisibility(View.VISIBLE);
-      mTextView.setText("empty");
-      mImageView.setImageResource(R.drawable.placeholder);
-      return;
-    }
+
     mTextView.setText(mModel.mInfo);
     mTextView.setVisibility(mProject.isSelected(mModel.mId)
         ? View.INVISIBLE : View.VISIBLE);

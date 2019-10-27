@@ -1,6 +1,6 @@
 package com.fengshihao.xframe.ui.config;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -17,12 +17,12 @@ class ConfigBooleanViewHolder extends CommonViewHolder<ModuleConfigUIModel> {
 
   private Switch mSwitchView;
 
-  public ConfigBooleanViewHolder(View v) {
+  ConfigBooleanViewHolder(View v) {
     super(v);
   }
 
   @Override
-  protected void bindView(@Nullable View itemView) {
+  protected void bindView(@NonNull View itemView) {
     mTextView = itemView.findViewById(R.id.text_view);
     mSwitchView = itemView.findViewById(R.id.value_switch);
     mSwitchView.setOnCheckedChangeListener((compoundButton, b) -> {
@@ -33,12 +33,12 @@ class ConfigBooleanViewHolder extends CommonViewHolder<ModuleConfigUIModel> {
   }
 
   @Override
-  protected void updateView(int position, List<Object> payloads) {
-    if (mModel != null) {
+  protected void updateView(int position, @NonNull List<Object> payloads) {
+    if (mModel != null && mModel.mConfig != null) {
       mTextView.setText(mModel.mTitle);
       mSwitchView.setChecked(mModel.mConfig.get());
     } else {
-      mTextView.setText("some thing wrong !!!");
+      mTextView.setText(R.string.some_thing_wrong);
     }
   }
 }
