@@ -2,6 +2,7 @@ package com.fengshihao.album.api;
 
 import android.support.annotation.NonNull;
 
+import com.fengshihao.album.logic.model.AlbumLoaderRequest;
 import com.fengshihao.xframe.logic.listener.IListenerManager;
 
 /**

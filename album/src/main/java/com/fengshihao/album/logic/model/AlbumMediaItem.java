@@ -1,4 +1,4 @@
-package com.fengshihao.album.logic;
+package com.fengshihao.album.logic.model;
 
 
 import android.support.annotation.IntDef;

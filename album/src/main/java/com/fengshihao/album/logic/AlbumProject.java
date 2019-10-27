@@ -7,8 +7,9 @@ import android.util.Log;
 import android.util.LongSparseArray;
 
 import com.fengshihao.album.Settings;
-import com.fengshihao.album.api.AlbumLoaderRequest;
-import com.fengshihao.album.api.AlbumLoaderResult;
+import com.fengshihao.album.logic.model.AlbumLoaderRequest;
+import com.fengshihao.album.logic.model.AlbumLoaderResult;
+import com.fengshihao.album.logic.model.AlbumMediaItem;
 import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.api.IAlbumProjectListener;
 import com.fengshihao.xframe.logic.listener.ListenerManager;

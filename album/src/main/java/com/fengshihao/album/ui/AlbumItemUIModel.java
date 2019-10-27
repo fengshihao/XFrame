@@ -4,7 +4,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 
 import com.fengshihao.album.R;
-import com.fengshihao.album.logic.AlbumMediaItem;
+import com.fengshihao.album.logic.model.AlbumMediaItem;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonItemModel;
 
 public class AlbumItemUIModel extends CommonItemModel {

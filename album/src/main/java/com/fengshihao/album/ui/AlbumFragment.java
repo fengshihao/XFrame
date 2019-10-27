@@ -14,11 +14,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.fengshihao.album.R;
-import com.fengshihao.album.api.AlbumLoaderRequest;
-import com.fengshihao.album.api.AlbumLoaderResult;
+import com.fengshihao.album.logic.model.AlbumLoaderRequest;
+import com.fengshihao.album.logic.model.AlbumLoaderResult;
 import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.api.IAlbumProjectListener;
-import com.fengshihao.album.logic.AlbumMediaItem;
+import com.fengshihao.album.logic.model.AlbumMediaItem;
 import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.logic.layzlist.IPageListListener;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonAdapter;

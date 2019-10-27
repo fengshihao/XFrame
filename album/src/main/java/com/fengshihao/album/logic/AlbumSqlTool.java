@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
 import android.util.Log;
 
+import com.fengshihao.album.logic.model.AlbumMediaItem;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;

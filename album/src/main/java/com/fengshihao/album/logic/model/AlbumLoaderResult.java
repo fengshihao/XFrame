@@ -1,9 +1,7 @@
-package com.fengshihao.album.api;
+package com.fengshihao.album.logic.model;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
-import com.fengshihao.album.logic.AlbumMediaItem;
 
 import java.util.List;
 

@@ -6,7 +6,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.fengshihao.album.logic.AlbumMediaItem;
+import com.fengshihao.album.logic.model.AlbumMediaItem;
 import com.fengshihao.album.logic.AlbumSqlTool;
 import com.fengshihao.xframe.logic.XFrame;
 
