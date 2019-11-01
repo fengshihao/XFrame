@@ -69,6 +69,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     Log.d(TAG, "onCreate: ");
+
     mCommonAdapter.setEmptyLayoutId(R.layout.fragment_album_item);
     mCommonAdapter.getPageList().addListener(mPageListener);
     mCommonAdapter.setHolderCreator((v, layoutId) -> new AlbumMediaViewHolder(v, getProject()));
@@ -192,6 +193,10 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
 
   @NonNull
   private IAlbumProject getProject() {
-    return AlbumProject.getCurrentProject();
+    IServiceProvider provider = (IServiceProvider) getActivity();
+    if (provider == null) {
+      throw new RuntimeException("pls attach to a activity implements IServiceProvider");
+    }
+    return provider.getAlbumProject();
   }
 }

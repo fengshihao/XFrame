@@ -7,11 +7,12 @@ import android.util.Log;
 import android.util.LongSparseArray;
 
 import com.fengshihao.album.Settings;
+import com.fengshihao.album.api.IAlbumProject;
+import com.fengshihao.album.api.IAlbumProjectListener;
 import com.fengshihao.album.logic.model.AlbumLoaderRequest;
 import com.fengshihao.album.logic.model.AlbumLoaderResult;
 import com.fengshihao.album.logic.model.AlbumMediaItem;
-import com.fengshihao.album.api.IAlbumProject;
-import com.fengshihao.album.api.IAlbumProjectListener;
+import com.fengshihao.xframe.logic.config.IConfigListener;
 import com.fengshihao.xframe.logic.listener.ListenerManager;
 import com.fengshihao.xframe.logic.selection.ItemSelection;
 
@@ -27,15 +28,13 @@ import static com.fengshihao.album.logic.AlbumSqlTool.loadImageVideos;
 import static com.fengshihao.album.logic.AlbumSqlTool.loadImages;
 import static com.fengshihao.album.logic.AlbumSqlTool.loadVideos;
 
-public class AlbumProject extends ListenerManager<IAlbumProjectListener> implements IAlbumProject {
+public class AlbumProject extends ListenerManager<IAlbumProjectListener>
+    implements IAlbumProject {
 
   private static final String TAG = "AlbumProject";
 
   private static int sIndex = 0;
   private final int mId = sIndex += 1;
-
-  @Nullable
-  private static IAlbumProject sCurrentProject;
 
   @NonNull
   private final LongSparseArray<AlbumMediaItem> mAllMediaItems =
@@ -44,32 +43,24 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
   @NonNull
   private final ItemSelection<AlbumMediaItem> mSelection = new ItemSelection<>();
 
+  @NonNull
+  private final IConfigListener mOnMaxSelectCountListener = v -> {
+    Log.d(TAG, "AlbumAPI.MAX_SELECT_NUM onChanged() called with: v = [" + v + "]");
+    if (v == null) {
+      return;
+    }
+    mSelection.setMaxSelectNum((Integer) v);
+  };
+
+  @NonNull
+  private final IConfigListener mOnTestBoolListener =
+      v -> Log.d(TAG, "AlbumAPI.TEST_BOOL onChanged() called with: v = [" + v + "]");
+
   public AlbumProject() {
     mSelection.pipeEventTo(this);
     mSelection.setMaxSelectNum(Settings.MAX_SELECT_NUM.get());
-    Settings.MAX_SELECT_NUM.addListener(v -> {
-      Log.d(TAG, "AlbumAPI.MAX_SELECT_NUM onChanged() called with: v = [" + v + "]");
-      if (v == null) {
-        return;
-      }
-      mSelection.setMaxSelectNum((Integer) v);
-    });
-
-    Settings.TEST_BOOL.addListener(v -> {
-      Log.d(TAG, "AlbumAPI.TEST_BOOL change: " + v);
-    });
-  }
-
-  public static void setCurrentProject(@Nullable IAlbumProject project) {
-    sCurrentProject = project;
-  }
-
-  @NonNull
-  public static IAlbumProject getCurrentProject() {
-    if (sCurrentProject == null) {
-      throw new RuntimeException("should call setCurrentProject first");
-    }
-    return sCurrentProject;
+    Settings.MAX_SELECT_NUM.addListener(mOnMaxSelectCountListener);
+    Settings.TEST_BOOL.addListener(mOnTestBoolListener);
   }
 
   @Override
@@ -158,6 +149,8 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener> impleme
   @Override
   public void close() {
     Log.d(TAG, "close() called");
+    Settings.MAX_SELECT_NUM.removeListener(mOnMaxSelectCountListener);
+    Settings.TEST_BOOL.removeListener(mOnTestBoolListener);
     clearListener();
   }
 

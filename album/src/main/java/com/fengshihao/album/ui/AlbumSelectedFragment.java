@@ -60,7 +60,7 @@ public class AlbumSelectedFragment extends Fragment implements IAlbumProjectList
   @Override
   public void onDestroyView() {
     super.onDestroyView();
-    getProject().addListener(this);
+    getProject().removeListener(this);
   }
 
   @Override
@@ -77,6 +77,10 @@ public class AlbumSelectedFragment extends Fragment implements IAlbumProjectList
 
   @NonNull
   private IAlbumProject getProject() {
-    return AlbumProject.getCurrentProject();
+    IServiceProvider provider = (IServiceProvider) getActivity();
+    if (provider == null) {
+      throw new RuntimeException("pls attach to a activity implements IServiceProvider");
+    }
+    return provider.getAlbumProject();
   }
 }

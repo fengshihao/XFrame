@@ -56,7 +56,10 @@ public class ListenerManager<T> {
       throw new RuntimeException("listener is null");
     }
     if (mListeners.contains(listener)) {
-      Log.w(TAG, "addListener: already exist listener=" + listener);
+      Log.e(TAG, "addListener: already exist listener=" + listener);
+      if (BuildConfig.DEBUG) {
+        throw new RuntimeException("duplcate listener " + listener);
+      }
       return;
     }
     mListeners.add(listener);
@@ -86,6 +89,12 @@ public class ListenerManager<T> {
   @MainThread
   public void clearListener() {
     checkInMainThread();
+    if (!mListeners.isEmpty()) {
+      Log.e(TAG, "clearListener: pls remove listener at first time. " + mListeners);
+      if (BuildConfig.DEBUG) {
+        throw new RuntimeException("pls remove listener at first time. " + mListeners);
+      }
+    }
     Log.d(TAG, "clearListener() called");
     mListeners.clear();
   }

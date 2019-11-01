@@ -10,7 +10,7 @@ import com.fengshihao.album.R;
 import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.logic.AlbumProject;
 
-public class MediaSelectActivity extends AppCompatActivity {
+public class MediaSelectActivity extends AppCompatActivity implements IServiceProvider {
 
   private static final String TAG = "MediaSelectActivity";
 
@@ -21,7 +21,6 @@ public class MediaSelectActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     Log.d(TAG, "onCreate() called with: savedInstanceState = [" + savedInstanceState + "]");
-    AlbumProject.setCurrentProject(mProject);
     setContentView(R.layout.activity_media_select);
 
     getSupportFragmentManager()
@@ -48,12 +47,17 @@ public class MediaSelectActivity extends AppCompatActivity {
     super.onDestroy();
     Log.d(TAG, "onDestroy() called");
     mProject.close();
-    AlbumProject.setCurrentProject(null);
   }
 
   @Override
   public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
     Log.d(TAG, "onConfigurationChanged() called with: newConfig = [" + newConfig + "]");
+  }
+
+  @NonNull
+  @Override
+  public IAlbumProject getAlbumProject() {
+    return mProject;
   }
 }
