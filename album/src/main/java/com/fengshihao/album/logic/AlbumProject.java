@@ -2,7 +2,6 @@ package com.fengshihao.album.logic;
 
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.LongSparseArray;
 
@@ -14,7 +13,6 @@ import com.fengshihao.album.logic.model.AlbumLoaderResult;
 import com.fengshihao.album.logic.model.AlbumMediaItem;
 import com.fengshihao.xframe.logic.config.IConfigListener;
 import com.fengshihao.xframe.logic.listener.ListenerManager;
-import com.fengshihao.xframe.logic.selection.ItemSelection;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,7 +39,7 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener>
       new LongSparseArray<>(3000);
 
   @NonNull
-  private final ItemSelection<AlbumMediaItem> mSelection = new ItemSelection<>();
+  private final AlbumSelection mSelection = new AlbumSelection();
 
   @NonNull
   private final IConfigListener mOnMaxSelectCountListener = v -> {

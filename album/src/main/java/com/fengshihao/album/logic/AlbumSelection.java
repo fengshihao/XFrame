@@ -1,23 +1,25 @@
-package com.fengshihao.xframe.logic.selection;
+package com.fengshihao.album.logic;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.fengshihao.album.api.IAlbumSelectionListener;
+import com.fengshihao.album.logic.model.AlbumMediaItem;
 import com.fengshihao.xframe.logic.listener.ListenerManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemSelection<T> extends ListenerManager<IItemSelectionListener<T>> {
+public class AlbumSelection extends ListenerManager<IAlbumSelectionListener> {
 
-  private static final String TAG = "ItemSelection";
+  private static final String TAG = "AlbumSelection";
 
   @NonNull
-  private final List<T> mSelectList = new ArrayList<>();
+  private final List<AlbumMediaItem> mSelectList = new ArrayList<>();
 
   private int mMaxSelectNum = 1;
 
-  public boolean select(@NonNull T item) {
+  boolean select(@NonNull AlbumMediaItem item) {
     Log.d(TAG, "select() called with: item = [" + item + "]");
     if (isSelected(item)) {
       Log.d(TAG, "select: already exist ");
@@ -30,7 +32,7 @@ public class ItemSelection<T> extends ListenerManager<IItemSelectionListener<T>>
     }
 
     if (isSingleSelectMode() && !mSelectList.isEmpty()) {
-      for (T it: mSelectList) {
+      for (AlbumMediaItem it: mSelectList) {
         unSelect(it);
       }
     } else if (mSelectList.size() >= mMaxSelectNum) {
@@ -45,15 +47,15 @@ public class ItemSelection<T> extends ListenerManager<IItemSelectionListener<T>>
     return true;
   }
 
-  public boolean isSingleSelectMode() {
+  private boolean isSingleSelectMode() {
     return mMaxSelectNum == 1;
   }
 
-  public boolean isSelected(@NonNull T item) {
+  boolean isSelected(@NonNull AlbumMediaItem item) {
     return mSelectList.contains(item);
   }
 
-  public void unSelect(@NonNull T item) {
+  void unSelect(@NonNull AlbumMediaItem item) {
     if (mSelectList.remove(item)) {
       Log.d(TAG, "unSelect: " + item);
       notifyListeners(l -> l.onUnSelect(item));
@@ -62,15 +64,15 @@ public class ItemSelection<T> extends ListenerManager<IItemSelectionListener<T>>
     }
   }
 
-  public int getIndexOrder(@NonNull T item) {
+  public int getIndexOrder(@NonNull AlbumMediaItem item) {
     return mSelectList.indexOf(item);
   }
 
-  protected boolean couldSelect(@NonNull T item) {
+  private boolean couldSelect(@NonNull AlbumMediaItem item) {
     return true;
   }
 
-  public void setMaxSelectNum(int max) {
+  void setMaxSelectNum(int max) {
     Log.d(TAG, "setMaxSelectNum() called with: max = [" + max + "]");
     if (max < 1) {
       Log.e(TAG, "setMaxSelectNum: wrong arg ");
