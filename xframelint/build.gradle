@@ -1,11 +1,18 @@
 apply plugin: 'java-library'
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.tools.lint:lint-api:26.5.0'
-    implementation 'com.android.tools.lint:lint-checks:26.5.0'
-
+    compileOnly 'com.android.tools.lint:lint-api:26.5.3'
+    compileOnly 'com.android.tools.lint:lint-checks:26.5.3'
+    testCompile "com.android.tools:testutils:26.5.3"
+    testCompile "com.android.tools.lint:lint:26.5.3"
+    testCompile "com.android.tools.lint:lint-tests:26.5.3"
+    testCompile "junit:junit:4.12"
 }
 
 sourceCompatibility = "8"
 targetCompatibility = "8"
+jar {
+    manifest {
+        attributes("Lint-Registry-v2": "com.fengshihao.xframe.lint.XFrameLintRegistry")
+    }
+}
