@@ -9,10 +9,10 @@
    市面上已经有很多客户端框架, 比如 MVC, MVP, MVVM, React, Vue, Flux, Redux ... 还有很多种平台, 很多种系统. 在开发过手机游戏, web, windows, android, 后自己总结出一套客户端编程的理念.  避免开发人员学习各种框架的成本. 
    
    这种思想其实在各个框架都有体现, 只是没有人强调出来.  唯一看和此理念很相仿的是在一篇Android的blog上 (ViewModels and LiveData: Patterns + AntiPatterns) 这篇介绍了如何'正确'使用ViewModel LiveData.  
-   ❌ Don’t let ViewModels (and Presenters) know about Android framework classes
-   ✅ Keep the logic in Activities and Fragments to a minimum
-   ❌ Avoid references to Views in ViewModels.
-   ✅ Instead of pushing data to the UI, let the UI observe changes to it.
+   * ❌ Don’t let ViewModels (and Presenters) know about Android framework classes
+   * ✅ Keep the logic in Activities and Fragments to a minimum
+   * ❌ Avoid references to Views in ViewModels.
+   * ✅ Instead of pushing data to the UI, let the UI observe changes to it.
    
   ...
   
