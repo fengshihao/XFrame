@@ -32,6 +32,8 @@ import io.reactivex.disposables.Disposable;
 public class AlbumFragment extends Fragment implements IAlbumProjectListener {
   private static final String TAG = "AlbumFragment";
 
+  private static final int START_PAGE = 0;
+
   @Nullable
   private RecyclerView mAlbumItemRecyclerView;
 
@@ -55,7 +57,7 @@ public class AlbumFragment extends Fragment implements IAlbumProjectListener {
 
     int pageSize = mCommonAdapter.getPageList().getPageSize();
     getProject().loadAlbum(
-        new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, 0, pageSize));
+        new AlbumLoaderRequest(AlbumMediaItem.VIDEO_IMAGE, START_PAGE * pageSize, pageSize));
   }
 
   @Override
