@@ -3,10 +3,10 @@ apply plugin: 'java-library'
 dependencies {
     compileOnly 'com.android.tools.lint:lint-api:26.5.3'
     compileOnly 'com.android.tools.lint:lint-checks:26.5.3'
-    testCompile "com.android.tools:testutils:26.5.3"
-    testCompile "com.android.tools.lint:lint:26.5.3"
-    testCompile "com.android.tools.lint:lint-tests:26.5.3"
-    testCompile "junit:junit:4.12"
+    testImplementation "com.android.tools:testutils:26.5.3"
+    testImplementation "com.android.tools.lint:lint:26.5.3"
+    testImplementation "com.android.tools.lint:lint-tests:26.5.3"
+    testImplementation "junit:junit:4.12"
 }
 
 sourceCompatibility = "8"
