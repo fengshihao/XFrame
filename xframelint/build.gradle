@@ -1,18 +1,13 @@
 apply plugin: 'java-library'
 
 dependencies {
-    compileOnly 'com.android.tools.lint:lint-api:26.5.3'
-    compileOnly 'com.android.tools.lint:lint-checks:26.5.3'
-    testImplementation "com.android.tools:testutils:26.5.3"
-    testImplementation "com.android.tools.lint:lint:26.5.3"
-    testImplementation "com.android.tools.lint:lint-tests:26.5.3"
-    testImplementation "junit:junit:4.12"
+    compileOnly 'com.android.tools.lint:lint-api:26.6.3'
+    compileOnly 'com.android.tools.lint:lint-checks:26.6.3'
+    testImplementation "com.android.tools:testutils:26.6.3"
+    testImplementation "com.android.tools.lint:lint:26.6.3"
+    testImplementation "com.android.tools.lint:lint-tests:26.6.3"
+    testImplementation "junit:junit:4.13.2"
 }
 
 sourceCompatibility = "8"
 targetCompatibility = "8"
-jar {
-    manifest {
-        attributes("Lint-Registry-v2": "com.fengshihao.xframe.lint.XFrameLintRegistry")
-    }
-}

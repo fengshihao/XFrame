@@ -7,7 +7,6 @@ import com.fengshihao.album.logic.model.AlbumMediaItem;
 
 import java.util.ArrayList;
 
-
 public final class AlbumLogicUtil {
   private AlbumLogicUtil() {
   }
