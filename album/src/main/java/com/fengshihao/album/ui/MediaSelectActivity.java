@@ -9,13 +9,15 @@ import android.util.Log;
 import com.fengshihao.album.R;
 import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.logic.AlbumProject;
+import com.fengshihao.xframe.logic.XFrameLogicUtil;
+
 
 public class MediaSelectActivity extends AppCompatActivity implements IServiceProvider {
 
   private static final String TAG = "MediaSelectActivity";
 
   @NonNull
-  private final IAlbumProject mProject = (IAlbumProject) AlbumProject.createProject(new AlbumProject());
+  private final IAlbumProject mProject = (IAlbumProject) XFrameLogicUtil.createProxyObj(new AlbumProject());
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

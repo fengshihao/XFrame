@@ -64,18 +64,6 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener>
     Settings.TEST_BOOL.addListener(mOnTestBoolListener);
   }
 
-  public static Object createProject(@NonNull Object target) {
-      return Proxy.newProxyInstance(
-          target.getClass().getClassLoader(),
-          target.getClass().getInterfaces(),
-          (proxy, method, args) -> {
-            Log.d(TAG, "invoke() called with: method = [" + method + "]");
-            Object returnValue = method.invoke(target, args);
-            Log.d(TAG, "invoke() called over: method = [" + method + "] returnValue=" + returnValue);
-            return returnValue;
-          });
-  }
-
   @Override
   public void loadAlbum(@NonNull AlbumLoaderRequest request) {
     Log.d(TAG, "loadAlbum() called with: request = [" + request + "]");
