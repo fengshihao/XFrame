@@ -15,7 +15,7 @@ public class MediaSelectActivity extends AppCompatActivity implements IServicePr
   private static final String TAG = "MediaSelectActivity";
 
   @NonNull
-  private final IAlbumProject mProject = new AlbumProject();
+  private final IAlbumProject mProject = (IAlbumProject) AlbumProject.createProject(new AlbumProject());
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

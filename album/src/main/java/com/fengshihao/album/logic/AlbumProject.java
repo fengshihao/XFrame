@@ -14,6 +14,9 @@ import com.fengshihao.album.logic.model.AlbumMediaItem;
 import com.fengshihao.xframe.logic.config.IConfigListener;
 import com.fengshihao.xframe.logic.listener.ListenerManager;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.Collections;
 import java.util.List;
 
@@ -59,6 +62,18 @@ public class AlbumProject extends ListenerManager<IAlbumProjectListener>
     mSelection.setMaxSelectNum(Settings.MAX_SELECT_NUM.get());
     Settings.MAX_SELECT_NUM.addListener(mOnMaxSelectCountListener);
     Settings.TEST_BOOL.addListener(mOnTestBoolListener);
+  }
+
+  public static Object createProject(@NonNull Object target) {
+      return Proxy.newProxyInstance(
+          target.getClass().getClassLoader(),
+          target.getClass().getInterfaces(),
+          (proxy, method, args) -> {
+            Log.d(TAG, "invoke() called with: method = [" + method + "]");
+            Object returnValue = method.invoke(target, args);
+            Log.d(TAG, "invoke() called over: method = [" + method + "] returnValue=" + returnValue);
+            return returnValue;
+          });
   }
 
   @Override
