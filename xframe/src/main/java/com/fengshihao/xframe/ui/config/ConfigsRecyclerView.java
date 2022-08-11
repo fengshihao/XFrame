@@ -18,7 +18,7 @@ import java.util.List;
 public class ConfigsRecyclerView extends RecyclerView {
 
   private static final String TAG = "ConfigsView";
-  private CommonAdapter<ModuleConfigUIModel> mAdapter = new CommonAdapter<>();
+  private final CommonAdapter<ModuleConfigUIModel> mAdapter = new CommonAdapter<>();
 
   public ConfigsRecyclerView(Context context) {
     super(context);
