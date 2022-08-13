@@ -1,7 +1,7 @@
 package com.fengshihao.xframe.ui.config;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.fengshihao.xframe.R;
 

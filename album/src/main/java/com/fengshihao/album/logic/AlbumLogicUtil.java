@@ -1,6 +1,6 @@
 package com.fengshihao.album.logic;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.fengshihao.album.logic.model.AlbumMediaItem;

@@ -4,8 +4,8 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.WorkerThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.WorkerThread;
 import android.util.Log;
 
 import com.fengshihao.album.logic.model.AlbumMediaItem;

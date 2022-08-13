@@ -1,7 +1,7 @@
 package com.fengshihao.album.api;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.fengshihao.xframe.logic.IXModule;
 

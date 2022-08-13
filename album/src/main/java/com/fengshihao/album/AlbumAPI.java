@@ -3,8 +3,8 @@ package com.fengshihao.album;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
-import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
 
 import com.fengshihao.album.api.IAlbumAPI;
 import com.fengshihao.album.api.IAlbumProject;

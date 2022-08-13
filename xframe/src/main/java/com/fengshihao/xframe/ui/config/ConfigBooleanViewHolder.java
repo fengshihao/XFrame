@@ -1,6 +1,6 @@
 package com.fengshihao.xframe.ui.config;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;

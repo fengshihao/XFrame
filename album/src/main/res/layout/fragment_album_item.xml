@@ -14,7 +14,7 @@
         android:background="@color/hotspotField"
         fresco:failureImage="@drawable/placeholder" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_view"
         android:layout_width="70dp"
         tool:text="No-90"

@@ -2,13 +2,12 @@ package com.fengshihao.xframework.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.fengshihao.album.api.IAlbumAPI;
-import com.fengshihao.album.ui.MediaSelectActivity;
 import com.fengshihao.xframe.logic.XFrame;
 import com.fengshihao.xframework.R;
 

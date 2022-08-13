@@ -3,7 +3,7 @@ package com.fengshihao.album;
 import android.Manifest;
 import android.app.Application;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.rule.GrantPermissionRule;
+import androidx.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.fengshihao.album.logic.model.AlbumMediaItem;

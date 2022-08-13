@@ -1,6 +1,6 @@
 package com.fengshihao.album;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.fengshihao.xframe.logic.config.ModuleConfig;
 

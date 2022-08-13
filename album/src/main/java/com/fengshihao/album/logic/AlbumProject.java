@@ -1,7 +1,7 @@
 package com.fengshihao.album.logic;
 
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import android.util.LongSparseArray;
 
@@ -14,9 +14,6 @@ import com.fengshihao.album.logic.model.AlbumMediaItem;
 import com.fengshihao.xframe.logic.config.IConfigListener;
 import com.fengshihao.xframe.logic.listener.ListenerManager;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.Collections;
 import java.util.List;
 

@@ -3,7 +3,7 @@ package com.fengshihao.xframe.logic;
 
 import java.lang.reflect.Proxy;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 public class XFrameLogicUtil {

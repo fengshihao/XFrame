@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import android.app.Application;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.fengshihao.xframe.logic.config.ModuleConfig;
 
