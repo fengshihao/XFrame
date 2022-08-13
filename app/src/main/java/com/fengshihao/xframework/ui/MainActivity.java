@@ -1,5 +1,6 @@
 package com.fengshihao.xframework.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -7,12 +8,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.fengshihao.album.api.IAlbumAPI;
+import com.fengshihao.album.ui.MediaSelectActivity;
 import com.fengshihao.xframe.logic.XFrame;
 import com.fengshihao.xframework.R;
 
 public class MainActivity extends AppCompatActivity {
   private static final String TAG = "MainActivity";
-  private static final String[] ACTIVITIES = new String[]{
+  private static final String[] ACTIVITIES = new String[] {
+          "TodoList",
       "ALBUM ACTIVITY",
       "Debug Config"
   };
@@ -36,9 +39,12 @@ public class MainActivity extends AppCompatActivity {
     Log.d(TAG, "select() called with: index = [" + index + "]");
     switch (index) {
       case 0:
-        XFrame.getInstance().getModule(IAlbumAPI.class).startActivity(this);
+        startActivity(new Intent(this, TodoListActivity.class));
         break;
       case 1:
+        XFrame.getInstance().getModule(IAlbumAPI.class).startActivity(this);
+        break;
+      case 2:
         XFrame.getInstance().startDebugActivity(this);
         break;
       default:

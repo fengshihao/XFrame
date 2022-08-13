@@ -22,8 +22,8 @@ public final class XFrame {
 
   private static final String TAG = "XFrame";
   private static Application context;
-  private static XFrame instance = new XFrame();
-  private Map<Class<? extends IXModule>, IXModule> mModuleMap = new HashMap<>();
+  private static final XFrame instance = new XFrame();
+  private final Map<Class<? extends IXModule>, IXModule> mModuleMap = new HashMap<>();
 
   private XFrame() {
   }
