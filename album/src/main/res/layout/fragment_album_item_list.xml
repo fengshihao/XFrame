@@ -9,6 +9,6 @@
     android:layout_height="match_parent"
     android:layout_margin="16dp"
     app:spanCount="4"
-    app:layoutManager="android.support.v7.widget.GridLayoutManager"
+    app:layoutManager="GridLayoutManager"
     tools:context=".ui.AlbumFragment"
     tools:listitem="@layout/fragment_album_item" />

@@ -2,6 +2,9 @@ package com.fengshihao.album.logic;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import androidx.annotation.NonNull;
@@ -40,8 +43,8 @@ public final class AlbumSqlTool {
         MediaStore.MediaColumns.HEIGHT,
         MediaStore.Images.ImageColumns.DATE_TAKEN,
         MediaStore.Images.ImageColumns.ORIENTATION,
-        MediaStore.Images.ImageColumns.LATITUDE,
-        MediaStore.Images.ImageColumns.LONGITUDE
+//        MediaStore.Images.ImageColumns.LATITUDE,
+//        MediaStore.Images.ImageColumns.LONGITUDE
 
     };
 
@@ -50,10 +53,19 @@ public final class AlbumSqlTool {
     String[] args = new String[]{"image/jpeg", "image/png"};
     String limitClause = " limit " + pageItemCount + " offset " + offset;
     String sortOrder = MediaStore.Files.FileColumns.DATE_MODIFIED + " DESC";
+    Cursor cursor;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+      cursor = mContentResolver.query(
+              MediaStore.Files.getContentUri("external"),
+              columns,
+              createSqlQueryBundle(selectionClause, args, sortOrder, pageItemCount, offset),
+              null);
+    } else {
+      cursor = mContentResolver.query(
+              MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, selectionClause, args,
+              sortOrder + limitClause);
+    }
 
-    Cursor cursor = mContentResolver.query(
-        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, selectionClause, args,
-        sortOrder + limitClause);
 
     if (cursor == null) {
       Log.e(TAG, "loadImages: cant create cursor");
@@ -65,13 +77,13 @@ public final class AlbumSqlTool {
     while (cursor.moveToNext()) {
       long id = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID));
       String path = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
-      float latitude = cursor.getFloat(
-          cursor.getColumnIndex(MediaStore.Images.ImageColumns.LATITUDE));
-      float longitude = cursor.getFloat(
-          cursor.getColumnIndex(MediaStore.Images.ImageColumns.LONGITUDE));
+//      float latitude = cursor.getFloat(
+//          cursor.getColumnIndex(MediaStore.Images.ImageColumns.LATITUDE));
+//      float longitude = cursor.getFloat(
+//          cursor.getColumnIndex(MediaStore.Images.ImageColumns.LONGITUDE));
       AlbumMediaItem item = new AlbumMediaItem(id, position, AlbumMediaItem.IMAGE, path);
-      item.mLatitude = latitude;
-      item.mLongitude = longitude;
+//      item.mLatitude = latitude;
+//      item.mLongitude = longitude;
       Log.d(TAG, "loadImages: item=" + item);
       ret.add(item);
       position += 1;
@@ -99,8 +111,8 @@ public final class AlbumSqlTool {
         MediaStore.Video.VideoColumns.MIME_TYPE,
         MediaStore.Video.VideoColumns.DATE_TAKEN,
         MediaStore.Video.VideoColumns.DURATION,
-        MediaStore.Images.ImageColumns.LATITUDE,
-        MediaStore.Images.ImageColumns.LONGITUDE
+//        MediaStore.Images.ImageColumns.LATITUDE,
+//        MediaStore.Images.ImageColumns.LONGITUDE
     };
 
     String selectionClause = MediaStore.Images.Media.MIME_TYPE + "=? or "
@@ -109,13 +121,22 @@ public final class AlbumSqlTool {
 
     String limitClause = "limit " + pageItemCount + " offset " + offset;
     String sortOrder = MediaStore.Files.FileColumns.DATE_MODIFIED + " DESC " + limitClause;
+    Cursor cursor;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+      cursor = mContentResolver.query(
+              MediaStore.Files.getContentUri("external"),
+              columns,
+              createSqlQueryBundle(selectionClause, args, sortOrder, pageItemCount, offset),
+              null);
+    } else {
+      cursor = mContentResolver.query(
+              MediaStore.Files.getContentUri("external"),
+              columns,
+              selectionClause,
+              args,
+              sortOrder);
+    }
 
-    Cursor cursor = mContentResolver.query(
-        MediaStore.Files.getContentUri("external"),
-        columns,
-        selectionClause,
-        args,
-        sortOrder);
 
     if (cursor == null) {
       Log.e(TAG, "loadVideos: cant create cursor");
@@ -127,13 +148,13 @@ public final class AlbumSqlTool {
     while (cursor.moveToNext()) {
       long id = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID));
       String path = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
-      float latitude = cursor.getFloat(
-          cursor.getColumnIndex(MediaStore.Images.ImageColumns.LATITUDE));
-      float longitude = cursor.getFloat(
-          cursor.getColumnIndex(MediaStore.Images.ImageColumns.LONGITUDE));
+//      float latitude = cursor.getFloat(
+//          cursor.getColumnIndex(MediaStore.Images.ImageColumns.LATITUDE));
+//      float longitude = cursor.getFloat(
+//          cursor.getColumnIndex(MediaStore.Images.ImageColumns.LONGITUDE));
       AlbumMediaItem item = new AlbumMediaItem(id, position, AlbumMediaItem.VIDEO, path);
-      item.mLatitude = latitude;
-      item.mLongitude = longitude;
+//      item.mLatitude = latitude;
+//      item.mLongitude = longitude;
       ret.add(item);
       position += 1;
     }
@@ -189,8 +210,8 @@ public final class AlbumSqlTool {
         MediaStore.MediaColumns.WIDTH,
         MediaStore.MediaColumns.HEIGHT,
         MediaStore.Images.ImageColumns.DATE_TAKEN,
-        MediaStore.Images.ImageColumns.LATITUDE,
-        MediaStore.Images.ImageColumns.LONGITUDE,
+//        MediaStore.Images.ImageColumns.LATITUDE,
+//        MediaStore.Images.ImageColumns.LONGITUDE,
         MediaStore.Images.ImageColumns.SIZE
     };
 
@@ -206,9 +227,18 @@ public final class AlbumSqlTool {
     String sortOrder = MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC ";
     String limitClause = "limit " + pageItemCount + " offset " + offset;
 
-    Cursor cursor = mContentResolver.query(
-        MediaStore.Files.getContentUri("external"), columns, selectionClause, args,
-        sortOrder + limitClause);
+    Cursor cursor;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+      cursor = mContentResolver.query(
+              MediaStore.Files.getContentUri("external"),
+              columns,
+              createSqlQueryBundle(selectionClause, args, sortOrder, pageItemCount, offset),
+              null);
+    } else {
+      cursor = mContentResolver.query(
+              MediaStore.Files.getContentUri("external"), columns, selectionClause, args,
+              sortOrder + limitClause);
+    }
 
     if (cursor == null) {
       Log.e(TAG, "loadImageVideos: cant create cursor");
@@ -221,13 +251,13 @@ public final class AlbumSqlTool {
       long id = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID));
       String path = cursor.getString(
           cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
-      float latitude = cursor.getFloat(
-          cursor.getColumnIndex(MediaStore.Images.ImageColumns.LATITUDE));
-      float longitude = cursor.getFloat(
-          cursor.getColumnIndex(MediaStore.Images.ImageColumns.LONGITUDE));
-      int size = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.ImageColumns.SIZE));
-      Log.v(TAG, "loadImageVideos: latitude=" + latitude + " longitude="
-          + longitude + " size=" + size + " " + path);
+//      float latitude = cursor.getFloat(
+//          cursor.getColumnIndex(MediaStore.Images.ImageColumns.LATITUDE));
+//      float longitude = cursor.getFloat(
+//          cursor.getColumnIndex(MediaStore.Images.ImageColumns.LONGITUDE));
+//      int size = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.ImageColumns.SIZE));
+//      Log.v(TAG, "loadImageVideos: latitude=" + latitude + " longitude="
+//          + longitude + " size=" + size + " " + path);
       ret.add(new AlbumMediaItem(id, position, AlbumMediaItem.IMAGE, path));
       position += 1;
     }
@@ -272,4 +302,32 @@ public final class AlbumSqlTool {
     return num;
   }
 
+  public static Bundle createSqlQueryBundle(
+          String selection,
+          String[] selectionArgs,
+          String sortOrder,
+          int limitCount,
+          int offset) {
+
+    if (selection == null && selectionArgs == null && sortOrder == null) {
+      return null;
+    }
+
+    Bundle queryArgs = new Bundle();
+    if (selection != null) {
+      queryArgs.putString(ContentResolver.QUERY_ARG_SQL_SELECTION, selection);
+    }
+    if (selectionArgs != null) {
+      queryArgs.putStringArray(ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS, selectionArgs);
+    }
+    if (sortOrder != null) {
+      queryArgs.putString(ContentResolver.QUERY_ARG_SQL_SORT_ORDER, sortOrder);
+    }
+    String limitClause = String.valueOf(limitCount);
+    if (offset != 0) {
+      limitClause = limitClause + " offset " + offset;
+    }
+    queryArgs.putString(ContentResolver.QUERY_ARG_SQL_LIMIT, limitClause);
+    return queryArgs;
+  }
 }

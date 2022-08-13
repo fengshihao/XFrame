@@ -13,5 +13,5 @@
         android:orientation="vertical"
         tools:listitem="@layout/module_config_boolean_item"
         app:spanCount="1"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+        app:layoutManager="LinearLayoutManager" />
 </androidx.constraintlayout.widget.ConstraintLayout>
