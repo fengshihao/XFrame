@@ -14,9 +14,9 @@ import com.fengshihao.xframework.R;
 public class MainActivity extends AppCompatActivity {
   private static final String TAG = "MainActivity";
   private static final String[] ACTIVITIES = new String[] {
-          "TodoList",
-      "ALBUM ACTIVITY",
-      "Debug Config"
+          "TodoList example",
+      "相册组件",
+      "调试页面"
   };
 
   private static final int DEFAULT_SELECT = 0;

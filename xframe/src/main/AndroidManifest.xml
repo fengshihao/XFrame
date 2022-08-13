@@ -3,7 +3,8 @@
           package="com.fengshihao.xframe">
 
   <application>
-    <activity android:name=".ui.config.ModuleConfigActivity">
+    <activity android:name=".ui.config.ModuleConfigActivity"
+        android:label="@string/debug_page">
     </activity>
   </application>
 

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">XFrameWork</string>
+    <string name="todolistExample">Todolist Example</string>
 </resources>

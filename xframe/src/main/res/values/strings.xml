@@ -1,3 +1,4 @@
 <resources>
     <string name="some_thing_wrong">some thing wrong !!!</string>
+    <string name="debug_page">调试页面</string>
 </resources>

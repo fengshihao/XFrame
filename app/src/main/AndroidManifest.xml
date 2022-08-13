@@ -12,6 +12,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.TodoListActivity"
+            android:label="@string/todolistExample"
             android:exported="false" />
         <activity android:name=".ui.MainActivity"
             android:exported="true">

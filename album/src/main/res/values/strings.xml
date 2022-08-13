@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">album</string>
-    <string name="no_media">no media</string>
+    <string name="album_component">相册组件</string>
+    <string name="no_media">没有找到 图片或视频</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
