@@ -1,4 +1,4 @@
-package com.fengshihao.xframework;
+package com.fengshihao.xframework.logic;
 
 import android.app.Application;
 import android.util.Log;
