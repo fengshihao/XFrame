@@ -14,7 +14,6 @@ import com.fengshihao.album.R;
 import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.api.IAlbumProjectListener;
 import com.fengshihao.album.logic.model.AlbumMediaItem;
-import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonAdapter;
 
 import java.util.Objects;

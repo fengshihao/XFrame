@@ -19,7 +19,6 @@ import com.fengshihao.album.logic.model.AlbumLoaderResult;
 import com.fengshihao.album.api.IAlbumProject;
 import com.fengshihao.album.api.IAlbumProjectListener;
 import com.fengshihao.album.logic.model.AlbumMediaItem;
-import com.fengshihao.album.logic.AlbumProject;
 import com.fengshihao.xframe.logic.layzlist.IPageListListener;
 import com.fengshihao.xframe.ui.widget.CommonRecyclerView.CommonAdapter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
