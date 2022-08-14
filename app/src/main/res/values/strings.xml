@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">XFrameWork</string>
     <string name="todolistExample">Todolist Example</string>
+    <string name="add_todo">添加ToDo</string>
+    <string name="show_all">显示全部</string>
+    <string name="show_complete">完成</string>
+    <string name="show_active">未完成</string>
 </resources>

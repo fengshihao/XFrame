@@ -6,4 +6,70 @@
     android:layout_height="match_parent"
     tools:context=".ui.TodoListActivity">
 
+    <EditText
+        android:id="@+id/edit_text_todo"
+        android:layout_width="231dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="56dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.211"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_add_todo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/add_todo"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_text_todo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/edit_text_todo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_show_all"
+        tools:listitem="@layout/todo_item"/>
+
+    <Button
+        android:id="@+id/button_show_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/show_all"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_todo" />
+
+    <Button
+        android:id="@+id/button_show_complete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="@string/show_complete"
+        app:layout_constraintStart_toEndOf="@+id/button_show_all"
+        app:layout_constraintTop_toTopOf="@+id/button_show_all" />
+
+    <Button
+        android:id="@+id/button_show_active"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="@string/show_active"
+        app:layout_constraintStart_toEndOf="@+id/button_show_complete"
+        app:layout_constraintTop_toTopOf="@+id/button_show_complete" />
 </androidx.constraintlayout.widget.ConstraintLayout>
