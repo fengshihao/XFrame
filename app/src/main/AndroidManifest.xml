@@ -11,10 +11,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.todolist.TodoListActivity"
-            android:label="@string/todolistExample"
+            android:name=".ui.editor.EditorActivity"
+            android:label="@string/multi_track_editor"
             android:exported="false" />
-        <activity android:name=".ui.MainActivity"
+        <activity
+            android:name=".ui.todolist.TodoListActivity"
+            android:exported="false"
+            android:label="@string/todolistExample" />
+        <activity
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
