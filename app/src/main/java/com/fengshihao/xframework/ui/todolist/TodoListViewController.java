@@ -1,4 +1,4 @@
-package com.fengshihao.xframework.ui;
+package com.fengshihao.xframework.ui.todolist;
 
 import android.annotation.SuppressLint;
 import android.graphics.Paint;
@@ -14,9 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fengshihao.xframework.R;
-import com.fengshihao.xframework.logic.ITodoListProject;
-import com.fengshihao.xframework.logic.ITodoListProjectListener;
-import com.fengshihao.xframework.logic.TodoListProject;
+import com.fengshihao.xframework.logic.todolist.ITodoListProject;
+import com.fengshihao.xframework.logic.todolist.TodoListProject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

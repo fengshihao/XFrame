@@ -1,8 +1,7 @@
-package com.fengshihao.xframework.ui;
+package com.fengshihao.xframework.ui.todolist;
 
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
@@ -11,11 +10,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fengshihao.xframework.R;
-import com.fengshihao.xframework.logic.ITodoListProject;
-import com.fengshihao.xframework.logic.ITodoListProjectListener;
-import com.fengshihao.xframework.logic.TodoListProject;
+import com.fengshihao.xframework.logic.todolist.ITodoListProject;
+import com.fengshihao.xframework.logic.todolist.ITodoListProjectListener;
+import com.fengshihao.xframework.logic.todolist.TodoListProject;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

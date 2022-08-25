@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.TodoListActivity"
+            android:name=".ui.todolist.TodoListActivity"
             android:label="@string/todolistExample"
             android:exported="false" />
         <activity android:name=".ui.MainActivity"
